@@ -30,7 +30,7 @@ include 'header.php'
         <div class="robot-info" id="robot-info">
             <h3>About the Chatbot</h3>
             <div class="center-justify">
-                <p>This chatbot is here to assist you and provide answers to your questions. Feel free to ask anything!</p>
+                <p>This bot is here to assist you and provide answers to your questions. Feel free to ask anything!</p>
             </div>
         </div>
     </div>
