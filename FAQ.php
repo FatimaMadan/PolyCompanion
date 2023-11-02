@@ -1,5 +1,11 @@
 <?php
-include 'header.php'
+ob_start();
+session_start();
+include 'debugging.php';
+include 'header.php';
+include 'Users.php';
+include 'FaqBank.php';
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -71,7 +77,79 @@ function toggleAll() {
         expandAllBtn.textContent = "Expand All";
     }
 }
+
+//*****************************************************************************************************************
+
+
+  function showDeleteConfirmation(faqId) {
+    document.getElementById("blur-background").style.display = "block";
+    document.getElementById("delete-confirmation").style.display = "block";
+    document.getElementById("faq-id").value = faqId;
+  }
+
+  function hideDeleteConfirmation() {
+    document.getElementById("blur-background").style.display = "none";
+    document.getElementById("delete-confirmation").style.display = "none";
+  }
+
+//  function handleDeleteConfirmation() {
+//    // You can add further logic here to handle the delete confirmation
+//    var faqId = document.getElementById("faq-id").value;
+//    // Perform the delete operation using the FAQ ID
+//    console.log("Deleting FAQ with ID: " + faqId);
+//    // Add your delete logic here
+//      
+//    // Hide the delete confirmation
+//    hideDeleteConfirmation();
+//    
+//    console.log("Delete confirmed");
+//    
+//  }
+
+
+function handleDeleteConfirmation() {
+  // You can add further logic here to handle the delete confirmation
+  var faqId = document.getElementById("faq-id").value;
+  // Perform the delete operation using the FAQ ID
+  console.log("Deleting FAQ with ID: " + faqId);
+
+  // Send an AJAX request to the server-side script (DeleteFaq.php) to perform the delete operation
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "DeleteFaq.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Handle the response from the server
+      var response = xhr.responseText;
+      if (response === "success") {
+        // Show success message or perform any additional actions
+        location.reload();
+         
+      }
+         else {
+         location.reload();
+        // Show error message or perform any additional actions
+      }
+    }
+  };
+  xhr.send("faqId=" + faqId);
+  // Hide the delete confirmation
+  hideDeleteConfirmation();
+
+  console.log("Delete confirmed");
+}
+
+  
+
+  document.getElementById("confirm-delete").addEventListener("click", handleDeleteConfirmation);
+  document.getElementById("cancel-delete").addEventListener("click", hideDeleteConfirmation);
+
+    
+    
     </script>
+    
+    
+    
     <meta charset="utf-8">
     <title>eLEARNING - eLearning HTML Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -110,11 +188,12 @@ function toggleAll() {
     </div>
     <!-- Spinner End -->
 
-<!--     Carousel Start 
+    
+      <!-- Carousel Start -->
     <div class="container-fluid p-0 mb-5">
         <div class="owl-carousel header-carousel position-relative">
             <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="img/bp.jpg" alt="">
+                <img class="img-fluid" src="img/faq.jpg" alt="">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
@@ -122,8 +201,13 @@ function toggleAll() {
                                 <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Make Your Journey Easy</h5>
                                 <h1 class="display-3 text-white animated slideInDown">Connecting Students Together</h1>
                                 <p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea sanctus eirmod elitr.</p>
-                                <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
-                                <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
+                                <?php 
+                                //3 == Registry member
+                                if ($_SESSION['roleId'] == 3) {
+   echo  '<a href="AddFaq.php" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Add FAQ</a>';
+}
+?>
+                                <!--<a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">JOIN NOW</a>-->
                             </div>
                         </div>
                     </div>
@@ -131,33 +215,67 @@ function toggleAll() {
             </div>
         </div>
     </div>
-     Carousel End 
+    <!-- Carousel End -->
     
-    -->
     
-<div class ="space-div">
-</div>
+    
+<!--<div class ="space-div">
+</div>-->
     
 <div class ="faq-container"> 
-    
+     
     
 <div class="white-div"></div>
 
 
 <div class="full-div">
-        <h1>FAQ</h1>
+       <div class="container-xxl py-3 category">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="section-title bg-white text-center text-primary px-3">Frequently Alsked Questions</h1>
+                <p style="color: black"> hello jdshfjksf agdkjhgjkhs gkjaghgiew oiwetpqitew tskghmv cbv mznvm  lajkf adf woeipqi  fhdsjf dsjfhjds fjksdh fsjdkfh hjdfkds fewuriw roewirueyt ruwyiowr ewoir ewru ewuryw erewiuroiew thjsj nbcxvmz vkjdsfhjkafl afqpirwiue reour ryt dsfja vnzbvsj</p>
+            </div>
+        </div>
+    </div>
         <div>
     <button id="expand-all-btn" onclick="toggleAll()">Expand All</button>
 </div>
         <div class ="space-div">
 </div>
-        <div class="faq-row">
-            <div class="faq-question">Question 1
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-            
-        </div>
+    
+        <?php
+         $allFaq = new FaqBank();
+                $data = $allFaq->getAllFaq();
+                for ($i = 0; $i < count($data); $i++) {
+       echo ' <div class="faq-row">
+            <div class="faq-question">'. $data[$i]->FQuestion .'
+            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>';
+         
+                                
+                if ($_SESSION['roleId'] == 3)
+                { //3 == Registry member
+                    echo '<a href="EditFaq.php?id=' . $data[$i]->FaqId . '" class="faq-toggle-edit-btn"><i class="fas fa-pencil-alt"></i></a>';
+                 echo '<button class="faq-toggle-edit-btn red-btn" onclick="showDeleteConfirmation(' . $data[$i]->FaqId . ')"><i class="fas fa-trash"></i></button>';
+                }
+           echo'</div>
+            <div class="faq-answer">'. $data[$i]->FAnswer .'</div>
+        </div>';
+                }
+       ?>
+       
+    <div id="blur-background"></div>
+
+<div id="delete-confirmation" style="display: none;">
+  <p>Are you sure you want to delete?</p>
+  <button id="confirm-delete" onclick="handleDeleteConfirmation()">Yes</button>
+  <button id="cancel-delete" onclick="hideDeleteConfirmation()">No</button>
+</div>
+    
+    <!--hidden input field-->
+    <input type="hidden" id="faq-id">
+    
+    
+    
         <div class="faq-row">
             <div class="faq-question">Question 2
             <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
@@ -218,32 +336,6 @@ function toggleAll() {
             </div>
             <div class="faq-answer">Answer 1</div>
         </div>
-            <div class="faq-row">
-            <div class="faq-question">Question 10000
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
-            <div class="faq-row">
-            <div class="faq-question">Question 10000
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
-            <div class="faq-row">
-            <div class="faq-question">Question 10000
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
-            <div class="faq-row">
-            <div class="faq-question">Question 104324
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
-           
-           
     </div>
 
 

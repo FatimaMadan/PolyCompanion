@@ -1,7 +1,22 @@
 <?php
+ob_start();
+include 'debugging.php';
+include 'header.php';
+include "Users.php";
+include "CourseBank.php";
+include "QuestionBank.php";
 
-include 'header.php'
+if (empty($_SESSION['uid'])) {
+    // User is not logged in, redirect to login page
+    echo $_SESSION['username'];
+    header("Location: Login.php");
+    exit();
+}
 
+    $id = $_SESSION['uid'];
+    $user = new Users();
+    $user->initWithUid($id);
+    
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +33,12 @@ include 'header.php'
                 item.classList.add('active'); // Add the 'active' class to the matching menu item
             }
         });
+        
+      function toggleSubcategory(event) {
+      const subcategory = event.target.nextElementSibling;
+      subcategory.classList.toggle('visible');
+    }
+
     </script>
     <meta charset="utf-8">
     <title>eLEARNING - eLearning HTML Template</title>
@@ -49,6 +70,7 @@ include 'header.php'
 </head>
 
 <body>
+    
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -57,41 +79,369 @@ include 'header.php'
     </div>
     <!-- Spinner End -->
 
+    
+    <!-- Side Blue Div Start -->
+    <div class="blue-div">
+        <br>
+        <h6 style="color: white"><img class="border rounded-circle p-2 mx-auto mb-3" src=<?php echo $user->getUserDp(); ?> style="width: 70px; height: 70px;"> Welcome <?php echo $user->getFirstName(). " " . $user->getLastName(); ?>!</h6>
+   <div>
+    <h4 class="course-list">
+        <a href="inquiry.php" name="allCourse" style="color: white">All Courses</a>
+    </h4>
+</div>
+        <div><h3 class="course-list">Choose a Course</h3></div>
+       
+     
+     <?php
+$allCourse = new CourseBank();
+$data = $allCourse->getAllCourses();
+
+for ($i = 0; $i < count($data); $i++) {
+    echo '<a href="?courseId=' . $data[$i]->CourseId . '">' .
+         '<h6 class="course-list" style="color: white;">' . $data[$i]->CourseTitle .'</h6>' .
+         '</a>';
+}
+?>
+     
+     
+     
+      <div><h4 class="course-list">Specific to your Major</h4></div>
+       
+     <!--LIST DIV-->
+     <div>
+            
+ <ul class="expandable-list">
+    <li>
+      <div class="category" onclick="toggleSubcategory(event)">Programming</div>
+      <ul class="subcategory">
+          <div>
+         <?php
+         $PCourse = new CourseBank();
+                $Pdata = $PCourse->initWithMid(2);
+                for ($i = 0; $i < count($Pdata); $i++) {
+                echo '<li><a style="color: black;" href="?courseId=' . $Pdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Pdata[$i]->CourseTitle . '</a></li>'; 
+                         }
+                ?>
+          </div>
+      </ul>
+    </li>
+    <li>
+      <div class="category" onclick="toggleSubcategory(event)">Information Systems</div>
+      <ul class="subcategory">
+        <?php
+         $ICourse = new CourseBank();
+                $Idata = $ICourse->initWithMid(3);
+                for ($i = 0; $i < count($Idata); $i++) {
+                         echo '<li><a style="color: black;" href="?courseId=' . $Idata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Idata[$i]->CourseTitle . '</a></li>'; 
+                         }
+                ?>
+      </ul>
+    </li>
+    <li>
+      <div class="category" onclick="toggleSubcategory(event)">Networking</div>
+      <ul class="subcategory">
+        <?php
+         $NCourse = new CourseBank();
+                $Ndata = $NCourse->initWithMid(5);
+                for ($i = 0; $i < count($Ndata); $i++) {
+                echo '<li><a style="color: black;" href="?courseId=' . $Ndata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Ndata[$i]->CourseTitle . '</a></li>'; 
+                         }
+                ?>
+      </ul>
+    </li>
+    <li>
+      <div class="category" onclick="toggleSubcategory(event)">Database Systems</div>
+      <ul class="subcategory">
+        <?php
+         $DSCourse = new CourseBank();
+                $DSdata = $DSCourse->initWithMid(4);
+                for ($i = 0; $i < count($DSdata); $i++) {
+              echo '<li><a style="color: black;" href="?courseId=' . $DSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $DSdata[$i]->CourseTitle . '</a></li>'; 
+                           }
+                ?>
+      </ul>
+    </li>
+     <li>
+      <div class="category" onclick="toggleSubcategory(event)">Cyber Security</div>
+      <ul class="subcategory">
+        <?php
+         $CSCourse = new CourseBank();
+                $CSdata = $CSCourse->initWithMid(6);
+                for ($i = 0; $i < count($CSdata); $i++) {
+                       echo '<li><a style="color: black;" href="?courseId=' . $CSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $CSdata[$i]->CourseTitle . '</a></li>'; 
+                          }
+                ?>
+      </ul>
+    </li>
+  </ul>
+        </div>
+    
+    </div>
+    <!-- Side Blue Div End -->
+    
+    
+    
+    <!-- Main white Div Start -->
+    <div class="white-div">
+        <br>
+        
+        
+          <!--Search 1 Start--> 
+      <div class="search-container">
+    <form method="POST" action="">
+        <input type="text" placeholder="Search..." name="searchText">
+        <button type="submit" name="searchbtn">Search</button>
+    </form>
+</div><br>
+          <!--Search 1 End--> 
+
+         <!-- POST 1 START -->
+            
+            <?php
+            
+if (isset($_POST['searchbtn'])) {
   
+$qts = new QuestionBank();
+// Set the number of articles to display per page
+$qts_per_page = 4;
+
+$se = trim($_POST['searchText']);
+  echo '<p> Results for SEARCH: ' . $se .'</p>';
+// Get the total number of qts
+if (isset($_GET['courseId'])) {
+//    echo "hahah";
+  $courseId = $_GET['courseId'];
+  $total_qts = $qts->getTotalPostedQuestionsByCourseAndSearch($courseId, $se);
+  if ($total_qts == 0 ){
+      echo ' <h3> No Questions to display </h3>';
+  }
+//  echo $total_qts;
+} else {
+  $total_qts = $qts->getTotalPostedQuestionsAndSearch($se);
+//   echo $total_qts;
+   if ($total_qts == 0 ){
+      echo ' <h3> No Questions to display </h3>';
+  }
+}
+// Calculate the total number of pages
+$total_pages = ceil($total_qts / $qts_per_page);
+
+// Get the current page number from the URL
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Calculate the offset
+$offset = ($current_page - 1) * $qts_per_page;
+
+// Get the qts for the current page
+if (isset($_GET['courseId'])) {
+   
+  $courseId = $_GET['courseId'];
+  $page = $qts->getQuestionsByCourseAndPageAndSearch($courseId, $offset, $qts_per_page, $se);
+} else {
+  $page = $qts->getQuestionsByPageAndSearch($offset, $qts_per_page, $se);
+}
+
+foreach ($page as $question) {
+  $Quser = new Users();
+  $UserData = $Quser->initWithUid($question->getUser_UserId());
+
+  echo '<div class="left-form">';
+  echo '<div class="FP">';
+  echo '<div class="FP-header">';
+  echo '<h6 style="color: lightgray; font-size: 14px;">';
+  echo '<img class="border rounded-circle p-2 mx-auto" src='. $Quser->getUserDp() .' style="width: 50px; height: 50px;">'. $Quser->getFirstName() .' '. $Quser->getLastName() .'</h6>';
+
+  echo '<h6 style="font-family: Arial;">'. $question->getQuesTitle() .'</h6>';
+  
+  $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
+  echo '<p>'. $shortDesc .'</p>';
+
+  // ICONS Start
+  echo '<div class="icon-container">';
+  echo '5<i class="fas fa-thumbs-up"></i>';
+  echo '<i class="fas fa-flag"></i>';
+  echo '<i class="fas fa-star"></i>';
+  echo '</div>';
+
+  echo '</div>';
+  echo '</div>';
+  echo '</div>';
+}
 
 
 
+//<!-- PAGINATION 1 START -->
+if ($total_qts != 0 ){
+       echo '<div class="pagination-links">
+    <label style="margin-left: 600px; font-weight: bold; font-size: 20px;">Page: </label>';
+    
+    $courseId = $_GET['courseId']; // Retrieve the courseId from the URL parameters
+
+    for ($i = 1; $i <= $total_pages; $i++) {
+        if ($i == $current_page) {
+            echo "<span class=\"current\">$i</span> ";
+        } elseif (empty($courseId)) {
+            echo "<a href=\"?page=$i\">$i</a> ";
+        }else{
+             echo "<a href=\"?courseId=$courseId&page=$i\">$i</a> ";
+        }
+    }
+echo '</div>';}
+
+
+}else{
+    $qts = new QuestionBank();
+// Set the number of articles to display per page
+$qts_per_page = 4;
+
+// Get the total number of qts
+if (isset($_GET['courseId'])) {
+//    echo "hahah";
+  $courseId = $_GET['courseId'];
+  $total_qts = $qts->getTotalPostedQuestionsByCourseAndSearch($courseId);
+//  echo $total_qts;
+  if ($total_qts == 0 ){
+      echo ' <h3> No Questions to display </h3>';
+  }
+} else {
+  $total_qts = $qts->getTotalPostedQuestionsAndSearch();
+//   echo $total_qts;
+   if ($total_qts == 0 ){
+      echo ' <h3> No Questions to display </h3>';
+  }
+}
+// Calculate the total number of pages
+$total_pages = ceil($total_qts / $qts_per_page);
+
+// Get the current page number from the URL
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Calculate the offset
+$offset = ($current_page - 1) * $qts_per_page;
+
+// Get the qts for the current page
+if (isset($_GET['courseId'])) {
+   
+  $courseId = $_GET['courseId'];
+  $page = $qts->getQuestionsByCourseAndPageAndSearch($courseId, $offset, $qts_per_page);
+} else {
+  $page = $qts->getQuestionsByPageAndSearch($offset, $qts_per_page);
+}
+
+foreach ($page as $question) {
+  $Quser = new Users();
+  $UserData = $Quser->initWithUid($question->getUser_UserId());
+
+  echo '<a href="view_posts.php?QtId=' . $question->getQuestionId() . '" ><div class="left-form">';
+  echo '<div class="FP">';
+  echo '<div class="FP-header">';
+  echo '<h6 style="color: lightgray; font-size: 14px;">';
+  echo '<img class="border rounded-circle p-2 mx-auto" src='. $Quser->getUserDp() .' style="width: 50px; height: 50px;">'. $Quser->getFirstName() .' '. $Quser->getLastName() .'</h6>';
+
+  echo '<h6 style="font-family: Arial;">'. $question->getQuesTitle() .'</h6>';
+  
+  $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
+  echo '<p>'. $shortDesc .'</p>';
+
+  // ICONS Start
+  echo '<div class="icon-container">';
+  echo '5<i class="fas fa-thumbs-up"></i>';
+  echo '<i class="fas fa-flag"></i>';
+  echo '<i class="fas fa-star"></i>';
+  echo '</div>';
+
+  echo '</div>';
+  echo '</div>';
+  echo '</div></a>';
+}
 
 
 
+//<!-- PAGINATION 1 START -->
+if ($total_qts != 0 ){
+    
+       echo '<div class="pagination-links">
+    <label style="margin-left: 600px; font-weight: bold; font-size: 20px;">Page: </label>';
+    
+    $courseId = $_GET['courseId']; // Retrieve the courseId from the URL parameters
 
+    for ($i = 1; $i <= $total_pages; $i++) {
+        if ($i == $current_page) {
+            echo "<span class=\"current\">$i</span> ";
+        } elseif (empty($courseId)) {
+            echo "<a href=\"?page=$i\">$i</a> ";
+        }else{
+             echo "<a href=\"?courseId=$courseId&page=$i\">$i</a> ";
+        }
+    }
+echo '</div>';
+}
+}
 
+?>
+            <!-- POST 1 END -->
+            
+            
+            
+            
+            
+ <!-- PAGINATION 1 START -->
+   <?php
+//           echo '<div class="pagination-links">
+//    <label style="margin-left: 600px; font-weight: bold; font-size: 20px;">Page: </label>';
+//    
+//    $courseId = $_GET['courseId']; // Retrieve the courseId from the URL parameters
+//
+//    for ($i = 1; $i <= $total_pages; $i++) {
+//        if ($i == $current_page) {
+//            echo "<span class=\"current\">$i</span> ";
+//        } elseif (empty($courseId)) {
+//            echo "<a href=\"?page=$i\">$i</a> ";
+//        }else{
+//             echo "<a href=\"?courseId=$courseId&page=$i\">$i</a> ";
+//        }
+//    }
+//echo '</div>';
+     ?>
+  <!-- PAGINATION 1 END -->
 
-
-<div class="blue-div"></div>
-    <div class="white-div"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
+  
+  
+  
+  
+  
+           <!--hard-coded POST START--> 
+<!--           <div class="left-form">
+        <div class="FP">
+        <div class="FP-header">
+          <h6 style="color: lightgray; font-size: 14px;"><img class="border rounded-circle p-2 mx-auto" src=<?php // echo $user->getUserDp(); ?> style="width: 50px; height: 50px;"><?php // echo " ". $user->getFirstName(). " " . $user->getLastName(); ?>
+    <div class="icon-container">
+          5<i class="fas fa-thumbs-up"></i>
+          <i class="fas fa-flag"></i>
+          <i class="fas fa-star"></i>
+  </div>
+                  </h6>
+        <h6 style="font-family: Arial;">
+            Question 2: What is the name of the project we need to have to do?
+        </h6>
+          <p>A The main idea behind all of this was to make sure that you all know what all is happening....</p>
+         
+      </div>
+    </div>
+       </div>-->
+            <!--hard-coded POST START--> 
+          
+        
+          
+        
+           
+       
+           
+    </div>
+    <!-- Main white Div End -->
+    
+    
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">

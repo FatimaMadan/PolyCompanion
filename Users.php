@@ -7,18 +7,20 @@ class Users
         private $username;
         private $firstName;
         private $lastName;
+        private $email;
         private $password;
         private $roleId;
+        private $UserDp;
         
         public function __construct() {
-            echo 'constructor';
+          //  echo " inside User Constructor ";
             $this->uid = null;
             $this->username = null;
             $this->firstName = null;
-            $this->lastName = null;
+            $this->email = null;
             $this->password = null;
             $this->roleId = null;
-            ///hello
+            $this->UserDp = null;
         }
         
         
@@ -38,6 +40,9 @@ class Users
         public function getLastName() {
             return $this->lastName;
         }
+         public function getEmail() {
+            return $this->email;
+        }
 
         public function getPassword() {
             return $this->password;
@@ -46,13 +51,16 @@ class Users
         public function getRoleId() {
             return $this->roleId;
         }
+         public function getUserDp() {
+            return $this->UserDp;
+        }
         
         public function setUid($uid): void {
             $this->uid = $uid;
         }
 
         public function setUsername($username): void {
-            echo 'haha';
+           
             $this->username = $username;
         }
 
@@ -63,6 +71,9 @@ class Users
         public function setLastName($lastName): void {
             $this->lastName = $lastName;
         }
+        public function setEmail($email): void {
+            $this->email = $email;
+        }
 
         public function setPassword($password): void {
             $this->password = $password;
@@ -71,26 +82,40 @@ class Users
         public function setRoleId($roleId): void {
             $this->roleId = $roleId;
         }
+         public function setUserDp($UserDp): void {
+            $this->UserDp = $UserDp;
+        }
         
-        function initWith($uid, $username, $firstName, $lastName, $password, $roleId) 
+        function initWith($uid, $username, $firstName, $lastName, $email, $password, $roleId, $UserDp) 
         {
-            echo "blah";
+            
             $this->uid = $uid;
             $this->username = $username;
             $this->firstName = $firstName;
             $this->lastName = $lastName;
+            $this->email = $email;
             $this->password = $password;
             $this->roleId = $roleId;
-            
+            $this->UserDp = $UserDp;
             
         }
         
+//        function initWithUid($uid) 
+//        {
+//            echo "Init with UserId";
+//            $db = Database::getInstance();
+//            $data = $db->singleFetch('SELECT * FROM User WHERE UserId = ' . $uid);
+//            $this->initWith($data->UserId, $data->UserName, $data->FirstName, $data->LastName, $data->Email, $data->Password, $data->Roles_RoleId, $data->UserDp);
+//        }
         function initWithUid($uid) 
-        {
-            $db = Database::getInstance();
-            $data = $db->singleFetch('SELECT * FROM User WHERE UserId = ' . $uid);
-            $this->initWith($data->UserId, $data->UserName, $data->FirstName, $data->LastName, $data->Password, $data->Roles_RoleId);
-        }
+{
+  //  echo "Init with UserId";
+    $db = Database::getInstance();
+    $sql = 'SELECT * FROM User WHERE UserId = ' . $uid;
+   // echo 'SQL Statement: ' . $sql . '<br>'; // Echo the SQL statement
+    $data = $db->singleFetch($sql);
+    $this->initWith($data->UserId, $data->UserName, $data->FirstName, $data->LastName, $data->Email, $data->Password, $data->Roles_RoleId, $data->UserDp);
+}
         
         function initWithUsername() 
         {
@@ -103,17 +128,14 @@ class Users
         }
         
         function registerUser() {
-    echo 'Inside registerUser method';
     if ($this->isValid()) {
-        echo 'Back from isValid method';
         try {
-            echo 'Trying for database';
             $db = Database::getInstance();
-            echo 'Trying inserting';
-            $sql = 'INSERT INTO User(UserId, UserName, FirstName, LastName, Password, Roles_RoleId) VALUES (NULL, \'' . $this->username . '\', \'' . $this->firstName . '\', \'' . $this->lastName . '\', \'' . $this->password . '\', \'' . $this->roleId . '\')';
-            echo 'Executing SQL: ' . $sql;
+            $sql = "INSERT INTO User(UserId, UserName, FirstName, LastName,Email, Password, Roles_RoleId, UserDp) VALUES (NULL, '$this->username', '$this->firstName', '$this->lastName', '$this->email', AES_ENCRYPT('$this->password', 'qwe'), '$this->roleId', '$this->UserDp')";
+          //  echo 'Executing SQL: ' . $sql;
+            
             $data = $db->querySQL($sql);
-            echo 'Inserted';
+            
             return true;
         } catch (Exception $e) {
             echo 'Exception: ' . $e;
@@ -133,7 +155,7 @@ class Users
         
         public function isValid() 
         {
-            echo 'valid';
+            
             $errors = true;
 
             if (empty($this->username))
@@ -146,6 +168,8 @@ class Users
             if (empty($this->lastName))
                 $errors = false;
 
+            if (empty($this->email))
+                $errors = false;
 
             if (empty($this->password))
                 $errors = false;
@@ -166,17 +190,20 @@ class Users
         }
         
         function checkUser($username, $password) 
-        {
-            $db = Database::getInstance();
-            //AES_DESCRYPT
-//          $data = $db->singleFetch('SELECT * FROM dbProj_Users WHERE Username = \'' . $username . '\' AND AES_DECRYPT(Password,'.'\'qwe\''.') = \'' . $password . '\';');
-            $data = $db->singleFetch('SELECT * FROM User WHERE UserName = \'' . $username . '\' AND Password = \'' . $password . '\'');
-            $this->initWith($data->UserId, $data->UserName, $data->FirstName, $data->LastName, $data->Password, $data->RoleId);
-        
-        }
+{
+    
+    $db = Database::getInstance();
+    $sql = "SELECT UserId, UserName, FirstName, LastName, Email, AES_DECRYPT(Password,'qwe') as Password, Roles_RoleId, UserDp FROM User WHERE UserName = '$username' AND AES_DECRYPT(Password,'qwe') = '$password'";
+  //  echo $sql;
+    
+    $data = $db->singleFetch($sql);
+    
+    $this->initWith($data->UserId, $data->UserName, $data->FirstName, $data->LastName, $data->Email, $data->Password, $data->Roles_RoleId, $data->UserDp);
+}
         
         function login($username, $password){
             try{
+                
                 $this->checkUser($username, $password);
                 //echo $this->getFirstName();
                 if($this->getUid() != null){
@@ -211,9 +238,9 @@ class Users
         try {
             $db = Database::getInstance();
              $data = 'UPDATE User set
-			RoleId = ' . $this->roleId . ' 
+			Roles_RoleId = ' . $this->roleId . ' 
                             WHERE UserId = ' . $this->uid;
-             echo $data;
+           //  echo $data;
 
             $db->querySql($data);
 
@@ -230,8 +257,8 @@ class Users
         $db = Database::getInstance();
         $data = $db->multiFetch('SELECT * FROM Role');
       
-
-        for ($i = 0; $i < count($data); $i++) {
+        //Kept it as 3 so that students won't be there in the list
+        for ($i = 0; $i < 3; $i++) {
             $list .='<option value="' . $data[$i]->RoleId . '"';
 
             if ($data[$i]->RoleId == $this->roleId)
@@ -239,9 +266,6 @@ class Users
 
             $list.='>' . $data[$i]->RoleName . '</option>';
         }
-
-
-
         return $list;
     }
 
@@ -254,8 +278,37 @@ public function getAUserName($userid) {
        return $data->UserName;
         
     }
+    
+    
+   public function getUserEmail($username) {
+    $db = Database::getInstance();
+    $q = 'SELECT Email FROM User WHERE UserName = \'' . $username . '\'';
+    $data = $db->singleFetch($q);
+    if ($data != null) {
+        return $data->Email;
+    }
+    return null;
+}
 
+   function updatePassword($username,$password) {
+      
+        try {
+           
+            $db = Database::getInstance();
+           
+             $data = "UPDATE User SET Password = AES_ENCRYPT('$password', 'qwe') WHERE UserName = $username";
+           //  echo $data;
 
+            $db->querySql($data);
+            
+
+            return true;
+        } catch (Exception $e) {
+
+            echo 'Exception: ' . $e;
+            return false;
+        }
+    }
     }
    
 

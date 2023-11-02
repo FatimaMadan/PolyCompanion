@@ -437,13 +437,14 @@
 /*** FAQ Page ***/
 .faq-container {
     width: 100%;
-    background-color: blueviolet;
+    background-color: white;
     float: left;
 }
+
 .space-div{
      width: 100%;
-     height: 3vh;
-    background-color: greenyellow;
+     height: 1vh;
+    background-color: white;
     float: left;
 }
 
@@ -455,7 +456,7 @@
 
 .white-div {
     width: 10%;
-    background-color: pink;
+    background-color: white;
     float: left;
 }
 .faq-row {
@@ -486,7 +487,20 @@
     background: none;
     cursor: pointer;
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 1px;
+}
+.faq-toggle-edit-btn {
+    margin-left: 10px;
+    padding: 1px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 1px;
+}
+
+.red-btn {
+  color: #d9004c;
 }
 
 .faq-answer {
@@ -512,4 +526,32 @@
 
 #expand-all-btn.expanded {
     background-color: #00CED1;
+}
+
+
+/* Style for the blurred background */
+
+#blur-background {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.5);
+   backdrop-filter: blur(10px);
+   z-index: 9999;
+   display: none;
+}
+
+#delete-confirmation {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   text-align: center;
+   z-index: 10000;
+   display: none;
 }
