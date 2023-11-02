@@ -21,6 +21,7 @@ class Database {
     function connect() {
         $this->dblink = mysqli_connect('localhost', 'u202003059', 'u202003059', 'db202003059') or die('CAN NOT CONNECT');
     }
+    //test
 
     function __destruct() {
         if (!is_null($this->dblink)) {
