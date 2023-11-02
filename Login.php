@@ -1,7 +1,9 @@
 <?php   
+ob_start();
+include 'debugging.php';
 include 'Users.php';
 
-    if (isset($_POST['submitted'])) {
+if (isset($_POST['submitted'])) {
         $user = new Users();
         $username= $_POST['Username'];
         $password = $_POST['Password'];
@@ -10,13 +12,13 @@ include 'Users.php';
     
     if($user->login($username, $password))
     {
-        echo 'index page';
+       
         header('Location: index.php');
         
         
     }else
     {
-        echo $error = "wrong login values";
+        echo '<script>alert("Wrong Login Credentials!");</script>';
     }
 
     
@@ -61,7 +63,7 @@ include 'Users.php';
 <body>
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>PolyCompanion</h2>
+            <h2 class="m-0 text-primary"><img src="img/logo.jpeg" alt="" class="small-image">PolyCompanion</h2>
         </a>
     </nav> 
        
@@ -79,7 +81,7 @@ include 'Users.php';
           <input required type="text" name="Username" placeholder="Username"/>
           <input required type="password" name="Password" placeholder="Password"/>
           <button name="submitted" value="TRUE">login</button>
-          <p class="message">Forgot password? <a href="https://www.polytechnic.bh/announcements/how-to-reset-your-login-email-password-using-fim/">Click here</a></p>
+          <p class="message">Forgot password? <a href="ForgotPassword.php">Click here</a></p>
         </form>
       </div>
     </div>

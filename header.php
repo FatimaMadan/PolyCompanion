@@ -1,6 +1,4 @@
 <?php
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,8 +50,8 @@
   
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>PolyCompanion</h2>
+        <a href="index.php" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary"><img src="img/logo.jpeg" alt="" class="small-image">PolyCompanion</h2>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -67,13 +65,21 @@
                 <a href="inquiry.php" class="nav-item nav-link">Ask Away</a>
                 <a href="FAQ.php" class="nav-item nav-link">FAQ</a>
 		<a href="contact.php" class="nav-item nav-link">Contact</a>
+                 
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" active>My Profile</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="EditUser.php" class="dropdown-item">Edit Profile</a>
+                        <a href="ResetPassword.php" class="dropdown-item">Change Password</a>
+                        <a href="Logout.php" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+                
                 <a href="Register.php" class="nav-item nav-link">Register</a>
-
+                
             </div>
-            <a href="Login.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">LOG OUT<i class="fa fa-arrow-right ms-3"></i></a>
-            
+			
         </div>
-              </div>
     </nav>
     <!-- Navbar End -->
 	

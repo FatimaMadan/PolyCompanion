@@ -1,5 +1,15 @@
 <?php
-include 'header.php'
+ob_start();
+include 'debugging.php';
+include 'header.php';
+include 'Users.php';
+
+if (empty($_SESSION['uid'])) {
+    // User is not logged in, redirect to login page
+    echo $_SESSION['username'];
+    header("Location: Login.php");
+    exit();
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -48,6 +58,9 @@ include 'header.php'
 </head>
 
 <body>
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Stats</h6>
+            </div>
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -56,7 +69,9 @@ include 'header.php'
     </div>
     <!-- Spinner End -->
 
-
+<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Stats</h6>
+            </div>
 
 
     <!-- Carousel Start -->
@@ -170,7 +185,10 @@ include 'header.php'
     </div>
     <!-- About End -->
 
-
+ <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Stats</h6>
+            </div>
+       
     <!-- Categories Start -->
     <div class="container-xxl py-5 category">
         <div class="container">

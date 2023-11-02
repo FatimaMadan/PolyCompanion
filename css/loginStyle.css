@@ -7,6 +7,10 @@ header a img{
   width: 134px;
 margin-top: 4px;
 }
+.small-image {
+    width: 50px; /* Adjust the width according to your needs */
+    height: 40px; /* Maintain the aspect ratio */
+  }
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -50,8 +54,8 @@ margin: 0 0 15px;
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background-color: blue;
-  background-image: linear-gradient(45deg,#00CED1,white);
+  background-color: #181d38;
+  /*background-image: linear-gradient(45deg,#00CED1,white);*/
   width: 100%;
   border: 0;
   padding: 15px;
@@ -79,7 +83,7 @@ margin: 0 0 15px;
 }
 
 body {
-  background-color: #F4F4F4;
+  background-color: #FFFFFF;
   /*background-image: linear-gradient(45deg,#328f8a,#08ac4b);*/
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
