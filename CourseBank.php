@@ -3,14 +3,28 @@ class CourseBank {
         private $CourseId;
         private $CourseCode;
         private $CourseTitle;
+        private $ShortTitle;
+        private $CourseLevel;
+        private $ValidFrom;
+        private $Credits;
+        private $ProgramManager;
+        private $CurrentDeveloper;
+        private $AssessmentMethod;
+        private $CourseAim;
+        private $PreRequisite;
         private $Major_MajorId;
+        private $owner;
+        private $total_hours;
+        private $recommended_book_resources;
     
+        
      public function __construct() {
             $this->CourseId = null;
             $this->CourseCode = null;
             $this->CourseTitle = null;
             $this->Major_MajorId = null;
         }
+        
         
          public function getCourseId() {
             return $this->CourseId;
@@ -58,6 +72,19 @@ class CourseBank {
         return $data;
     }
 
+    function initWithId($course_id) {
+        $db = Database::getInstance();
+        $data = $db->singleFetch('SELECT CourseId, CourseCode, CourseTitle, ShortTitle, CourseLevel FROM Course WHERE CourseId = \'' . $course_id .  '\'');
+        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel );
+
+    }
+    
+        public static function getCourses() {
+    $db = Database::getInstance();
+    $q = 'SELECT * FROM Course ORDER BY CourseId DESC';
+    $data = $db->multiFetch($q);
+    return $data;
+}
     
      function getAllCourses() {
         $db = Database::getInstance();
