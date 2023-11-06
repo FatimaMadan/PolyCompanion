@@ -1,8 +1,8 @@
 <?php
 include 'header.php';
 include 'debugging.php'
-?>
-
+?>                
+                
 <style>
     .course-title {
         height: 3.6em;
@@ -13,15 +13,109 @@ include 'debugging.php'
         -webkit-box-orient: vertical;
         margin-bottom: 0;
     }
+    
+    .form-group {
+    margin-bottom: 20px;
+}
+    .blue-div {
+        padding: 20px;
+    }
+
+    .aside-title {
+        color: #fff;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .aside-body {
+        padding: 20px;
+    }
+
+    .group-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+
 </style><!-- comment -->
 
+
+<div class="blue-div">
+    <aside>
+							<h2 class="aside-title">Filter</h2>
+							<div class="aside-body">
+								<form class="checkbox-group">
+									<div class="group-title">Date</div>
+									<div class="form-group">
+										<label><input type="radio" name="date" checked> Anytime</label>
+									</div>
+									<div class="form-group">
+										<label><input type="radio" name="date"> Today</label>
+									</div>
+									<div class="form-group">
+										<label><input type="radio" name="date"> Last Week</label>
+									</div>
+									<div class="form-group">
+										<label><input type="radio" name="date"> Last Month</label>
+									</div>
+									<br>
+									<div class="group-title">Categories</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="category" checked> All Categories</label>
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="category"> Lifestyle</label>
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="category"> Travel</label>
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="category"> Computer</label>
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="category"> Film</label>
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="category"> Sport</label>
+									</div>
+								</form>
+							</div>
+						</aside>
+</div><!-- comment -->
 
     <!-- Courses Start -->
     <div class="container-xxl py-5">
         <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+<!--            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-            </div>
+            </div>-->
+            
+            
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="nav-tabs-group">
+							
+							<!--          search part-->
+                                                <div class="col-md-6 col-sm-12">
+                                                    <form class="search" autocomplete="off">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input type="text" name="q" class="form-control" placeholder="Type something here">
+                                                                <div class="input-group-btn">
+                                                                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+						</div>
+						<div class="row">
+                                                    
             <div class="row g-4 justify-content-center">
                 
                 
