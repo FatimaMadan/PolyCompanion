@@ -1,7 +1,8 @@
 <?php
 include 'header.php';
-include 'debugging.php'
-?>
+include 'debugging.php';
+
+?>                
 
 <style>
     .course-title {
@@ -13,16 +14,229 @@ include 'debugging.php'
         -webkit-box-orient: vertical;
         margin-bottom: 0;
     }
+    
+    .form-group {
+    margin-bottom: 20px;
+}
+    .blue-div {
+        padding: 20px;
+    }
+
+    .aside-title {
+        color: #fff;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .aside-body {
+        padding: 20px;
+    }
+
+/*    .group-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }*/
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+
+ /* Adjusted spacing */
+    .search {
+        padding: 20px 0; /* Decreased top and bottom padding */
+    }
+
+    .container-xxl {
+        padding-top: 20px; /* Decreased top padding */
+    }
+
+    .container {
+        margin-bottom: 20px; /* Decreased bottom margin */
+    }
+
+.search .container {
+  margin-bottom: 30px;
+}
+
+.search .aside-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.search .form-control {
+  border-radius: 0;
+}
+
+.search .btn-primary {
+  border-radius: 0;
+}
+
+.search .aside-body {
+  margin-top: 30px;
+}
+
+.search .group-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.search .nav-tabs-group {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search .nav-tabs-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.search .nav-tabs-list li {
+  margin-right: 10px;
+}
+
+.search .nav-tabs-list li a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.search .nav-tabs-list li.active a {
+  background-color: #333;
+  color: #fff;
+}
+
+.search .nav-tabs-right {
+  flex: 1;
+  text-align: right;
+}
+
+
+    
 </style><!-- comment -->
 
+<script>
+    
+   function searchCourse(str) {
+       
+    //create the AJAX request object
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+           document.getElementById("searchResult").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "search.php?title="+ str, true);
+    xmlhttp.send();
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Check or uncheck all checkboxes when "All Majors" checkbox changes
+        $('#allMajorsCheckbox').change(function() {
+            var isChecked = $(this).is(':checked');
+            $('input[name="category"]').prop('checked', isChecked);
+        });
+
+        // Update "All Majors" checkbox based on the state of other checkboxes
+        $('input[name="category"]').change(function() {
+            var allChecked = $('input[name="category"]:not(#allMajorsCheckbox):checked').length === $('input[name="category"]:not(#allMajorsCheckbox)').length;
+            $('#allMajorsCheckbox').prop('checked', allChecked);
+        });
+    });
+</script>
+
+
+<div class="blue-div">
+
+<aside>
+    <section class="search">
+  <h2 class="aside-title">Filter</h2>
+  <div class="aside-body">
+    <form class="checkbox-group">
+<!--      <div class="group-title">Majors</div>-->
+      <?php
+//      $AllMajors = MajorBank::getAllMaj();
+//      
+//      if (!empty($AllMajors)) {
+//    for ($i = 0; $i < count($AllMajors); $i++) {
+//        // Rest of your code...
+//        echo '<div class="form-group">
+//        <label><input type="radio" name="date" checked>'. $AllMajors[$i]->MajorName  .'</label>
+//      </div>';
+//    }
+//} else {
+//    echo '<div class="form-group">
+//        <label><input type="radio" name="date" checked>opppps</label>
+//      </div>';
+//}
+//      
+      ?>
+      
+      <br>
+<div class="group-title">Majors</div>
+<div class="form-group">
+    <label><input type="checkbox" name="category" id="allMajorsCheckbox" checked> All Majors</label>
+</div>
+
+<?php
+$AllMajors = MajorBank::getAllMaj();
+
+if (!empty($AllMajors)) {
+    for ($i = 0; $i < count($AllMajors); $i++) {
+        echo '<div class="form-group">
+            <label><input type="checkbox" name="category" checked>'. $AllMajors[$i]->MajorName .'</label>
+        </div>';
+    }
+} else {
+    echo '<div class="form-group">
+        <label><input type="radio" name="date" checked>opppps</label>
+    </div>';
+}
+?>
+    </form>
+  </div>
+  </section>
+</aside>
+</div><!-- comment -->
 
     <!-- Courses Start -->
-    <div class="container-xxl py-5">
+
         <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+<!--            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-            </div>
-            <div class="row g-4 justify-content-center">
+            </div>-->
+				<div class="row">
+<!--					<div class="col-md-9">-->
+<!--						<div class="nav-tabs-group">-->
+							
+							<!--          search part-->
+                                                <div class="col-md-6 col-sm-12">
+                                                    <form class="search" autocomplete="off" action="search.php">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input type="text" name="searchText" oninput="searchCourse(this.value)" class="form-control" placeholder="Type something here">
+                                                                <div class="input-group-btn">
+                                                                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    
+                                                </div>
+						</div>
+						<div class="row">
+                                                    
+            <div class="row g-4 justify-content-center" id="searchResult">
                 
                 
                 <?php
@@ -73,9 +287,12 @@ if (!empty($list)) {
 }
 ?>
                 
-                </div>
+<!--                </div>-->
     </div>
 </div>
+<!--                                     </div>-->
+    </div>
+
 <!-- Courses End -->
 
 

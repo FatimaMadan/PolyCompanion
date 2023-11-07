@@ -92,7 +92,14 @@ class CourseBank {
         return $data;
     }
     
-        
+    static function searchByTitle($searchText){
+        $db = Database::getInstance();
+        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle) AGAINST('*".$searchText."*' IN BOOLEAN MODE)";
+        $result = $db->multiFetch($query);    
+        return $result;
+    }
+    
+    
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
 //       $this->CourseId = $CourseId;
 //       $this->CourseCode = $CourseCode;
