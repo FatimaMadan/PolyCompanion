@@ -4,12 +4,12 @@ include 'debugging.php';
 include 'header.php';
 include 'Users.php';
 
-if (empty($_SESSION['uid'])) {
-    // User is not logged in, redirect to login page
-    echo $_SESSION['username'];
-    header("Location: Login.php");
-    exit();
-}
+//if (empty($_SESSION['uid'])) {
+//    // User is not logged in, redirect to login page
+//    echo $_SESSION['username'];
+//    header("Location: Login.php");
+//    exit();
+//}
 
 ?><!DOCTYPE html>
 <html lang="en">
