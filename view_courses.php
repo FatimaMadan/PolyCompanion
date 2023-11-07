@@ -1,8 +1,9 @@
 <?php
 include 'header.php';
-include 'debugging.php'
+include 'debugging.php';
+
 ?>                
-                
+
 <style>
     .course-title {
         height: 3.6em;
@@ -31,60 +32,146 @@ include 'debugging.php'
         padding: 20px;
     }
 
-    .group-title {
+/*    .group-title {
         font-weight: bold;
         margin-bottom: 10px;
-    }
+    }*/
 
     .form-group {
         margin-bottom: 15px;
     }
 
+    .search {
+  padding: 50px 0;
+}
+
+.search .container {
+  margin-bottom: 30px;
+}
+
+.search .aside-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.search .form-control {
+  border-radius: 0;
+}
+
+.search .btn-primary {
+  border-radius: 0;
+}
+
+.search .aside-body {
+  margin-top: 30px;
+}
+
+.search .group-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.search .nav-tabs-group {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search .nav-tabs-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.search .nav-tabs-list li {
+  margin-right: 10px;
+}
+
+.search .nav-tabs-list li a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.search .nav-tabs-list li.active a {
+  background-color: #333;
+  color: #fff;
+}
+
+.search .nav-tabs-right {
+  flex: 1;
+  text-align: right;
+}
 
 </style><!-- comment -->
 
+<script>
+    
+   function searchCourse(str) {
+       
+    //create the AJAX request object
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+           document.getElementById("searchResult").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "search.php?title="+ str, true);
+    xmlhttp.send();
+}
+</script>
+
 
 <div class="blue-div">
-    <aside>
-							<h2 class="aside-title">Filter</h2>
-							<div class="aside-body">
-								<form class="checkbox-group">
-									<div class="group-title">Date</div>
-									<div class="form-group">
-										<label><input type="radio" name="date" checked> Anytime</label>
-									</div>
-									<div class="form-group">
-										<label><input type="radio" name="date"> Today</label>
-									</div>
-									<div class="form-group">
-										<label><input type="radio" name="date"> Last Week</label>
-									</div>
-									<div class="form-group">
-										<label><input type="radio" name="date"> Last Month</label>
-									</div>
-									<br>
-									<div class="group-title">Categories</div>
-									<div class="form-group">
-										<label><input type="checkbox" name="category" checked> All Categories</label>
-									</div>
-									<div class="form-group">
-										<label><input type="checkbox" name="category"> Lifestyle</label>
-									</div>
-									<div class="form-group">
-										<label><input type="checkbox" name="category"> Travel</label>
-									</div>
-									<div class="form-group">
-										<label><input type="checkbox" name="category"> Computer</label>
-									</div>
-									<div class="form-group">
-										<label><input type="checkbox" name="category"> Film</label>
-									</div>
-									<div class="form-group">
-										<label><input type="checkbox" name="category"> Sport</label>
-									</div>
-								</form>
-							</div>
-						</aside>
+
+<aside>
+    <section class="search">
+  <h2 class="aside-title">Filter</h2>
+  <div class="aside-body">
+    <form class="checkbox-group">
+      <div class="group-title">Date</div>
+      <div class="form-group">
+        <label><input type="radio" name="date" checked> Anytime</label>
+      </div>
+      <div class="form-group">
+        <label><input type="radio" name="date"> Today</label>
+      </div>
+      <div class="form-group">
+        <label><input type="radio" name="date"> Last Week</label>
+      </div>
+      <div class="form-group">
+        <label><input type="radio" name="date"> Last Month</label>
+      </div>
+      <br>
+      <div class="group-title">Categories</div>
+      <div class="form-group">
+        <label><input type="checkbox" name="category" checked> All Categories</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" name="category"> Lifestyle</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" name="category"> Travel</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" name="category"> Computer</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" name="category"> Film</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" name="category"> Sport</label>
+      </div>
+    </form>
+  </div>
+  </section>
+</aside>
 </div><!-- comment -->
 
     <!-- Courses Start -->
@@ -102,10 +189,10 @@ include 'debugging.php'
 							
 							<!--          search part-->
                                                 <div class="col-md-6 col-sm-12">
-                                                    <form class="search" autocomplete="off">
+                                                    <form class="search" autocomplete="off" action="search.php">
                                                         <div class="form-group">
                                                             <div class="input-group">
-                                                                <input type="text" name="q" class="form-control" placeholder="Type something here">
+                                                                <input type="text" name="searchText" oninput="searchCourse(this.value)" class="form-control" placeholder="Type something here">
                                                                 <div class="input-group-btn">
                                                                     <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                                                 </div>
@@ -116,7 +203,7 @@ include 'debugging.php'
 						</div>
 						<div class="row">
                                                     
-            <div class="row g-4 justify-content-center">
+            <div class="row g-4 justify-content-center" id="searchResult">
                 
                 
                 <?php
