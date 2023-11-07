@@ -98,6 +98,8 @@ class CourseBank {
         $result = $db->multiFetch($query);    
         return $result;
     }
+    
+    
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
 //       $this->CourseId = $CourseId;
 //       $this->CourseCode = $CourseCode;

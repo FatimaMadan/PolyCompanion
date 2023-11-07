@@ -41,9 +41,19 @@ include 'debugging.php';
         margin-bottom: 15px;
     }
 
+
+ /* Adjusted spacing */
     .search {
-  padding: 50px 0;
-}
+        padding: 20px 0; /* Decreased top and bottom padding */
+    }
+
+    .container-xxl {
+        padding-top: 20px; /* Decreased top padding */
+    }
+
+    .container {
+        margin-bottom: 20px; /* Decreased bottom margin */
+    }
 
 .search .container {
   margin-bottom: 30px;
@@ -108,6 +118,8 @@ include 'debugging.php';
   text-align: right;
 }
 
+
+    
 </style><!-- comment -->
 
 <script>
@@ -126,6 +138,22 @@ include 'debugging.php';
     xmlhttp.send();
 }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Check or uncheck all checkboxes when "All Majors" checkbox changes
+        $('#allMajorsCheckbox').change(function() {
+            var isChecked = $(this).is(':checked');
+            $('input[name="category"]').prop('checked', isChecked);
+        });
+
+        // Update "All Majors" checkbox based on the state of other checkboxes
+        $('input[name="category"]').change(function() {
+            var allChecked = $('input[name="category"]:not(#allMajorsCheckbox):checked').length === $('input[name="category"]:not(#allMajorsCheckbox)').length;
+            $('#allMajorsCheckbox').prop('checked', allChecked);
+        });
+    });
+</script>
 
 
 <div class="blue-div">
@@ -135,39 +163,46 @@ include 'debugging.php';
   <h2 class="aside-title">Filter</h2>
   <div class="aside-body">
     <form class="checkbox-group">
-      <div class="group-title">Date</div>
-      <div class="form-group">
-        <label><input type="radio" name="date" checked> Anytime</label>
-      </div>
-      <div class="form-group">
-        <label><input type="radio" name="date"> Today</label>
-      </div>
-      <div class="form-group">
-        <label><input type="radio" name="date"> Last Week</label>
-      </div>
-      <div class="form-group">
-        <label><input type="radio" name="date"> Last Month</label>
-      </div>
+<!--      <div class="group-title">Majors</div>-->
+      <?php
+//      $AllMajors = MajorBank::getAllMaj();
+//      
+//      if (!empty($AllMajors)) {
+//    for ($i = 0; $i < count($AllMajors); $i++) {
+//        // Rest of your code...
+//        echo '<div class="form-group">
+//        <label><input type="radio" name="date" checked>'. $AllMajors[$i]->MajorName  .'</label>
+//      </div>';
+//    }
+//} else {
+//    echo '<div class="form-group">
+//        <label><input type="radio" name="date" checked>opppps</label>
+//      </div>';
+//}
+//      
+      ?>
+      
       <br>
-      <div class="group-title">Categories</div>
-      <div class="form-group">
-        <label><input type="checkbox" name="category" checked> All Categories</label>
-      </div>
-      <div class="form-group">
-        <label><input type="checkbox" name="category"> Lifestyle</label>
-      </div>
-      <div class="form-group">
-        <label><input type="checkbox" name="category"> Travel</label>
-      </div>
-      <div class="form-group">
-        <label><input type="checkbox" name="category"> Computer</label>
-      </div>
-      <div class="form-group">
-        <label><input type="checkbox" name="category"> Film</label>
-      </div>
-      <div class="form-group">
-        <label><input type="checkbox" name="category"> Sport</label>
-      </div>
+<div class="group-title">Majors</div>
+<div class="form-group">
+    <label><input type="checkbox" name="category" id="allMajorsCheckbox" checked> All Majors</label>
+</div>
+
+<?php
+$AllMajors = MajorBank::getAllMaj();
+
+if (!empty($AllMajors)) {
+    for ($i = 0; $i < count($AllMajors); $i++) {
+        echo '<div class="form-group">
+            <label><input type="checkbox" name="category" checked>'. $AllMajors[$i]->MajorName .'</label>
+        </div>';
+    }
+} else {
+    echo '<div class="form-group">
+        <label><input type="radio" name="date" checked>opppps</label>
+    </div>';
+}
+?>
     </form>
   </div>
   </section>
@@ -175,17 +210,14 @@ include 'debugging.php';
 </div><!-- comment -->
 
     <!-- Courses Start -->
-    <div class="container-xxl py-5">
+
         <div class="container">
 <!--            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
             </div>-->
-            
-            
-			<div class="container">
 				<div class="row">
-					<div class="col-md-9">
-						<div class="nav-tabs-group">
+<!--					<div class="col-md-9">-->
+<!--						<div class="nav-tabs-group">-->
 							
 							<!--          search part-->
                                                 <div class="col-md-6 col-sm-12">
@@ -199,6 +231,7 @@ include 'debugging.php';
                                                             </div>
                                                         </div>
                                                     </form>
+                                                    
                                                 </div>
 						</div>
 						<div class="row">
@@ -254,9 +287,12 @@ if (!empty($list)) {
 }
 ?>
                 
-                </div>
+<!--                </div>-->
     </div>
 </div>
+<!--                                     </div>-->
+    </div>
+
 <!-- Courses End -->
 
 
