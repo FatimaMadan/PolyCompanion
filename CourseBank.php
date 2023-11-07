@@ -44,6 +44,7 @@ class CourseBank {
         
          public function getCourseTitle() {
             return $this->CourseTitle;
+            echo 'hii';
         }
         
          public function setCourseTitle($CourseTitle): void {
@@ -72,6 +73,15 @@ class CourseBank {
         return $data;
     }
 
+    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel) {
+        $this->CourseId = null;
+        $this->CourseCode = $CourseCode;
+        $this->CourseTitle = $CourseTitle;
+        $this->ShortTitle = $ShortTitle;
+        $this->CourseLevel = $CourseLevel;
+
+    }
+    
     function initWithId($course_id) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT CourseId, CourseCode, CourseTitle, ShortTitle, CourseLevel FROM Course WHERE CourseId = \'' . $course_id .  '\'');
