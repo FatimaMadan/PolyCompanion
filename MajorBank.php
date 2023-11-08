@@ -39,7 +39,11 @@ class MajorBank{
         return $data;
     }
     
-    
+    public static function getMajorFromName($major_name){
+        $db = Database::getInstance();
+        $data = $db->singleFetch('SELECT MajorId FROM Major WHERE MajorName = \'' . $major_name .  '\'');
+        return $data;
+    }
     
 }
 /* 

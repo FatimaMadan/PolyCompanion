@@ -227,6 +227,15 @@ class CourseBank {
         return $result;
     }
     
+    static function searchByTitleAndFilter($searchText, $filter){
+        $db = Database::getInstance();
+        $mid = MajorBank::getMajorFromName($filter);
+        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle) AGAINST('*".$searchText."*' AND Major_MajorId = \'' . $mid . '\')";
+        $result = $db->multiFetch($query);    
+        return $result;
+    }
+    
+    
     public static function getOutcomes($CourseId) {
       $db = Database::getInstance();
       $data = $db->multiFetch('SELECT * FROM CLO WHERE CourseId = \'' . $CourseId . '\'');
