@@ -242,6 +242,12 @@ class CourseBank {
       return $data;
     } 
 
+    public static function getAllColumns() {
+      $db = Database::getInstance();
+      $data = $db->multiFetch('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "Course"');
+      return $data;
+    } 
+    
     
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
 //       $this->CourseId = $CourseId;
