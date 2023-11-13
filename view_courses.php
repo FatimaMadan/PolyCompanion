@@ -29,7 +29,7 @@ include 'debugging.php';
            document.getElementById("searchResult").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "search.php?title=" + str + "&filter=" + getSelectedOption(), true);
+    xmlhttp.open("GET", "search.php?title=" + str, true);
     xmlhttp.send();
 }
 
