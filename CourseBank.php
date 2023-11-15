@@ -16,9 +16,12 @@ class CourseBank {
         private $owner;
         private $total_hours;
         private $recommended_book_resources;
-    
-        
-     public function __construct() {
+        private $TeachingStrategies;
+
+
+
+
+        public function __construct() {
             $this->CourseId = null;
             $this->CourseCode = null;
             $this->CourseTitle = null;
@@ -59,6 +62,111 @@ class CourseBank {
             $this->Major_MajorId = $Major_MajorId;
         }
         
+        public function getShortTitle() {
+            return $this->ShortTitle;
+        }
+
+        public function getCourseLevel() {
+            return $this->CourseLevel;
+        }
+
+        public function getValidFrom() {
+            return $this->ValidFrom;
+        }
+
+        public function getCredits() {
+            return $this->Credits;
+        }
+
+        public function getProgramManager() {
+            return $this->ProgramManager;
+        }
+
+        public function getCurrentDeveloper() {
+            return $this->CurrentDeveloper;
+        }
+
+        public function getAssessmentMethod() {
+            return $this->AssessmentMethod;
+        }
+
+        public function getCourseAim() {
+            return $this->CourseAim;
+        }
+
+        public function getPreRequisite() {
+            return $this->PreRequisite;
+        }
+
+        public function getOwner() {
+            return $this->owner;
+        }
+
+        public function getTotal_hours() {
+            return $this->total_hours;
+        }
+
+        public function getRecommended_book_resources() {
+            return $this->recommended_book_resources;
+        }
+
+        public function setShortTitle($ShortTitle): void {
+            $this->ShortTitle = $ShortTitle;
+        }
+
+        public function setCourseLevel($CourseLevel): void {
+            $this->CourseLevel = $CourseLevel;
+        }
+
+        public function setValidFrom($ValidFrom): void {
+            $this->ValidFrom = $ValidFrom;
+        }
+
+        public function setCredits($Credits): void {
+            $this->Credits = $Credits;
+        }
+
+        public function setProgramManager($ProgramManager): void {
+            $this->ProgramManager = $ProgramManager;
+        }
+
+        public function setCurrentDeveloper($CurrentDeveloper): void {
+            $this->CurrentDeveloper = $CurrentDeveloper;
+        }
+
+        public function setAssessmentMethod($AssessmentMethod): void {
+            $this->AssessmentMethod = $AssessmentMethod;
+        }
+
+        public function setCourseAim($CourseAim): void {
+            $this->CourseAim = $CourseAim;
+        }
+
+        public function setPreRequisite($PreRequisite): void {
+            $this->PreRequisite = $PreRequisite;
+        }
+
+        public function setOwner($owner): void {
+            $this->owner = $owner;
+        }
+
+        public function setTotal_hours($total_hours): void {
+            $this->total_hours = $total_hours;
+        }
+
+        public function setRecommended_book_resources($recommended_book_resources): void {
+            $this->recommended_book_resources = $recommended_book_resources;
+        }
+        
+        public function getTeachingStrategies() {
+            return $this->TeachingStrategies;
+        }
+
+        public function setTeachingStrategies($TeachingStrategies): void {
+            $this->TeachingStrategies = $TeachingStrategies;
+        }
+
+                        
         function initWithCTitle($title)
 {
     echo "Init with CourseTitle";
@@ -73,20 +181,30 @@ class CourseBank {
         return $data;
     }
 
-    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel) {
-        $this->CourseId = null;
-        $this->CourseCode = $CourseCode;
-        $this->CourseTitle = $CourseTitle;
-        $this->ShortTitle = $ShortTitle;
-        $this->CourseLevel = $CourseLevel;
-
-    }
+    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel, $ValidFrom, $Credits, $ProgramManager, $CurrentDeveloper, $AssessmentMethod, $CourseAim, $PreRequisite, $Major_MajorId, $owner, $total_hours, $recommended_book_resources, $TeachingStrategies) {
+    $this->CourseId = $CourseId;
+    $this->CourseCode = $CourseCode;
+    $this->CourseTitle = $CourseTitle;
+    $this->ShortTitle = $ShortTitle;
+    $this->CourseLevel = $CourseLevel;
+    $this->ValidFrom = $ValidFrom;
+    $this->Credits = $Credits;
+    $this->ProgramManager = $ProgramManager;
+    $this->CurrentDeveloper = $CurrentDeveloper;
+    $this->AssessmentMethod = $AssessmentMethod;
+    $this->CourseAim = $CourseAim;
+    $this->PreRequisite = $PreRequisite;
+    $this->Major_MajorId = $Major_MajorId;
+    $this->owner = $owner;
+    $this->total_hours = $total_hours;
+    $this->recommended_book_resources = $recommended_book_resources;
+    $this->TeachingStrategies = $TeachingStrategies;
+}
     
     function initWithId($course_id) {
         $db = Database::getInstance();
-        $data = $db->singleFetch('SELECT CourseId, CourseCode, CourseTitle, ShortTitle, CourseLevel FROM Course WHERE CourseId = \'' . $course_id .  '\'');
-        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel );
-
+        $data = $db->singleFetch('SELECT * FROM Course WHERE CourseId = \'' . $course_id .  '\'');
+        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->ProgramManager, $data->CurrentDeveloper, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->total_hours, $data->recommended_book_resources, $data->TeachingStrategies);
     }
     
         public static function getCourses() {
@@ -108,6 +226,27 @@ class CourseBank {
         $result = $db->multiFetch($query);    
         return $result;
     }
+    
+    static function searchByTitleAndFilter($searchText, $filter){
+        $db = Database::getInstance();
+        $mid = MajorBank::getMajorFromName($filter);
+        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle) AGAINST('*".$searchText."*' AND Major_MajorId = \'' . $mid . '\')";
+        $result = $db->multiFetch($query);    
+        return $result;
+    }
+    
+    
+    public static function getOutcomes($CourseId) {
+      $db = Database::getInstance();
+      $data = $db->multiFetch('SELECT * FROM CLO WHERE CourseId = \'' . $CourseId . '\'');
+      return $data;
+    } 
+
+    public static function getAllColumns() {
+      $db = Database::getInstance();
+      $data = $db->multiFetch('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "Course"');
+      return $data;
+    } 
     
     
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
