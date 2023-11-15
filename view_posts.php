@@ -20,6 +20,35 @@ if (isset($_POST['redirect'])) {
     $user = new Users();
     $user->initWithUid($id);
     
+    
+function checkIfPostIsSaved($questionId, $userId) {
+    
+  // Create a new MySQLi connection
+$conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
+
+  // Check if the connection was successful
+  if ($conn->connect_error) {
+    die('Connection failed: ' . $conn->connect_error);
+  }
+  
+  // Prepare and execute a query to check if the post is saved
+  $stmt = $conn->prepare('SELECT COUNT(*) FROM SavedPosts WHERE Questions_QuestionId = ? AND User_UserId = ?');
+  $stmt->bind_param('ii', $questionId, $userId);
+  $stmt->execute();
+
+  // Fetch the result
+  $stmt->bind_result($count);
+  $stmt->fetch();
+
+  // Close the statement and database connection
+  $stmt->close();
+  $conn->close();
+
+  // Return true if the count is greater than 0, indicating that the post is saved
+  return $count > 0;
+}
+
+    
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -101,6 +130,39 @@ $(document).ready(function() {
       }
     });
   });
+ $('.save-btn').click(function() {
+  var questionId = $(this).data("question-id");
+  var isSaved = $(this).hasClass('fas'); // Check if the icon is already filled
+  var saveBtn = $(this); // Store reference to the save button
+
+  // Determine the action based on the current state of the icon
+  var action = isSaved ? 'unsave' : 'save';
+
+  $.ajax({
+    type: 'POST',
+    url: 'saveUserPost.php',
+    data: { questionId: questionId, action: action },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        if (isSaved) {
+          console.log('Changed to unfilled star');
+          saveBtn.removeClass('fas').addClass('far'); // Change to unfilled star
+        } else {
+          console.log('Changed to filled star');
+          saveBtn.removeClass('far').addClass('fas'); // Change to filled star
+        }
+      } else {
+          console.log('Changing to unfilled star');
+          saveBtn.removeClass('fas').addClass('far');
+        console.error('Failed to save post: ' + response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('AJAX request failed: ' + error);
+    }
+  });
+});
 });
 
     </script>
@@ -197,7 +259,7 @@ for ($i = 0; $i < count($data); $i++) {
          $PCourse = new CourseBank();
                 $Pdata = $PCourse->initWithMid(2);
                 for ($i = 0; $i < count($Pdata); $i++) {
-                echo '<li><a style="color: black;" href=inquiry.php?courseId=' . $Pdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Pdata[$i]->CourseTitle . '</a></li>'; 
+                echo '<li><a style="color: #06BBCC;" href=inquiry.php?courseId=' . $Pdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Pdata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
           </div>
@@ -210,7 +272,7 @@ for ($i = 0; $i < count($data); $i++) {
          $ICourse = new CourseBank();
                 $Idata = $ICourse->initWithMid(3);
                 for ($i = 0; $i < count($Idata); $i++) {
-                         echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $Idata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Idata[$i]->CourseTitle . '</a></li>'; 
+                         echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $Idata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Idata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
       </ul>
@@ -222,7 +284,7 @@ for ($i = 0; $i < count($data); $i++) {
          $NCourse = new CourseBank();
                 $Ndata = $NCourse->initWithMid(5);
                 for ($i = 0; $i < count($Ndata); $i++) {
-                echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $Ndata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Ndata[$i]->CourseTitle . '</a></li>'; 
+                echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $Ndata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Ndata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
       </ul>
@@ -234,7 +296,7 @@ for ($i = 0; $i < count($data); $i++) {
          $DSCourse = new CourseBank();
                 $DSdata = $DSCourse->initWithMid(4);
                 for ($i = 0; $i < count($DSdata); $i++) {
-              echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $DSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $DSdata[$i]->CourseTitle . '</a></li>'; 
+              echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $DSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $DSdata[$i]->CourseTitle . '</a></li>'; 
                            }
                 ?>
       </ul>
@@ -246,7 +308,7 @@ for ($i = 0; $i < count($data); $i++) {
          $CSCourse = new CourseBank();
                 $CSdata = $CSCourse->initWithMid(6);
                 for ($i = 0; $i < count($CSdata); $i++) {
-                       echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $CSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $CSdata[$i]->CourseTitle . '</a></li>'; 
+                       echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $CSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $CSdata[$i]->CourseTitle . '</a></li>'; 
                           }
                 ?>
       </ul>
@@ -296,17 +358,18 @@ for ($i = 0; $i < count($data); $i++) {
 // Donwload files END
 
   // ICONS Start
-    echo '<i class="far fa-star" style="display: inline-block; float: right; margin-left: 15px; margin-right: 15px;">Save</i>';
-    echo '<i class="far fa-comment" style="display: inline-block; float: right; margin-left: 15px;"></i>';
-    echo '<i class="far fa-thumbs-up" style="display: inline-block; float: right; margin-left: 15px;">15</i></p>';
+    $isSaved = checkIfPostIsSaved($question->getQuestionId(), $_SESSION['uid']);
+    // Output the star icon based on the saved state
+    echo '<i class="' . ($isSaved ? 'fas' : 'far') . ' fa-star save-btn" data-question-id="' . $question->getQuestionId() . '" style="display: inline-block; color: #06BBCC; float: right; margin-left: 15px; margin-right: 15px;" title="Save Post"></i>';
+    echo '<a href="AddAnswer.php"><i class="far fa-comment ans-btn" style="display: inline-block; color: #06BBCC; float: right; margin-left: 15px;" title="Write an Answer"></i></a>';
+    echo '<i class="far fa-flag flag-btn" style="display: inline-block; float: right; color: red; margin-left: 15px;" title="Flag this question">15</i></p>';
     echo '</div>';
   // ICONS END
    
   
     //***************ANSWERS START****************
    echo '<br><div><h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> ————— Responses —————</h5>'
-    . '<a href="AddAnswer.php?QtId=' . $QuesId . '" class="button-link">Add Answer</a><br></div>
-       <br>';
+    . '<a href="AddAnswer.php?QtId=' . $QuesId . '" class="button-link" style="margin-bottom: 50px;">Add Answer</a><br></div><br><br>';
    
    
     $ans = new AnswerBank();
