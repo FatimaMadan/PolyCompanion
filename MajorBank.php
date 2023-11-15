@@ -21,6 +21,17 @@ class MajorBank{
         $this->MajorName = $MajorName;
     }
     
+    function initWith($MajorId, $MajorName) {
+    $this->MajorId = $MajorId;
+    $this->MajorName = $MajorName;
+    
+}
+
+    function initWithId($major_id) {
+        $db = Database::getInstance();
+        $data = $db->singleFetch('SELECT * FROM Major WHERE MajorId = \'' . $major_id .  '\'');
+        $this->initWith($data->MajorId, $data->MajorName);
+    }
 
         public static function getAllMaj(){
          $db = Database::getInstance();
@@ -28,6 +39,11 @@ class MajorBank{
         return $data;
     }
     
+    public static function getMajorFromName($major_name){
+        $db = Database::getInstance();
+        $data = $db->singleFetch('SELECT MajorId FROM Major WHERE MajorName = \'' . $major_name .  '\'');
+        return $data;
+    }
     
 }
 /* 

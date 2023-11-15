@@ -266,7 +266,7 @@
 
 .service-item:hover {
     margin-top: -10px;
-    background: var(--primary);
+    background: var(--dark);
 }
 
 .service-item * {
@@ -438,7 +438,6 @@
     padding-right: 0;
     border-right: none;
 }
-
 
 
 /*** Bot Page ***/
