@@ -74,7 +74,15 @@ class AnswerBank {
             $this->User_UserId = $User_UserId;
             
         }
-    
+        
+         function getCountUserAnswers($id){
+            $db = Database::getInstance();
+       $result= $db->singleFetch("SELECT COUNT(*) AS total FROM Answers where User_UserId =" . $id );
+       
+        return $result->total;
+        }
+        
+        
   function getMaxAnswerId() {
     $db = Database::getInstance();
     $sql = "SELECT MAX(AnsId) AS MaxAnswerId FROM Answers";
@@ -84,11 +92,13 @@ class AnswerBank {
 }
 
      function addAnswer() {
+         echo "inside addAnswer method";
     if ($this->isValid()) {
         try {
+            echo "inside ivalid";
             $db = Database::getInstance();
             $sql = "INSERT INTO Answers(AnsId, AnsText, Likes, Questions_QuestionId, User_UserId) VALUES (NULL, '$this->AnsText', '$this->Likes', '$this->Questions_QuestionId',  '$this->User_UserId')";
-          // echo 'Executing SQL: ' . $sql;
+       echo 'Executing SQL: ' . $sql;
             
             $data = $db->querySQL($sql);
             
@@ -123,7 +133,7 @@ class AnswerBank {
 
     public function getAnswersByPage($qid, $offset, $limit) {
     $db = Database::getInstance();
-    $sql = "SELECT * FROM Answers where Questions_QuestionId = $qid LIMIT $offset, $limit";
+    $sql = "SELECT * FROM Answers where Questions_QuestionId = $qid ORDER BY Likes DESC LIMIT $offset, $limit";
    // echo "SQL Statement: " . $sql . "<br>"; // Echo the SQL statement
     
     $results = $db->multiFetch($sql);
@@ -140,7 +150,7 @@ class AnswerBank {
 
  public function getAnswersByQuestionAndPage($qId, $offset, $limit) {
     $db = Database::getInstance();
-    $sql = "SELECT * FROM Answers where Questions_QuestionId = $qId LIMIT $offset, $limit";
+    $sql = "SELECT * FROM Answers where Questions_QuestionId = $qId ORDER BY Likes DESC LIMIT $offset, $limit";
  //   echo "SQL Statement: " . $sql . "<br>"; // Echo the SQL statement
     
     $results = $db->multiFetch($sql);
@@ -214,4 +224,48 @@ class AnswerBank {
         return $result->total;
     }
    
+//    function addLike($aid) {
+//        try {
+//            echo "inside addLike";
+//            $db = Database::getInstance();
+//             $data = 'UPDATE Answers set
+//                              Likes = Likes + 1
+//                            WHERE AnsId = ' . $aid;
+//
+//            $db->querySql($data);
+//
+//            return true;
+//        } catch (Exception $e) {
+//
+//            echo 'Exception: ' . $e;
+//            return false;
+//        }
+//    }
+    
+     function deductLike($aid) {
+        try {
+            $db = Database::getInstance();
+             $data = 'UPDATE Answers set
+                              Likes = Likes - 1
+                            WHERE AnsId = ' . $aid;
+
+            $db->querySql($data);
+
+            return true;
+        } catch (Exception $e) {
+
+            echo 'Exception: ' . $e;
+            return false;
+        }
+    }
+    
+    function getAnswerQtId($aid){
+          
+        $q = "select Questions_QuestionId from Answers where AnsId = $aid ";
+        $db = Database::getInstance();
+        $data = $db->multiFetch($q);
+        
+        return $data;   
+        
+    }
 }

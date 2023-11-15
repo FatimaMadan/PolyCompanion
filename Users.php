@@ -99,24 +99,30 @@ class Users
             $this->UserDp = $UserDp;
             
         }
-        
-//        function initWithUid($uid) 
-//        {
-//            echo "Init with UserId";
-//            $db = Database::getInstance();
-//            $data = $db->singleFetch('SELECT * FROM User WHERE UserId = ' . $uid);
-//            $this->initWith($data->UserId, $data->UserName, $data->FirstName, $data->LastName, $data->Email, $data->Password, $data->Roles_RoleId, $data->UserDp);
-//        }
         function initWithUid($uid) 
 {
-  //  echo "Init with UserId";
     $db = Database::getInstance();
     $sql = 'SELECT * FROM User WHERE UserId = ' . $uid;
    // echo 'SQL Statement: ' . $sql . '<br>'; // Echo the SQL statement
     $data = $db->singleFetch($sql);
     $this->initWith($data->UserId, $data->UserName, $data->FirstName, $data->LastName, $data->Email, $data->Password, $data->Roles_RoleId, $data->UserDp);
 }
-        
+        function updateUserDp($id) {
+        try {
+            $db = Database::getInstance();
+             $data = 'UPDATE User set
+                              UserDp = \'' . $this->UserDp . '\' 
+                            WHERE UserId = ' . $id;
+
+            $db->querySql($data);
+
+            return true;
+        } catch (Exception $e) {
+
+            echo 'Exception: ' . $e;
+            return false;
+        }
+    }
         function initWithUsername() 
         {
             $db = Database::getInstance();

@@ -32,6 +32,8 @@ if (isset($_POST['save'])) {
         $maxQId = $qt->getMaxQuestionId();
         $file->setQuestions_QuestionId(1);
         $file->setQId($maxQId + 1);
+        $file->setAId(1);
+        $file->setType("Question");
         $file->addFile();
         
         
@@ -123,9 +125,9 @@ exit();
           
              </select><br>
 
-              <p style="color: #a52834; font-size: 9px; float: left;">*For security, zip all your files and upload. </p>
+              <p style="color: #a52834; font-size: 9px; float: left;">*For security purpose, zip all your files and upload. </p>
              <input type="file" name="name" multiple/> 
-             <button name="save" value="TRUE" style="padding: 5px 10px; background-color: blue; width: 100px">Save File</button><br>
+             <button name="save" value="TRUE" style="padding: 5px 10px; background-color: #181d38; width: 100px">Save File</button><br>
  <?php
     $files = new Files();
     $ques = new QuestionBank();

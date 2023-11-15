@@ -27,12 +27,14 @@ margin-top: 4px;
   margin-right: 0;
   margin-left: 100px;
   margin-top: 100px;
+  height: 300px;
 }
 
 .form.right-form {
-    background: white;
+  background: white;
   margin-left: 0;
   margin-right: 100px;
+  height: 300px;
   margin-top: 100px;
 }
 /*.FP-page {

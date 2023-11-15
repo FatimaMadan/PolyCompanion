@@ -11,8 +11,7 @@
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,7 +69,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" active>My Profile</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="EditUser.php" class="dropdown-item">Edit Profile</a>
+                        <a href="Profile.php" class="dropdown-item">View Profile</a>
                         <a href="ResetPassword.php" class="dropdown-item">Change Password</a>
                         <a href="Logout.php" class="dropdown-item">Logout</a>
                     </div>
