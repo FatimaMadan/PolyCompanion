@@ -48,6 +48,33 @@ $conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
   return $count > 0;
 }
 
+
+function checkIfPostIsFlagged($questionId, $userId) {
+    
+  // Create a new MySQLi connection
+$conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
+
+  // Check if the connection was successful
+  if ($conn->connect_error) {
+    die('Connection failed: ' . $conn->connect_error);
+  }
+  
+  // Prepare and execute a query to check if the post is saved
+  $stmt = $conn->prepare('SELECT COUNT(*) FROM Flag WHERE QuestionId = ? AND UserId = ?');
+  $stmt->bind_param('ii', $questionId, $userId);
+  $stmt->execute();
+
+  // Fetch the result
+  $stmt->bind_result($count);
+  $stmt->fetch();
+
+  // Close the statement and database connection
+  $stmt->close();
+  $conn->close();
+
+  // Return true if the count is greater than 0, indicating that the post is saved
+  return $count > 0;
+}
     
 ?><!DOCTYPE html>
 <html lang="en">
@@ -71,31 +98,8 @@ $conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
       const subcategory = event.target.nextElementSibling;
       subcategory.classList.toggle('visible');
     }
-    
-//    document.addEventListener("DOMContentLoaded", function() {
-//  var likeBtns = document.getElementsByClassName("like-btn");
-//  for (var i = 0; i < likeBtns.length; i++) {
-//    likeBtns[i].addEventListener("click", function() {
-//      var answerId = this.getAttribute("data-answer-id");
-//       $.ajax({
-//      type: 'POST',
-//      url: 'updateLikes.php', // Replace with the PHP script that handles the database update
-//      data: { answerId: answerId, action: 'like' }, // Pass the answer ID and the action ('like' or 'dislike')
-//      success: function(response) {
-//          location.reload();
-//          likeButton.classList.add("disabled");
-//      },
-//      error: function(xhr, status, error) {
-//        // Handle error if the update fails
-//        console.log(error);
-//      }
-//    });
-//    });
-//  }
-//});
-
-
-
+   
+   
 $(document).ready(function() {
   $('.like-btn, .dislike-btn').click(function() {
     var answerId = this.getAttribute("data-answer-id");
@@ -163,6 +167,39 @@ $(document).ready(function() {
     }
   });
 });
+ $('.flag-btn').click(function() {
+  var questionId = $(this).data("question-id");
+  var isFlagged = $(this).hasClass('fas'); // Check if the icon is already filled
+  var flagBtn = $(this); // Store reference to the save button
+
+  // Determine the action based on the current state of the icon
+  var action = isFlagged ? 'unflag' : 'flag';
+
+  $.ajax({
+    type: 'POST',
+    url: 'flagUserPost.php',
+    data: { questionId: questionId, action: action },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        if (isFlagged) {
+          console.log('Changed to unfilled flag');
+          flagBtn.removeClass('fas').addClass('far'); // Change to unfilled star
+        } else {
+          console.log('Changed to filled flag');
+          flagBtn.removeClass('far').addClass('fas'); // Change to filled star
+        }
+      } else {
+          console.log('Changing to unfilled flag');
+          flagBtn.removeClass('fas').addClass('far');
+        console.error('Failed to save post: ' + response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('AJAX request failed: ' + error);
+    }
+  });
+});
 });
 
     </script>
@@ -204,19 +241,9 @@ $(document).ready(function() {
         </div>
     </div>
     <!-- Spinner End -->
-
-      
-    
-    
     
     
     <div id="popupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ This answer has been downvoted and will be shown to fewer people.</div>
-    
-    
-    
-    
-    
-    
     
     
     
@@ -359,11 +386,13 @@ for ($i = 0; $i < count($data); $i++) {
 
   // ICONS Start
     $isSaved = checkIfPostIsSaved($question->getQuestionId(), $_SESSION['uid']);
+    $isFlagged = checkIfPostIsFlagged($question->getQuestionId(), $_SESSION['uid']);
     // Output the star icon based on the saved state
     echo '<i class="' . ($isSaved ? 'fas' : 'far') . ' fa-star save-btn" data-question-id="' . $question->getQuestionId() . '" style="display: inline-block; color: #06BBCC; float: right; margin-left: 15px; margin-right: 15px;" title="Save Post"></i>';
     echo '<a href="AddAnswer.php"><i class="far fa-comment ans-btn" style="display: inline-block; color: #06BBCC; float: right; margin-left: 15px;" title="Write an Answer"></i></a>';
-    echo '<i class="far fa-flag flag-btn" style="display: inline-block; float: right; color: red; margin-left: 15px;" title="Flag this question">15</i></p>';
-    echo '</div>';
+    echo '<i class="' . ($isFlagged ? 'fas' : 'far') . ' fa-flag flag-btn" data-question-id="' . $question->getQuestionId() . '" style="display: inline-block; color: #D70040; float: right; margin-left: 15px;" title="Flag Post"></i>';
+    
+   echo '</div>';
   // ICONS END
    
   
@@ -407,8 +436,13 @@ foreach ($page as $answer) {
   echo '<div class="FP">';
   echo '<div class="FP-header">';
   echo '<h6 style="color: lightgray; font-size: 14px;">';
-  echo '<img class="border rounded-circle p-2 mx-auto" src='. $Auser->getUserDp() .' style="width: 50px; height: 50px;">'. $Auser->getFirstName() .' '. $Auser->getLastName() .'</h6>';
-
+  echo '<img class="border rounded-circle p-2 mx-auto" src='. $Auser->getUserDp() .' style="width: 50px; height: 50px;">'. $Auser->getFirstName() .' '. $Auser->getLastName() .'';
+           if($Auser->getRoleId() == 2)// if a program manager answer
+  {
+  echo '<i class="fas fa-star" style="display: inline-block; color: #ffd700; float: left; margin-top: 5px;" title="Answered by Program Manager"></i>';
+  }
+  echo '</h6>';
+ 
   echo '<p>'. $answer->getAnsText() .'</p>';
   
 // Donwload ANSWER files Start
@@ -431,8 +465,8 @@ foreach ($page as $answer) {
 
 // ICONS Start
 echo '<div class="icon-container">';
-echo '' . $answer->getLikes() . '<i class="fas fa-arrow-up like-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: green;"></i>';
-echo '<i class="fas fa-arrow-down dislike-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: red;"></i>';
+echo '' . $answer->getLikes() . '<i class="fas fa-arrow-up like-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: green;" title = "Upvote"></i>';
+echo '<i class="fas fa-arrow-down dislike-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: red;" title = "Downvote"></i>';
 echo '</div>';
 // ICONS End
 

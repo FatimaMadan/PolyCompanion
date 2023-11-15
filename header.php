@@ -30,11 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-    
 
-    <link href="css/botDesign.css" rel="stylesheet">
-
-   
     <!-- JavaScript code -->
     <script>
         // Get the current page URL
@@ -65,7 +61,6 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.php" class="nav-item nav-link">Home</a>
                 <a href="about.php" class="nav-item nav-link">About</a>
-                <a href="view_courses.php" class="nav-item nav-link">Courses</a>
                 <a href="bot.php" class="nav-item nav-link">PolyBot</a>
                 <a href="inquiry.php" class="nav-item nav-link">Ask Away</a>
                 <a href="FAQ.php" class="nav-item nav-link">FAQ</a>
@@ -79,8 +74,11 @@
                         <a href="Logout.php" class="dropdown-item">Logout</a>
                     </div>
                 </div>
-                
-                <a href="Register.php" class="nav-item nav-link">Register</a>
+                <?php
+                if($_SESSION['roleId'] == 1){
+                echo '<a href="Register.php" class="nav-item nav-link">Register</a>';
+                }
+                ?>
                 
             </div>
 			
