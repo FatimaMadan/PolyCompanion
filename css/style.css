@@ -266,7 +266,7 @@
 
 .service-item:hover {
     margin-top: -10px;
-    background: var(--dark);
+    background: var(--primary);
 }
 
 .service-item * {
@@ -438,6 +438,7 @@
     padding-right: 0;
     border-right: none;
 }
+
 
 
 /*** Bot Page ***/
@@ -718,4 +719,24 @@ th, td {
   background-color: #06BBCC;
   color: white;
   border-color: #06BBCC;
+}
+.table-container {
+  width: 60%;
+  margin: 0 auto;
+  border: 2px solid black;
+}
+.my-table {
+  width: 90%;
+  border-collapse: collapse;
+}
+
+.my-table th,
+.my-table td {
+  padding: 2px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.my-table th {
+  background-color: #f2f2f2;
 }

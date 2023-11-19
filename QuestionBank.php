@@ -103,6 +103,19 @@ class QuestionBank {
             
         }
         
+        function getCountQuestions(){
+            $db = Database::getInstance();
+       $result= $db->singleFetch("SELECT COUNT(*) AS total FROM Questions" );
+       
+        return $result->total;
+        }
+        
+        function getFlaggedQuestions(){
+            $db = Database::getInstance();
+       $result= $db->singleFetch("SELECT COUNT(*) AS total FROM Flag" );
+       
+        return $result->total;
+        }
         
        function getCountUserQuestions($id){
             $db = Database::getInstance();

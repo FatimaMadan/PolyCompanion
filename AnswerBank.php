@@ -75,6 +75,13 @@ class AnswerBank {
             
         }
         
+        function getCountAnswers(){
+            $db = Database::getInstance();
+       $result= $db->singleFetch("SELECT COUNT(*) AS total FROM Answers");
+       
+        return $result->total;
+        }
+        
          function getCountUserAnswers($id){
             $db = Database::getInstance();
        $result= $db->singleFetch("SELECT COUNT(*) AS total FROM Answers where User_UserId =" . $id );

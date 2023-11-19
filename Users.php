@@ -159,6 +159,13 @@ class Users
             return $data;
         }
         
+         function getTotalUsers(){
+            $db = Database::getInstance();
+       $result= $db->singleFetch("SELECT COUNT(*) AS total FROM User");
+       
+        return $result->total;
+        }
+        
         public function isValid() 
         {
             
@@ -238,7 +245,19 @@ class Users
               session_destroy();
         }
 
+          function enterLog($username){
+              $db = Database::getInstance();
+            $sql = "INSERT INTO Logs(LogId, UserName, Action) VALUES (NULL, '$username', 'Logged in')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
+        }
         
+           function enterLogout($username){
+              $db = Database::getInstance();
+            $sql = "INSERT INTO Logs(LogId, UserName, Action) VALUES (NULL, '$username', 'Logged out')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
+        }
         
          function updateUser() {
         try {

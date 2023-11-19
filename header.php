@@ -65,12 +65,12 @@
                 <a href="inquiry.php" class="nav-item nav-link">Ask Away</a>
                 <a href="FAQ.php" class="nav-item nav-link">FAQ</a>
 		<a href="contact.php" class="nav-item nav-link">Contact</a>
-                 
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" active>My Profile</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="Profile.php" class="dropdown-item">View Profile</a>
                         <a href="ResetPassword.php" class="dropdown-item">Change Password</a>
+                        <a href="AdminDashboard.php" class="dropdown-item">Admin Dashboard</a>
                         <a href="Logout.php" class="dropdown-item">Logout</a>
                     </div>
                 </div>
