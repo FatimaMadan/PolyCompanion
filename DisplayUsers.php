@@ -14,24 +14,22 @@ if (!empty($data)) {
     echo '<br />';
   echo '<div class="table-container">
       <h5>Manage Users </h5>
-        <table class="my-table">
+       <table class="my-table">
             <thead>
                 <tr>
-                    <th>Edit</th>
-                    <th>Delete</th>
                      <th>Profile Pic</th>
                     <th>User Name</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>';
-for ($i = 0; $i < count($data); $i++) {
+for ($i = 0; $i < 5; $i++) {
     $allUser->initWithUid($data[$i]->UserId);
   
-    echo '<tr>
-            <td><a href="EditUser.php?id=' . $data[$i]->UserId . '">Edit</a></td>
-            <td><a href="DeleteUser.php?id=' . $data[$i]->UserId . '">Delete</a></td>';?>
+    echo '<tr>';?>
 
             <td><img class="border rounded-circle p-2 mx-auto mb-3" src=<?php echo $data[$i]->UserDp; ?> style="width: 50px; height: 50px;"></td>
          
@@ -39,6 +37,8 @@ for ($i = 0; $i < count($data); $i++) {
           echo '<td>' .$data[$i]->UserName. '</td>
             <td>' .$data[$i]->FirstName. '</td>
             <td>' .$data[$i]->LastName. '</td>
+            <td><a href="EditUser.php?id=' . $data[$i]->UserId . '">Edit</a></td>
+            <td><a href="DeleteUser.php?id=' . $data[$i]->UserId . '">Delete</a></td>
           </tr>';
 }
 

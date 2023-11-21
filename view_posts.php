@@ -98,6 +98,42 @@ $conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
       const subcategory = event.target.nextElementSibling;
       subcategory.classList.toggle('visible');
     }
+    
+    //************
+function deleteQuestion(questionId) {
+  // Perform AJAX call
+  $.ajax({
+    url: 'DeletePost.php',
+    type: 'POST',
+    data: { questionId: questionId },
+    dataType: 'json',
+    success: function(response) {
+      // Handle success response
+      if (response.success) {
+        // Refresh the page or perform any other actions
+               // Show the <div> element for 5 seconds
+       var popupDiv = document.getElementById('DeletepopupMessage');
+    popupDiv.style.display = 'block';
+
+    // Hide the popup message after 5 seconds
+    setTimeout(function() {
+      popupDiv.style.display = 'none';
+    }, 5000);
+    
+//        window.location.href = 'AdminDashboard.php';
+      } else {
+        // Handle error response
+        console.log(response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      // Handle AJAX error
+      console.log(error);
+    }
+  });
+}
+
+//***********
    
    
 $(document).ready(function() {
@@ -244,6 +280,7 @@ $(document).ready(function() {
     
     
     <div id="popupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ This answer has been downvoted and will be shown to fewer people.</div>
+    <div id="DeletepopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Question has been deleted successfully!</div>
     
     
     
@@ -362,8 +399,13 @@ for ($i = 0; $i < count($data); $i++) {
 
     
     
-  echo '<h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> —————————— Question ——————————</h5>'
-    . '<div><h6 style="color: lightgray; font-size: 14px;">';
+  echo '<h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> —————————— Question ——————————</h5>';
+   //is not a student only then show below 
+  if($_SESSION['roleId'] != 4){
+ echo '<a href="#" class="button-link" style="margin-bottom: 50px; background-color: #D70040;" onclick="deleteQuestion(' . $question->getQuestionId() . '); return false;">Delete Question</a>';
+ 
+  }
+         echo '<div><h6 style="color: lightgray; font-size: 14px;">';
   echo '<img class="border rounded-circle p-2 mx-auto" src='. $Quser->getUserDp() .' style="width: 50px; height: 50px;">'. $Quser->getFirstName() .' '. $Quser->getLastName() .'</h6>';
 
   echo '<h6 style="font-family: Arial;">'. $question->getQuesTitle() .'</h6>';

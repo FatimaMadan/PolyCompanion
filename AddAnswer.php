@@ -46,7 +46,7 @@ if (isset($_POST['save'])) {
         $file->setFileType($upload->getFileType());
           $ans = new AnswerBank();
         $maxAnsId = $ans->getMaxAnswerId();
-        $file->setAnswers_AnsId(1);
+        $file->setAnswers_AnsId(16);
         $file->setAId($maxAnsId + 1);
         $file->setQuestions_QuestionId($QuesId);
         $file->setQId($QuesId);

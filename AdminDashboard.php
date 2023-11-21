@@ -107,24 +107,16 @@ if (isset($_POST['save'])){
 </script>-->
 <script>
      src="https://code.jquery.com/jquery-3.6.0.min.js";
-  function displayMyPosts() {
-    document.getElementById("my-posts-content").style.display = "block";
-    document.getElementById("saved-posts-content").style.display = "none";
-    
-    document.getElementById("my-posts-button").classList.add("active");
-    document.getElementById("saved-posts-button").classList.remove("active");
-  }
-
-  function displaySavedPosts() {
-    document.getElementById("my-posts-content").style.display = "none";
-    document.getElementById("saved-posts-content").style.display = "block";
-    
-    document.getElementById("my-posts-button").classList.remove("active");
-    document.getElementById("saved-posts-button").classList.add("active");
-  }
+//  function displayFlaggedPosts() {
+//    document.getElementById("flagged-posts-content").style.display = "block";
+//    
+//    document.getElementById("flagged-posts-button").classList.add("active");
+//  }
+   function toggleSubcategory(event) {
+      const subcategory = event.target.nextElementSibling;
+      subcategory.classList.toggle('visible');
+    }
   
-  // Display My Posts content by default
-  displayMyPosts();
 </script>
 </head>
 <body>
@@ -172,16 +164,42 @@ if (isset($_POST['save'])){
 <p class="mb-0 font-13" style="color: white;">Total Users:</p>
 <h4 class="my-1 text-info">'. $TUser->getTotalUsers().'</h4>
 </div>
-   <img class="rounded-circle" style="width: 60px; height: 60px; margin-left: 72px"; src="img/bell.jpg">
+   <img class="rounded-circle" style="width: 63px; height: 63px; margin-left: 72px"; src="img/users.png">
 </div>
 </div>
 
 <div class="card-body">
 <div class="d-flex align-items-center">
 <div>
-<p class="mb-0 font-13" style="color: white;">Flagged Posts:</p>
-<h4 class="my-1 text-info">'. $qts->getFlaggedQuestions() . '</h4>
-</div>
+<p class="mb-0 font-13" style="color: white;">Flagged Posts:</p>';
+
+          
+if ($qts->getFlaggedQuestions() > 0){
+//echo '<h4 style="color: red;"><a href="DisplayFlags.php" style="color: red;">'. $qts->getFlaggedQuestions() . '</a></h4>';
+
+ $allLogs = new FlagsBank();
+$Ldata = $allLogs->getAllFlags();
+ echo '<ul class="expandable-list">
+    <li>
+      <div class="category" onclick="toggleSubcategory(event)" style="color: red; font-size: 20px; margin-left: 0px;">Show '. $qts->getFlaggedQuestions() . '</div>
+      <ul class="subcategory">
+          <div>';
+        for ($i = 0; $i < count($Ldata); $i++) {
+  
+    echo '<tr>
+            <td>' .$Ldata[$i]->UserId. '</td>
+             <td><a href="view_posts.php?QtId=' . $Ldata[$i]->QuestionId . '">'. $Ldata[$i]->QuestionId.'</a></td><br>
+    </tr>';
+}
+          echo '</div>
+      </ul>
+    </li>';
+
+    }elseif ($qts->getFlaggedQuestions() == 0){
+        
+        echo '<h4 style="color: #06BBCC;">'. $qts->getFlaggedQuestions() . '</h4>';
+    }
+echo '</div>
    <img class="rounded-circle" style="width: 60px; height: 60px; margin-left: 48px"; src="img/saved.jpg">
 </div>
 </div>
@@ -194,61 +212,49 @@ if (isset($_POST['save'])){
   
 <div class="whitetest-div">
       <!--<h3 style= "color: #181d38; margin-top: 20px;">————ADMIN DASHBOARD————</h3>-->
-<!--<div class="row">
+<div class="row">
 <div class="col-xl-11">
 <div class="card" style="margin-top: 30px;">
 <div class="card-body pb-0">
 <div class="row align-items-center">
 <div class="col-md-3">
 <div class="text-center border-end">
-     <?php // $uuser = new Users();
-//  $UserData = $uuser->initWithUid($_SESSION['uid']);
-//   echo '<img class="img-fluid avatar-xxl rounded-circle" src='. $uuser->getUserDp().'>
-//<form method="POST" enctype="multipart/form-data" >
-//<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
-//  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
-//</form>
-//</div>
-//</div>
-//<div class="col-md-9">
-//<div class="ms-3">
-//<div>
-//<h4 class="text-primary font-size-20 " >'. $uuser->getFirstName().'  '. $uuser->getLastName().' </h4>
-//    <p class="text-muted fw-medium mb-0"><i class="mdi mdi-account me-2"></i>'. $uuser->getUsername().'</p>
-//<p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>'. $uuser->getEmail().'</p>';
-?>
+     <?php $uuser = new Users();
+  $UserData = $uuser->initWithUid($_SESSION['uid']);
+   echo '<img class="img-fluid avatar-xxl rounded-circle" src='. $uuser->getUserDp().'>
+<form method="POST" enctype="multipart/form-data" >
+<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
+  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
+</form>
 </div>
+</div>
+<div class="col-md-9">
+<div class="ms-3">
+<div>
+<h4 class="text-primary font-size-20 " >'. $uuser->getFirstName().'  '. $uuser->getLastName().' </h4>
+    <p class="text-muted fw-medium mb-0"><i class="mdi mdi-account me-2"></i>'. $uuser->getUsername().'</p>
+<p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>'. $uuser->getEmail().'</p>';
+?>
+<!--</div>
 <div class="row my-4">
 <div class="col-md-12">
 </div>
 </div>
 <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
 <li class="nav-item" role="presentation">
-<a class="nav-link px-4 active" data-bs-toggle="tab" href="#projects-tab" role="tab" aria-selected="false" tabindex="-1" id="my-posts-button" onclick="displayMyPosts()">
+<a class="nav-link px-4 active" data-bs-toggle="tab" href="#projects-tab" role="tab" aria-selected="false" tabindex="-1" id="flagged-posts-button" onclick="displayFlaggedPosts()">
 <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-<span class="d-none d-sm-block">Manage Users</span>
+<span class="d-none d-sm-block">Flagged Posts</span>
 </a>
-</li>
-<li class="nav-item" role="presentation">
-  <a class="nav-link px-4" data-bs-toggle="tab" href="#projects-tab" role="tab" aria-selected="false" tabindex="-1" id="saved-posts-button" onclick="displaySavedPosts()">
-    <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
-    <span class="d-none d-sm-block">See Logs</span>
-  </a>
-</li>
-<li class="nav-item" role="presentation">
-  <a class="nav-link px-4" data-bs-toggle="tab" href="#projects-tab" role="tab" aria-selected="false" tabindex="-1" id="saved-posts-button" onclick="displaySavedPosts()">
-    <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
-    <span class="d-none d-sm-block">See Activity</span>
-  </a>
 </li>
 
 </ul>
+--></div>
 </div>
 </div>
 </div>
 </div>
-</div>
-    </div>  -->
+    </div>  
     <!--START manage users table-->
     <?php
 $allUser = new Users();
@@ -258,9 +264,9 @@ $data = $allUser->getAllusers();
 if (!empty($data)) {
    echo '<link rel="stylesheet" href="css/style.css">';
     echo '<br />';
-  echo '<div class="table-container" style= "margin-left: 15px">
-      <h4>Manage Users
-      <h6><a href="DisplayUsers.php" style="float: right; margin-bottom: 10px">View All</a></h6></h4>
+  echo '<div style="margin-left: 0px; width: 90%; border: 2px solid black;">
+     <h4>Manage Users
+      <a href="DisplayUsers.php" style="float: right; margin-bottom: 10px; margin-right: 10px; font-size: 16px;">View All</a></h4>
         <table class="my-table">
             <thead>
                 <tr>
@@ -303,6 +309,42 @@ echo '</tbody>
 ?>
     
       <!--END manage users table-->
+      <?php
+$allLogs = new LogsBank();
+$data = $allLogs->getAllLogs();
+
+if (!empty($data)) {
+   echo '<link rel="stylesheet" href="css/style.css">';
+    echo '<br />';
+  echo '<div style="margin-left: 0px; width: 90%; margin-top: 15px; border: 2px solid black;">
+     <h4>Users Logs
+      <a href="DisplayLogs.php" style="float: right; margin-bottom: 10px; margin-right: 10px; font-size: 16px;">View All</a></h4>
+        <table class="my-table">
+            <thead>
+            </thead>
+            <tbody>';
+for ($i = 0; $i < 15; $i++) {
+  
+    if($data[$i]->Action == "Logged in"){
+    echo '<tr>
+            <td style="color: #06BBCC;">' .$data[$i]->UserName. ' ' .$data[$i]->Action. ' at ' .$data[$i]->Time. ' </td>
+    </tr>';}
+    elseif($data[$i]->Action == "Logged out"){
+    echo '<tr>
+            <td>' .$data[$i]->UserName. ' ' .$data[$i]->Action. ' at ' .$data[$i]->Time. ' </td>
+    </tr>';}
+}
+
+echo '</tbody>
+      </table>
+    </div>'
+;
+}
+        else {
+             echo '<br />';
+            echo '<p>Sorry no users were found in the database</p>';
+        }
+  ?>
     
 </div>
 </div>

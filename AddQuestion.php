@@ -27,10 +27,10 @@ if (isset($_POST['save'])) {
         $file->setFileName($upload->getFilepath());
         $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
         $file->setFileType($upload->getFileType());
-        $file->setAnswers_AnsId(1);
+        $file->setAnswers_AnsId(16);
         $qt = new QuestionBank();
         $maxQId = $qt->getMaxQuestionId();
-        $file->setQuestions_QuestionId(1);
+        $file->setQuestions_QuestionId(25);
         $file->setQId($maxQId + 1);
         $file->setAId(1);
         $file->setType("Question");

@@ -721,9 +721,8 @@ th, td {
   border-color: #06BBCC;
 }
 .table-container {
-  width: 60%;
+  width: 50%;
   margin: 0 auto;
-  border: 2px solid black;
 }
 .my-table {
   width: 90%;
