@@ -132,4 +132,10 @@ class FaqBank {
         $data = $db->multiFetch('Select * from FAQ');
         return $data;
     }
+    
+    static function getAllFaqs() {
+        $db = Database::getInstance();
+        $data = $db->multiFetch('Select * from FAQ');
+        return $data;
+    }
 }
