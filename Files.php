@@ -11,6 +11,8 @@ class Files{
     private $Answers_AnsId;
     private $Questions_QuestionId;
     private $QId;
+    private $AId;
+    private $Type;
 
     function getFileId() {
         return $this->FileId;
@@ -42,6 +44,12 @@ class Files{
     }
     function getQId() {
         return $this->QId;
+    }
+      function getAId() {
+        return $this->AId;
+    }
+     function getType() {
+        return $this->Type;
     }
 
     function setFileId($FileId) {
@@ -75,7 +83,14 @@ class Files{
        $this->QId = $QId;
     }
     
+    function setAId($AId) {
+       $this->AId = $AId;
+    }
 
+     function setType($Type) {
+       $this->Type = $Type;
+    }
+    
     function __construct() {
         $this->FileId = null;
         $this->FileName = null;
@@ -85,7 +100,8 @@ class Files{
         $this->Answers_AnsId = null;
         $this->Questions_QuestionId = null;
         $this->QId = null;
-        
+        $this->AId = null;
+        $this->Type = null;
     }
 
     function deleteFile() {
@@ -104,7 +120,7 @@ class Files{
 
         $db = Database::getInstance();
         $data = $db->singleFetch('Select * from Files where FileId = ' . $fid);
-        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->Answers_AnsId, $data->User_UserId, $data->Questions_QuestionId, $data->QId);
+        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->Answers_AnsId, $data->User_UserId, $data->Questions_QuestionId, $data->QId, $data->AId, $data->Type);
        
     }
 
@@ -112,8 +128,8 @@ class Files{
 
         try {
              $db = Database::getInstance();
-            $data = $db->querySql('Insert into Files (FileId,User_UserId, FileName, FileLocation, FileType, Answers_AnsId, Questions_QuestionId, QId) values '
-                    . '(NULL, ' . $this->User_UserId . ', \'' . $this->FileName . '\',\'' . $this->FileLocation . '\',\'' .$this->FileType . '\',\'' .$this->Answers_AnsId . '\',\''  .$this->Questions_QuestionId . '\',\''  .$this->QId . '\')');
+            $data = $db->querySql('Insert into Files (FileId,User_UserId, FileName, FileLocation, FileType, Answers_AnsId, Questions_QuestionId, QId, AId, Type) values '
+                    . '(NULL, ' . $this->User_UserId . ', \'' . $this->FileName . '\',\'' . $this->FileLocation . '\',\'' .$this->FileType . '\',\'' .$this->Answers_AnsId . '\',\''  .$this->Questions_QuestionId . '\',\''  .$this->QId . '\',\''  .$this->AId . '\',\''  .$this->Type . '\')');
            
             return true;
         } catch (Exception $e) {
@@ -122,7 +138,7 @@ class Files{
         }
     }
 
-    function initWith($FileId, $FileLocation, $FileType, $FileName, $Answers_AnsId, $User_UserId, $Questions_QuestionId, $QId) {
+    function initWith($FileId, $FileLocation, $FileType, $FileName, $Answers_AnsId, $User_UserId, $Questions_QuestionId, $QId, $AId, $Type) {
         $this->FileId = $FileId;
         $this->FileLocation = $FileLocation;
         $this->FileType = $FileType;
@@ -131,9 +147,11 @@ class Files{
          $this->User_UserId = $User_UserId;
          $this->Questions_QuestionId = $Questions_QuestionId;
          $this->QId = $QId;
+         $this->AId = $AId;
+         $this->Type = $Type;
     }
 
-    function updateDB(){
+      function updateDB(){
         
         $db = Database::getInstance();
         $data = 'UPDATE Files set 
@@ -143,7 +161,9 @@ class Files{
                  Answers_AnsId = \'' . $this->Answers_AnsId  . '\' ,
                  User_UserId = \'' . $this->User_UserId  . '\' ,
                  Questions_QuestionId = \'' . $this->Questions_QuestionId  . '\' ,
-                 QId = \'' . $this->QId  . '
+                 QId = \'' . $this->QId  . '\' ,
+                 AId = \'' . $this->AId . '\' ,
+                 Type = \'' . $this->Type  . '
                      where FileId = ' .$this->FileId;
         $db->querySql($data);
     }
@@ -155,9 +175,9 @@ class Files{
       
   }
   
-  function getFileWithAnsid($id){
+  function getFileWithAnsid($aid){
       $db = Database::getInstance();
-      $data = $db->multiFetch('Select * from Files where Answers_AnsId =' . $id);
+      $data = $db->multiFetch('Select * from Files where AId =' . $aid);
       return $data;
       
   }
@@ -167,12 +187,37 @@ class Files{
       return $data;
       
   }
+   function getFileWithQuesidAndType($qid){
+      $db = Database::getInstance();
+    $data = $db->multiFetch("SELECT * FROM Files WHERE QId = $qid AND Type = 'Question'");
+    return $data; 
+  }
+  
+  function getFileWithAId($aid){
+      $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Files where AId =' . $aid);
+      return $data;
+      
+  }
    function getFileWithQuesidAndUserId($qid, $uid){
     
         $db = Database::getInstance();
         $data = $db->singleFetch("Select * from Files where QId = $qid and User_UserId= $uid");
-        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->Answers_AnsId, $data->User_UserId, $data->Questions_QuestionId, $data->QId);
+        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->Answers_AnsId, $data->User_UserId, $data->Questions_QuestionId, $data->QId, $data->AId, $data->Type);
         return $this;
+  }
+   function getFileWithAnsidAndUserId($aid, $uid){
+    
+        $db = Database::getInstance();
+        $data = $db->singleFetch("Select * from Files where AId = $aid and User_UserId= $uid");
+        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->Answers_AnsId, $data->User_UserId, $data->Questions_QuestionId, $data->QId, $data->AId, $data->Type);
+        return $this;
+        
+  }
+   function getFileWithAnsidAndUserIdAndType($aid, $uid){
+           $db = Database::getInstance();
+    $data = $db->multiFetch("Select * from Files where AId = $aid and User_UserId= $uid AND Type = 'Answer'");
+    return $data; 
   }
     
    function getMyFiles(){
@@ -191,6 +236,12 @@ class Files{
   function getAQuestionFiles(){
       $db = Database::getInstance();
       $data = $db->multiFetch('Select * from Files where QId =' . $this->QId);
+      return $data;
+      
+  }
+   function getAAnswerFiles(){
+      $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Files where AId =' . $this->AId);
       return $data;
       
   }

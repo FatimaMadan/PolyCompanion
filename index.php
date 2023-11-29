@@ -4,12 +4,12 @@ include 'debugging.php';
 include 'header.php';
 include 'Users.php';
 
-//if (empty($_SESSION['uid'])) {
-//    // User is not logged in, redirect to login page
-//    echo $_SESSION['username'];
-//    header("Location: Login.php");
-//    exit();
-//}
+if (empty($_SESSION['uid'])) {
+    // User is not logged in, redirect to login page
+    echo $_SESSION['username'];
+    header("Location: Login.php");
+    exit();
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -58,9 +58,6 @@ include 'Users.php';
 </head>
 
 <body>
-    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Stats</h6>
-            </div>
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -69,9 +66,6 @@ include 'Users.php';
     </div>
     <!-- Spinner End -->
 
-<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Stats</h6>
-            </div>
 
 
     <!-- Carousel Start -->
@@ -536,8 +530,6 @@ include 'Users.php';
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                         &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
 
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">

@@ -13,6 +13,10 @@ if (empty($_SESSION['uid'])) {
     exit();
 }
 
+if (isset($_POST['redirect'])) {
+    
+    header("Location: AddQuestion.php");
+}
     $id = $_SESSION['uid'];
     $user = new Users();
     $user->initWithUid($id);
@@ -119,7 +123,7 @@ for ($i = 0; $i < count($data); $i++) {
          $PCourse = new CourseBank();
                 $Pdata = $PCourse->initWithMid(2);
                 for ($i = 0; $i < count($Pdata); $i++) {
-                echo '<li><a style="color: black;" href="?courseId=' . $Pdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Pdata[$i]->CourseTitle . '</a></li>'; 
+                echo '<li><a style="color: #06BBCC;" href="?courseId=' . $Pdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Pdata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
           </div>
@@ -132,7 +136,7 @@ for ($i = 0; $i < count($data); $i++) {
          $ICourse = new CourseBank();
                 $Idata = $ICourse->initWithMid(3);
                 for ($i = 0; $i < count($Idata); $i++) {
-                         echo '<li><a style="color: black;" href="?courseId=' . $Idata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Idata[$i]->CourseTitle . '</a></li>'; 
+                         echo '<li><a style="color: #06BBCC;" href="?courseId=' . $Idata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Idata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
       </ul>
@@ -144,7 +148,7 @@ for ($i = 0; $i < count($data); $i++) {
          $NCourse = new CourseBank();
                 $Ndata = $NCourse->initWithMid(5);
                 for ($i = 0; $i < count($Ndata); $i++) {
-                echo '<li><a style="color: black;" href="?courseId=' . $Ndata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Ndata[$i]->CourseTitle . '</a></li>'; 
+                echo '<li><a style="color: #06BBCC;" href="?courseId=' . $Ndata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Ndata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
       </ul>
@@ -156,7 +160,7 @@ for ($i = 0; $i < count($data); $i++) {
          $DSCourse = new CourseBank();
                 $DSdata = $DSCourse->initWithMid(4);
                 for ($i = 0; $i < count($DSdata); $i++) {
-              echo '<li><a style="color: black;" href="?courseId=' . $DSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $DSdata[$i]->CourseTitle . '</a></li>'; 
+              echo '<li><a style="color: #06BBCC;" href="?courseId=' . $DSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $DSdata[$i]->CourseTitle . '</a></li>'; 
                            }
                 ?>
       </ul>
@@ -168,7 +172,7 @@ for ($i = 0; $i < count($data); $i++) {
          $CSCourse = new CourseBank();
                 $CSdata = $CSCourse->initWithMid(6);
                 for ($i = 0; $i < count($CSdata); $i++) {
-                       echo '<li><a style="color: black;" href="?courseId=' . $CSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $CSdata[$i]->CourseTitle . '</a></li>'; 
+                       echo '<li><a style="color: #06BBCC;" href="?courseId=' . $CSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $CSdata[$i]->CourseTitle . '</a></li>'; 
                           }
                 ?>
       </ul>
@@ -190,9 +194,9 @@ for ($i = 0; $i < count($data); $i++) {
       <div class="search-container">
     <form method="POST" action="">
         <input type="text" placeholder="Search..." name="searchText">
-        <button type="submit" name="searchbtn">Search</button>
-    </form>
-</div><br>
+        <button type="submit" name="searchbtn" style="background-color: #181d38;">Search</button>
+         <button type="submit" name="redirect" style="background-color: #06BBCC; border-radius: 60%; width: 60px; height: 60px; font-size: 30px; font-weight: bold;" title="Click to Post a Question">+</button>   </form>
+        </div><br>
           <!--Search 1 End--> 
 
          <!-- POST 1 START -->
@@ -213,14 +217,18 @@ if (isset($_GET['courseId'])) {
   $courseId = $_GET['courseId'];
   $total_qts = $qts->getTotalPostedQuestionsByCourseAndSearch($courseId, $se);
   if ($total_qts == 0 ){
-      echo ' <h3> No Questions to display </h3>';
+     echo '<div class="no-questions-message">';
+echo '<h3 class="text-center">No Questions to Display</h3>';
+echo '</div>';
   }
 //  echo $total_qts;
 } else {
   $total_qts = $qts->getTotalPostedQuestionsAndSearch($se);
 //   echo $total_qts;
    if ($total_qts == 0 ){
-      echo ' <h3> No Questions to display </h3>';
+        echo '<div class="no-questions-message">';
+echo '<h3 class="text-center">No Questions to Display</h3>';
+echo '</div>';
   }
 }
 // Calculate the total number of pages
@@ -245,6 +253,7 @@ foreach ($page as $question) {
   $Quser = new Users();
   $UserData = $Quser->initWithUid($question->getUser_UserId());
 
+  echo '<a href="view_posts.php?QtId=' . $question->getQuestionId() . '" >';
   echo '<div class="left-form">';
   echo '<div class="FP">';
   echo '<div class="FP-header">';
@@ -258,14 +267,13 @@ foreach ($page as $question) {
 
   // ICONS Start
   echo '<div class="icon-container">';
-  echo '5<i class="fas fa-thumbs-up"></i>';
   echo '<i class="fas fa-flag"></i>';
   echo '<i class="fas fa-star"></i>';
   echo '</div>';
 
   echo '</div>';
   echo '</div>';
-  echo '</div>';
+  echo '</div></a>';
 }
 
 
@@ -273,7 +281,7 @@ foreach ($page as $question) {
 //<!-- PAGINATION 1 START -->
 if ($total_qts != 0 ){
        echo '<div class="pagination-links">
-    <label style="margin-left: 600px; font-weight: bold; font-size: 20px;">Page: </label>';
+    <label style="margin-left: 200px; font-weight: bold; font-size: 20px;">Page: </label>';
     
     $courseId = $_GET['courseId']; // Retrieve the courseId from the URL parameters
 
@@ -301,13 +309,17 @@ if (isset($_GET['courseId'])) {
   $total_qts = $qts->getTotalPostedQuestionsByCourseAndSearch($courseId);
 //  echo $total_qts;
   if ($total_qts == 0 ){
-      echo ' <h3> No Questions to display </h3>';
+      echo '<div class="no-questions-message">';
+echo '<h3 class="text-center">No Questions to Display</h3>';
+echo '</div>';
   }
 } else {
   $total_qts = $qts->getTotalPostedQuestionsAndSearch();
 //   echo $total_qts;
    if ($total_qts == 0 ){
-      echo ' <h3> No Questions to display </h3>';
+        echo '<div class="no-questions-message">';
+echo '<h3 class="text-center">No Questions to Display</h3>';
+echo '</div>';
   }
 }
 // Calculate the total number of pages
@@ -345,7 +357,6 @@ foreach ($page as $question) {
 
   // ICONS Start
   echo '<div class="icon-container">';
-  echo '5<i class="fas fa-thumbs-up"></i>';
   echo '<i class="fas fa-flag"></i>';
   echo '<i class="fas fa-star"></i>';
   echo '</div>';
@@ -361,7 +372,7 @@ foreach ($page as $question) {
 if ($total_qts != 0 ){
     
        echo '<div class="pagination-links">
-    <label style="margin-left: 600px; font-weight: bold; font-size: 20px;">Page: </label>';
+    <label style="margin-left: 200px; font-weight: bold; font-size: 20px;">Page: </label>';
     
     $courseId = $_GET['courseId']; // Retrieve the courseId from the URL parameters
 
@@ -442,17 +453,16 @@ echo '</div>';
     <!-- Main white Div End -->
     
     
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
+     <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer" >
+             <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Quick Link</h4>
                     <a class="btn btn-link" href="">About Us</a>
                     <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Privacy Policy</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">FAQs & Help</a>
+                    <a class="btn btn-link" href="">FAQs</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contact</h4>
@@ -489,6 +499,7 @@ echo '</div>';
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
@@ -497,29 +508,27 @@ echo '</div>';
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                     </div>
                 </div>
-            </div>
-        </div>
+       </div>
+                     </div>
         <div class="container">
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+                        &copy; <a class="border-bottom" href="index.php">PolyCompanion</a>, All Right Reserved.
 
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                      
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
-                            <a href="">Home</a>
-                            <a href="">Cookies</a>
-                            <a href="">Help</a>
-                            <a href="">FQAs</a>
+                            <a href="index.php">Home</a>
+                            <a href="FAQ.php">FAQs</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        
+        </div>
     <!-- Footer End -->
 
 

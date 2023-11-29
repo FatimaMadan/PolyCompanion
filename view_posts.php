@@ -2,18 +2,18 @@
 ob_start();
 include 'debugging.php';
 include 'header.php';
-//include "Users.php";
-//include "CourseBank.php";
-//include "QuestionBank.php";
-//include "AnswerBank.php";
-//include "Files.php";
-//include "Upload.php";
+include 'Files.php';
 
 if (empty($_SESSION['uid'])) {
     // User is not logged in, redirect to login page
     echo $_SESSION['username'];
     header("Location: Login.php");
     exit();
+}
+
+if (isset($_POST['redirect'])) {
+    
+    header("Location: AddAnswer.php");
 }
 
     $id = $_SESSION['uid'];
@@ -25,6 +25,7 @@ if (empty($_SESSION['uid'])) {
 
 <head>
        <!-- JavaScript code -->
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Get the current page URL
         var url = window.location.href;
@@ -42,6 +43,65 @@ if (empty($_SESSION['uid'])) {
       subcategory.classList.toggle('visible');
     }
     
+//    document.addEventListener("DOMContentLoaded", function() {
+//  var likeBtns = document.getElementsByClassName("like-btn");
+//  for (var i = 0; i < likeBtns.length; i++) {
+//    likeBtns[i].addEventListener("click", function() {
+//      var answerId = this.getAttribute("data-answer-id");
+//       $.ajax({
+//      type: 'POST',
+//      url: 'updateLikes.php', // Replace with the PHP script that handles the database update
+//      data: { answerId: answerId, action: 'like' }, // Pass the answer ID and the action ('like' or 'dislike')
+//      success: function(response) {
+//          location.reload();
+//          likeButton.classList.add("disabled");
+//      },
+//      error: function(xhr, status, error) {
+//        // Handle error if the update fails
+//        console.log(error);
+//      }
+//    });
+//    });
+//  }
+//});
+
+
+
+$(document).ready(function() {
+  $('.like-btn, .dislike-btn').click(function() {
+    var answerId = this.getAttribute("data-answer-id");
+    var action = $(this).hasClass('like-btn') ? 'like' : 'dislike';
+
+    $.ajax({
+      type: 'POST',
+      url: 'updateLikes.php',
+      data: {answerId: answerId, action: action },
+      dataType: 'json',
+      success: function(response) {
+        if (response.success) {
+            location.reload();
+          // Update the UI to reflect the new like/dislike count
+          // You can update the button appearance or display a message indicating the action was successful
+          console.log('Likes/Dislikes updated successfully.');
+        } else {
+             // Show the <div> element for 5 seconds
+       var popupDiv = document.getElementById('popupMessage');
+    popupDiv.style.display = 'block';
+
+    // Hide the popup message after 5 seconds
+    setTimeout(function() {
+      popupDiv.style.display = 'none';
+    }, 5000);
+      
+          console.error('Failed to update likes/dislikes: ' + response.error);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('AJAX request failed: ' + error);
+      }
+    });
+  });
+});
 
     </script>
     <meta charset="utf-8">
@@ -83,6 +143,20 @@ if (empty($_SESSION['uid'])) {
     </div>
     <!-- Spinner End -->
 
+      
+    
+    
+    
+    
+    <div id="popupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ This answer has been downvoted and will be shown to fewer people.</div>
+    
+    
+    
+    
+    
+    
+    
+    
     
     <!-- Side Blue Div Start -->
     <div class="blue-div">
@@ -209,7 +283,7 @@ for ($i = 0; $i < count($data); $i++) {
   
 // Donwload files Start
     $files = new Files();
-    $row = $files->getFileWithQuesid($QuesId);
+    $row = $files->getFileWithQuesidAndType($QuesId);
   echo '<p><h6 style="font-weight: bold; color: #181d38;">Uploaded Files: </h6>';
   if (!empty($row)) {
        for ($i = 0; $i < count($row); $i++) {
@@ -219,58 +293,20 @@ for ($i = 0; $i < count($data); $i++) {
   else{
       echo "No files uploaded.";
   }
-  
-  
-  
-
-//// list files goes here ... just create an object and call getAllFiles function
-//$files = new Files();
-//$row = $files->getFileWithQuesid($QuesId);
-//
-//
-//if (!empty($row)) {
-//    echo '<br />';
-//    //display a table of results
-//    echo '<table align="center" cellspacing = "2" cellpadding = "4" width="75%">';
-//    echo '<tr bgcolor="#87CEEB">
-//          <td><b>Edit</b></td>
-//          <td><b>Delete</b></td>
-//          <td><b>File Name</b></td>
-//          <td><b>File Type</b></td>
-//          </tr>';
-//
-//
-//    $bg = '#eeeeee';
-//
-//    for ($i = 0; $i < count($row); $i++) {
-//        $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
-//
-//        echo '<tr bgcolor="' . $bg . '">
-//             <td><a href="edit_file.php?fid=' . $row[$i]->FileId . '">Edit</a></td>
-//             <td><a href="delete_file.php?fid=' . $row[$i]->FileId . '">Delete</a></td>
-//             <td><a target="_blank" href="view_file.php?fid=' . $row[$i]->FileId . '">' . $row[$i]->FileName . '</a></td>
-//             <td>' . $row[$i]->FileType . '</td>
-//             </tr>';
-//    }
-//    echo '</table>';
-//} else {
-//    echo '<p class="error">' . $q . '</p>';
-//    echo '<p class="error">No files are uploaded yet</p>';
-//    echo '<p class="error">' . mysqli_error($dbc) . '</p>';
-//}
-
-
 // Donwload files END
 
-// ICONS Start
+  // ICONS Start
     echo '<i class="far fa-star" style="display: inline-block; float: right; margin-left: 15px; margin-right: 15px;">Save</i>';
     echo '<i class="far fa-comment" style="display: inline-block; float: right; margin-left: 15px;"></i>';
     echo '<i class="far fa-thumbs-up" style="display: inline-block; float: right; margin-left: 15px;">15</i></p>';
     echo '</div>';
   // ICONS END
-    
+   
+  
     //***************ANSWERS START****************
-   echo '<br><h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> ————— Responses —————</h5><br>';
+   echo '<br><div><h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> ————— Responses —————</h5>'
+    . '<a href="AddAnswer.php?QtId=' . $QuesId . '" class="button-link">Add Answer</a><br></div>
+       <br>';
    
    
     $ans = new AnswerBank();
@@ -281,7 +317,9 @@ $ans_per_page = 3;
   $total_ans = $ans->getTotalPostedAnswersByQuestion($QId);
 //  echo $total_qts;
   if ($total_ans == 0 ){
-      echo ' <h3> No Answers to display </h3>';
+     echo '<div class="no-questions-message">';
+echo '<h3 class="text-center">No Answers to Display</h3>';
+echo '</div>';
   }
 
 // Calculate the total number of pages
@@ -297,26 +335,6 @@ $offset = ($current_page - 1) * $ans_per_page;
   $page = $ans->getAnswersByQuestionAndPage($QtId, $offset, $ans_per_page);
 
   
-//<!-- PAGINATION 1 START -->
-if ($total_ans != 0 ){
-    
-       echo '<div class="pagination-links">
-    <label style="margin-left: 600px; font-weight: bold; font-size: 20px;">Page: </label>';
-    
-    $QId = $_GET['QtId']; // Retrieve the courseId from the URL parameters
-
-    for ($i = 1; $i <= $total_pages; $i++) {
-        if ($i == $current_page) {
-            echo "<span class=\"current\">$i</span> ";
-        } elseif (empty($QId)) {
-            echo "<a href=\"?page=$i\">$i</a> ";
-        }else{
-             echo "<a href=\"?courseId=$QId&page=$i\">$i</a> ";
-        }
-    }
-echo '</div>';
-}
-
 
 foreach ($page as $answer) {
   $Auser = new Users();
@@ -329,13 +347,33 @@ foreach ($page as $answer) {
   echo '<img class="border rounded-circle p-2 mx-auto" src='. $Auser->getUserDp() .' style="width: 50px; height: 50px;">'. $Auser->getFirstName() .' '. $Auser->getLastName() .'</h6>';
 
   echo '<p>'. $answer->getAnsText() .'</p>';
+  
+// Donwload ANSWER files Start
+    $AnsFiles = new Files();
+    $ansId = $answer->getAnsId();
+//    echo $ansId;
+    $userId = $Auser->getUid();
+//    echo $userId;
+    $row = $AnsFiles->getFileWithAnsidAndUserIdAndType($ansId, $userId);
+  echo '<p><h6 style="font-weight: bold; color: #181d38;">Uploaded Files: </h6>';
+  if (!empty($row)) {
+       for ($i = 0; $i < count($row); $i++) {
+  echo '<a target="_blank" href="view_file.php?fid=' . $row[$i]->FileId . '">' . $row[$i]->FileName . '</a><br>';
+       }
+  }
+  else{
+      echo "No files uploaded.";
+  }
+// Donwload ANSWER files END
 
-  // ICONS Start
-  echo '<div class="icon-container">';
-  echo '5<i class="fas fa-thumbs-up"></i>';
-  echo '<i class="fas fa-flag"></i>';
-  echo '<i class="fas fa-star"></i>';
-  echo '</div>';
+// ICONS Start
+echo '<div class="icon-container">';
+echo '' . $answer->getLikes() . '<i class="fas fa-arrow-up like-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: green;"></i>';
+echo '<i class="fas fa-arrow-down dislike-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: red;"></i>';
+echo '</div>';
+// ICONS End
+
+//echo '<div class="q-fixed qu-alignItems--center qu-top--huge qu-left--small qu-right--small qu-display--flex qu-flexDirection--column" style="box-sizing: border-box; position: fixed; z-index: 100000; padding-right: 0px; display: none;">Hello</div>';
 
   echo '</div>';
   echo '</div>';
@@ -343,112 +381,40 @@ foreach ($page as $answer) {
 }
 
 
-
-//
-//
-//    $answer = new AnswerBank();
-// $displayAns = $answer->initWithQid($QuesId);
-//    
-//    $Auser = new Users();
-//    $UserData = $Auser->initWithUid($answer->getUser_UserId());
-//
-//    
-//   echo '<div class="ans-form">';
-//  echo '<div class="FP">';
-//  echo '<div class="FP-header">';
-//  echo '<h6 style="color: lightgray; font-size: 14px;">';
-//  echo '<img class="border rounded-circle p-2 mx-auto" src='. $Auser->getUserDp() .' style="width: 50px; height: 50px;">'. $Auser->getFirstName() .' '. $Auser->getLastName() .'</h6>';
-////
-////  echo '<h6 style="font-family: Arial;">'. $answer->getAnsText() .'</h6>';
-////  
-//  echo '<p>'. $answer->getAnsText() .'</p>';
-//echo '<p><h6 style="font-weight: bold; color: #181d38;">Uploaded Files: </h6>';
-//  // ICONS Start
-//  echo '<div class="icon-container" >';
-//  echo '5<i class="fas fa-thumbs-up"></i>';
-//  echo '<i class="fas fa-flag"></i>';
-//  echo '<i class="fas fa-star"></i></p>';
-//  echo '</div>';
-//
-//  echo '</div>';
-//  echo '</div>';
-//  echo '</div>';
-     //***************ANSWERS START****************
+     //***************ANSWERS END****************
 ?>
-            <!-- QUESTION AREA END -->
-            
-            
-            
-            
-            
- <!-- PAGINATION 1 START -->
-   <?php
-//           echo '<div class="pagination-links">
-//    <label style="margin-left: 600px; font-weight: bold; font-size: 20px;">Page: </label>';
-//    
-//    $courseId = $_GET['courseId']; // Retrieve the courseId from the URL parameters
-//
-//    for ($i = 1; $i <= $total_pages; $i++) {
-//        if ($i == $current_page) {
-//            echo "<span class=\"current\">$i</span> ";
-//        } elseif (empty($courseId)) {
-//            echo "<a href=\"?page=$i\">$i</a> ";
-//        }else{
-//             echo "<a href=\"?courseId=$courseId&page=$i\">$i</a> ";
-//        }
-//    }
-//echo '</div>';
-     ?>
-  <!-- PAGINATION 1 END -->
-
-            
-  
-  
-  
-  
-  
-           <!--hard-coded POST START--> 
-<!--           <div class="left-form">
-        <div class="FP">
-        <div class="FP-header">
-          <h6 style="color: lightgray; font-size: 14px;"><img class="border rounded-circle p-2 mx-auto" src=<?php // echo $user->getUserDp(); ?> style="width: 50px; height: 50px;"><?php // echo " ". $user->getFirstName(). " " . $user->getLastName(); ?>
-    <div class="icon-container">
-          5<i class="fas fa-thumbs-up"></i>
-          <i class="fas fa-flag"></i>
-          <i class="fas fa-star"></i>
-  </div>
-                  </h6>
-        <h6 style="font-family: Arial;">
-            Question 2: What is the name of the project we need to have to do?
-        </h6>
-          <p>A The main idea behind all of this was to make sure that you all know what all is happening....</p>
          
-      </div>
-    </div>
-       </div>-->
-            <!--hard-coded POST START--> 
-          
-        
-          
-        
-           
-       
+           <!-- PAGINATION 1 START -->
+<?php if ($total_ans != 0) {
+    echo '<div class="pagination-links">';
+    echo '<label style="margin-left: 400px; font-weight: bold; font-size: 20px;">Page: </label>';
+
+    for ($i = 1; $i <= $total_pages; $i++) {
+        if ($i == $current_page) {
+            echo "<span class=\"current\">$i</span> ";
+        } elseif (empty($QuesId)) {
+            echo "<a href=\"?page=$i\">$i</a> ";
+        } else {
+            echo "<a href=\"?QtId=$QuesId&page=$i\">$i</a> ";
+        }
+    }
+    echo '</div>';
+}
+            ?>
            
     </div>
     <!-- Main white Div End -->
     
-    
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
+    <div class="container-fluid bg-dark text-light footer" >
+             <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Quick Link</h4>
                     <a class="btn btn-link" href="">About Us</a>
                     <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Privacy Policy</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">FAQs & Help</a>
+                    <a class="btn btn-link" href="">FAQs</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contact</h4>
@@ -485,6 +451,7 @@ foreach ($page as $answer) {
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
@@ -493,29 +460,28 @@ foreach ($page as $answer) {
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                     </div>
                 </div>
-            </div>
-        </div>
+       </div>
+                     </div>
         <div class="container">
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+                        &copy; <a class="border-bottom" href="index.php">PolyCompanion</a>, All Right Reserved.
 
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                        <!--Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>-->
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
-                            <a href="">Home</a>
-                            <a href="">Cookies</a>
-                            <a href="">Help</a>
-                            <a href="">FQAs</a>
+                            <a href="index.php">Home</a>
+                            <a href="FAQ.php">FAQs</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        
+        </div>
     <!-- Footer End -->
 
 

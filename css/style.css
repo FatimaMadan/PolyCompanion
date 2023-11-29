@@ -439,6 +439,15 @@
     border-right: none;
 }
 
+
+/*** Bot Page ***/
+
+.blue-div{
+    width: 25%;
+    height: 200vh;
+    background-color: #181d38;
+    float: left;
+}
 .whitetest-div{
     padding-left: 20px;
     padding-top: 10px;
@@ -467,10 +476,11 @@ th, td {
     color: #4CAF50;
   }
   .color-main {
-       color: #00CED1;
+       color: #181d38;
        text-align: center;
   }
   .course-list{
+      color: #06BBCC;
       text-align: center;
   }
   
@@ -521,8 +531,8 @@ th, td {
 }
     
 .search-container {
-    width: 700px;
-    height: 7vh;
+    width: 780px;
+    height: 8vh;
     border: none;
     border-radius: 40px;
     padding: 5px;
@@ -556,7 +566,7 @@ th, td {
 /*  border-left: 4px solid #00CED1;
   border-right: 4px solid #00CED1;*/
   position: relative;
-  border: 4px solid #00CED1;
+  border: 4px solid #181d38;
   margin-bottom: 30px;
   width: 700px;
   height: 35vh;
@@ -569,7 +579,7 @@ th, td {
 /*  border-left: 4px solid #00CED1;
   border-right: 4px solid #00CED1;*/
   position: relative;
-  border-left: 2px solid #00CED1;
+  border-left: 2px solid #181d38;
   margin-bottom: 30px;
   margin-left: 30px;
   width: 800px;
@@ -646,3 +656,66 @@ th, td {
   padding: 7px;
 }
 
+.no-questions-message {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.no-questions-message h3 {
+  color: #a52834;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.headings_dashed {
+  font-weight: bold;
+  color: #181d38; 
+  margin-bottom: 30px;
+  margin-top: 30px;
+  text-align: center
+  }
+.button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  border: 2px solid white;
+  background-color: #06BBCC;
+  color: white;
+  float: right;
+}
+
+.pagination-links {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.pagination-links a,
+.pagination-links span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #333;
+}
+
+.pagination-links a:hover {
+  background-color: #06BBCC;
+  color: white;
+  border-color: #06BBCC;
+}
+
+.pagination-links .current {
+  background-color: #06BBCC;
+  color: white;
+  border-color: #06BBCC;
+}

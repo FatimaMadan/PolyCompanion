@@ -102,6 +102,14 @@ class QuestionBank {
             $this->User_UserId = $User_UserId;
             
         }
+        
+        
+       function getCountUserQuestions($id){
+            $db = Database::getInstance();
+       $result= $db->singleFetch("SELECT COUNT(*) AS total FROM Questions where User_UserId =" . $id );
+       
+        return $result->total;
+        }
     
   function getMaxQuestionId() {
     $db = Database::getInstance();
@@ -356,4 +364,26 @@ public function getTotalPostedQuestionsByUser($uid) {
     return $result->total;
 }
    
+
+
+
+public function getQuestionsByUser($uid) {
+    $db = Database::getInstance();
+    $query = "SELECT * FROM Questions where User_UserId = " . $uid;
+
+        $query .= " ORDER BY Time DESC";
+
+//    echo "SQL Statement: " . $query . "<br>"; // Echo the SQL statement
+
+    $results = $db->multiFetch($query);
+
+    $qts = array();
+    foreach ($results as $result) {
+        $qt = new QuestionBank();
+        $qt->initWithArray($result);
+        $qts[] = $qt;
+    }
+
+    return $qts;
+}
 }
