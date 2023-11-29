@@ -248,7 +248,11 @@ class CourseBank {
       return $data;
     } 
     
-    
+    public static function getCoursesByMajor($major_id){
+        $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\'');
+      return $data;
+    }
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
 //       $this->CourseId = $CourseId;
 //       $this->CourseCode = $CourseCode;
