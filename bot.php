@@ -3,6 +3,7 @@ ob_start();
 include 'debugging.php';
 include 'header.php';
 
+
 // if (empty($_SESSION['uid'])) {
 //     // User is not logged in, redirect to login page
 //     echo $_SESSION['username'];
@@ -35,28 +36,78 @@ include 'header.php';
             </div>
         </div>
 
+        <div id="conversation-container"></div>
         <div id="response-container"></div>
+        
         
     </div>
 </div>
 
 <script>
-    function sendMessage(action) {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        var response = xhr.responseText;
-        document.getElementById('response-container').innerHTML = response;
-      } else {
-        console.error('Request failed. Status:', xhr.status);
-      }
-    }
-  };
+    
+    var conversation = '';
 
-  xhr.open('GET', 'botBackend.php?action=' + action, true);
-  xhr.send();
+    function updateConversation(message) {
+        conversation += '<div>' + message + '</div>';
+        document.getElementById('response-container').innerHTML = conversation;
+    }
+    
+    function sendMessage(action, data = '') {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                document.getElementById('response-container').innerHTML = response;
+                
+                updateConversation('<div class="bot-message">' + response + '</div>');
+            } else {
+                console.error('Request failed. Status:', xhr.status);
+            }
+        }
+    };
+
+    xhr.open('GET', 'botBackend.php?action=' + action + data, true);
+    xhr.send();
 }
+
+function ContConvo(action, Id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                document.getElementById('response-container').innerHTML = response;
+                updateConversation('<div class="bot-message">' + response + '</div>');
+            } else {
+                console.error('Request failed. Status:', xhr.status);
+            }
+        }
+    };
+
+    xhr.open('GET', 'botBackend.php?action=' + action + '&Id=' + Id, true);
+    xhr.send();
+}
+
+//function showAnswer(quesId) {
+//  var xhr = new XMLHttpRequest();
+//  xhr.onreadystatechange = function() {
+//    if (xhr.readyState === XMLHttpRequest.DONE) {
+//      if (xhr.status === 200) {
+//        var response = xhr.responseText;
+//        document.getElementById('response-container').innerHTML = response;
+//        updateConversation('<div class="bot-message">' + response + '</div>');
+//      } else {
+//        console.error('Request failed. Status:', xhr.status);
+//      }
+//    }
+//  };
+//
+//  xhr.open('GET', 'botBackend.php?action=showAnswer&quesId=' + quesId, true);
+//  xhr.send();
+//}
+
+
 </script>
 
 <?php
