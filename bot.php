@@ -29,10 +29,10 @@ include 'header.php';
     <div class="chat-container">
 
         <div class="bot-message">
-            Hi there! I'm the chatbot. Please choose one of the options below
+            Hi there! I'm Polybot. How can I help you today?
             <div class="option-buttons">
-                <button class="option-button" onclick="sendMessage('faq')">Show Most Frequently Asked Questions</button>
-                <button class="option-button" onclick="sendMessage('majors')">Show Majors</button>
+                <button class="option-button" onclick="sendMessage('faq')">I want to see the Most Frequently Asked Questions</button>
+                <button class="option-button" onclick="sendMessage('majors')">I have a question about a specific course</button>
             </div>
         </div>
 
@@ -104,6 +104,24 @@ function showCourseCol(action, Id, column){
     };
 
     xhr.open('GET', 'botBackend.php?action=' + action + '&Id=' + Id + '&column=' + column, true);
+    xhr.send();
+}
+
+function showCoursesOnSem(action, Id, year, sem) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                document.getElementById('response-container').innerHTML = response;
+                updateConversation('<div class="bot-message">' + response + '</div>');
+            } else {
+                console.error('Request failed. Status:', xhr.status);
+            }
+        }
+    };
+
+    xhr.open('GET', 'botBackend.php?action=' + action + '&Id=' + Id + '&year=' + year + '&sem=' + sem, true);
     xhr.send();
 }
 //function showAnswer(quesId) {

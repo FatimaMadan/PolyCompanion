@@ -254,6 +254,18 @@ class CourseBank {
       return $data;
     }
     
+    public static function getCoursesByYear($major_id, $year){
+        $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\'');
+      return $data;
+    }
+    
+    public static function getCoursesBySem($major_id, $year, $sem){
+        $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\' AND Semester=  \'' . $sem . '\'');
+      return $data;
+    }
+    
     public static function getCourseCol(){
         $db = Database::getInstance();
       $data = $db->multiFetch("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Course'");
