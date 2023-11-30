@@ -16,14 +16,14 @@ if (isset($_GET['action'])) {
                 <div class="option-buttons">';
 
             for ($i = 0; $i < count($result); $i++) {
-                echo '<button class="option-button" onclick="ContConvo(\'showAnswer\',' . $result[$i]->FaqId . ')"> ' . $result[$i]->FQuestion . '</button>';
+                echo '<button class="option-button" onclick="ContConvo(\'showAnswer\',' . $result[$i]->FaqId . ') , sendMessage(\'help\')"> ' . $result[$i]->FQuestion . '</button>';
                 
             }
 
             echo '</div> 
             </div>';
         } else {
-            echo '<button class="option-button">OPPPs</button>';
+            echo '<button class="option-button">Oppps</button>';
         }
     } elseif ($action === 'showAnswer') {
         // Handle show courses action
@@ -169,7 +169,7 @@ if (isset($_GET['action'])) {
                 <div class="option-buttons">';
 
             for ($i = 0; $i < count($result); $i++) {
-                echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $result[$i]->COLUMN_NAME . '\')">' . $result[$i]->COLUMN_NAME . '</button>';
+                echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $result[$i]->COLUMN_NAME . '\'), sendMessage(\'help\')">' . $result[$i]->COLUMN_NAME . '</button>';
             }
 
             echo '</div> 
@@ -204,6 +204,21 @@ if (isset($_GET['action'])) {
             echo '<button class="option-button">OPPPs, no answer</button>';
         }
     }
+} elseif ($action === 'help') {
+    // Handle show courses action
+            echo '<div class="bot-message">
+                Would you like me to help you with anything else?
+                <div class="option-buttons">';
+            
+            echo '<button class="option-button" onclick=""> Yes </button>';
+            echo '<button class="option-button"> No </button>';
+
+            echo '</div> 
+            </div>';
+
+            echo '<div id="response-container"></div>';
+
+
 }
     else {
         // Invalid action
