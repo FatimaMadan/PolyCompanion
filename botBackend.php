@@ -83,7 +83,7 @@ if (isset($_GET['action'])) {
                     <div class="option-buttons">';
 
                 for ($i = 1; $i <= 4; $i++) {
-                    echo '<button class="option-button" onclick="ContConvo(\'showSem\',' . $majorId . ',' . $i . ')"> Year ' . $i . '</button>';
+                    echo '<button class="option-button" onclick="showCourseCol(\'showSem\',' . $majorId . ',' . $i . ')"> Year ' . $i . '</button>';
                 }
 
                 echo '</div> 
@@ -107,8 +107,8 @@ if (isset($_GET['action'])) {
                     In which semester?
                     <div class="option-buttons">';
 
-                    echo '<button class="option-button" onclick="showCoursesOnSem(\'showCourses\',' . $majorId . ', ' . $year .' \'A\')"> Semester A </button>';
-                    echo '<button class="option-button"> Semester B </button>';
+                    echo '<button class="option-button" onclick="showCoursesOnSem(\'showCourses\',' . $majorId . ', ' . $year .' ,\'A\')"> Semester A </button>';
+                    echo '<button class="option-button" onclick="showCoursesOnSem(\'showCourses\',' . $majorId . ', ' . $year .' ,\'B\')"> Semester B </button>';
                     
                 echo '</div> 
                 </div>';
@@ -127,12 +127,12 @@ if (isset($_GET['action'])) {
 
             if (isset($_GET['year']))
             {
-                $year = $GET['year'];
+                $year = $_GET['year'];
                 $result = CourseBank::getCoursesByYear($majorId, $year);
                 
                 if (isset($_GET['sem']))
                 {
-                    $sem = $GET['sem'];
+                    $sem = $_GET['sem'];
                     $result = CourseBank::getCoursesBySem($majorId, $year, $sem);
                 }
             }
@@ -165,7 +165,7 @@ if (isset($_GET['action'])) {
 
         if (!empty($result)) {
             echo '<div class="bot-message">
-                What would you like to know about this course?:
+                What would you like to know about this course?
                 <div class="option-buttons">';
 
             for ($i = 0; $i < count($result); $i++) {

@@ -261,9 +261,12 @@ class CourseBank {
     }
     
     public static function getCoursesBySem($major_id, $year, $sem){
-        $db = Database::getInstance();
-      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\' AND Semester=  \'' . $sem . '\'');
-      return $data;
+
+     $db = Database::getInstance();
+    $query = 'Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\' AND Semester=  \'' . $sem . '\'';
+    $data = $db->multiFetch($query);
+    
+    return $data;
     }
     
     public static function getCourseCol(){
