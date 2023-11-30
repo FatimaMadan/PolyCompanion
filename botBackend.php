@@ -57,7 +57,7 @@ if (isset($_GET['action'])) {
                     <div class="option-buttons">';
 
                 for ($i = 0; $i < count($result); $i++) {
-                    echo '<button class="option-button" onclick="sendMessage(\'show\')">' . $result[$i]->CourseTitle . '</button>';
+                    echo '<button class="option-button" onclick="ContConvo(\'showeCol\',' . $result[$i]->CourseId . ')">' . $result[$i]->CourseTitle . '</button>';
                 }
 
                 echo '</div> 
@@ -69,7 +69,54 @@ if (isset($_GET['action'])) {
                 echo '<button class="option-button">OPPPs</button>';
             }
         }
-    } elseif ($action === 'showAnswer') {
+    } elseif ($action === 'showeCol') {
+    // Handle show courses action
+    if (isset($_GET['Id'])) {
+        $courseId = $_GET['Id'];
+        $result = CourseBank::getCourseCol();
+
+        if (!empty($result)) {
+            echo '<div class="bot-message">
+                What would you like to know about this course?:
+                <div class="option-buttons">';
+
+            for ($i = 0; $i < count($result); $i++) {
+                echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $result[$i]->COLUMN_NAME . '\')">' . $result[$i]->COLUMN_NAME . '</button>';
+            }
+
+            echo '</div> 
+            </div>';
+
+            echo '<div id="response-container"></div>';
+
+        } else {
+            echo '<button class="option-button">OPPPs</button>';
+        }
+    }
+}elseif ($action === 'colAns') {
+    // Handle show courses action
+    if (isset($_GET['Id'])) {
+        $courseId = $_GET['Id'];
+        $colName = $_GET['column'];
+        $result = CourseBank::getColAns($courseId, $colName);
+
+        if (!empty($result)) {
+            echo '<div class="bot-message">
+                This is the answer:
+                <div class="option-buttons">';
+            
+            echo '<button class="option-button">' . $result->$colName . '</button>';
+
+            echo '</div> 
+            </div>';
+
+            echo '<div id="response-container"></div>';
+
+        } else {
+            echo '<button class="option-button">OPPPs, no answer</button>';
+        }
+    }
+}elseif ($action === 'showAnswer') {
         // Handle show courses action
         if (isset($_GET['Id'])) {
             $quesId = $_GET['Id'];

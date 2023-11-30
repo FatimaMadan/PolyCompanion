@@ -17,7 +17,7 @@ class CourseBank {
         private $total_hours;
         private $recommended_book_resources;
         private $TeachingStrategies;
-
+        private $COLUMN_NAME;
 
 
 
@@ -253,6 +253,20 @@ class CourseBank {
       $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\'');
       return $data;
     }
+    
+    public static function getCourseCol(){
+        $db = Database::getInstance();
+      $data = $db->multiFetch("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Course'");
+      return $data;
+    }
+    
+    public static function getColAns($courseId, $colName){
+    $db = Database::getInstance();
+    $query = 'SELECT ' . $colName . ' FROM Course WHERE CourseId = \'' . $courseId . '\'';
+    $data = $db->singleFetch($query);
+    return $data;
+}
+    
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
 //       $this->CourseId = $CourseId;
 //       $this->CourseCode = $CourseCode;

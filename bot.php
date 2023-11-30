@@ -89,6 +89,23 @@ function ContConvo(action, Id) {
     xhr.send();
 }
 
+function showCourseCol(action, Id, column){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                document.getElementById('response-container').innerHTML = response;
+                updateConversation('<div class="bot-message">' + response + '</div>');
+            } else {
+                console.error('Request failed. Status:', xhr.status);
+            }
+        }
+    };
+
+    xhr.open('GET', 'botBackend.php?action=' + action + '&Id=' + Id + '&column=' + column, true);
+    xhr.send();
+}
 //function showAnswer(quesId) {
 //  var xhr = new XMLHttpRequest();
 //  xhr.onreadystatechange = function() {
