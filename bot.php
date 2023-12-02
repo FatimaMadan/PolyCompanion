@@ -12,6 +12,19 @@ include 'header.php';
 // }
 ?>
 
+<script>
+        // Get the current page URL
+        var url = window.location.href;
+
+        // Check each menu item's URL against the current page URL
+        var menuItems = document.querySelectorAll('.nav-item.nav-link');
+        menuItems.forEach(function(item) {
+            if (item.href === url) {
+                item.classList.add('active'); // Add the 'active' class to the matching menu item
+            }
+        });
+</script><!-- comment -->
+
 <div class="blue-div">
     <div class="robot-container">
         <i class="fas fa-robot robot-icon"></i>
