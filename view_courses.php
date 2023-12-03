@@ -57,6 +57,19 @@ function getSelectedOption() {
 </script>
 
 <script>
+        // Get the current page URL
+        var url = window.location.href;
+
+        // Check each menu item's URL against the current page URL
+        var menuItems = document.querySelectorAll('.nav-item.nav-link');
+        menuItems.forEach(function(item) {
+            if (item.href === url) {
+                item.classList.add('active'); // Add the 'active' class to the matching menu item
+            }
+        });
+    </script>
+
+<script>
     var selectedFilter = "All Majors"; // Variable to store selected filter option
 
     function selectOption(option) {
