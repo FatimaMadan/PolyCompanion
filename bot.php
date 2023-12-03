@@ -25,7 +25,7 @@ include 'header.php';
         });
 </script><!-- comment -->
 
-<div class="blue-div">
+<!--<div class="blue-div">
     <div class="robot-container">
         <i class="fas fa-robot robot-icon"></i>
         <div class="robot-info" id="robot-info">
@@ -35,25 +35,39 @@ include 'header.php';
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 
-<div class="white-div">
+<div class="container">
     <div class="chat-container">
 
-        <div class="bot-message">
-            Hi there! I'm Polybot. How can I help you today?
-            <div class="option-buttons">
-                <button class="option-button" onclick="sendMessage('faq')">I want to see the Most Frequently Asked Questions</button>
-                <button class="option-button" onclick="sendMessage('majors')">I have a question about a specific course</button>
+    <div class="bot-message">
+        <div class="message-content">
+            <img src="robot-picture.jpg" alt="Robot Picture" class="message-picture">
+            <div class="message-text">
+                Hi there! I'm Polybot, your dearest friend in your college journey.
+                <br>I'm here to assist you and provide answers to your questions. Feel free to ask at any time!
             </div>
         </div>
-
-        <div id="conversation-container"></div>
-        <div id="response-container"></div>
-        
-        
     </div>
+
+    <div class="bot-message">
+        <div class="message-content">
+            <img src="user-picture.jpg" alt="User Picture" class="message-picture">
+            <div class="message-text">
+                How can I help you today?
+                <div class="option-buttons">
+                    <button class="option-button" onclick="sendMessage('faq')">I want to see the Most Frequently Asked Questions</button>
+                    <button class="option-button" onclick="sendMessage('majors')">I have a question about a specific course</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="conversation-container"></div>
+    <div id="response-container"></div>
+    
+</div>
 </div>
 
 <script>
@@ -137,24 +151,6 @@ function showCoursesOnSem(action, Id, year, sem) {
     xhr.open('GET', 'botBackend.php?action=' + action + '&Id=' + Id + '&year=' + year + '&sem=' + sem, true);
     xhr.send();
 }
-//function showAnswer(quesId) {
-//  var xhr = new XMLHttpRequest();
-//  xhr.onreadystatechange = function() {
-//    if (xhr.readyState === XMLHttpRequest.DONE) {
-//      if (xhr.status === 200) {
-//        var response = xhr.responseText;
-//        document.getElementById('response-container').innerHTML = response;
-//        updateConversation('<div class="bot-message">' + response + '</div>');
-//      } else {
-//        console.error('Request failed. Status:', xhr.status);
-//      }
-//    }
-//  };
-//
-//  xhr.open('GET', 'botBackend.php?action=showAnswer&quesId=' + quesId, true);
-//  xhr.send();
-//}
-
 
 </script>
 
