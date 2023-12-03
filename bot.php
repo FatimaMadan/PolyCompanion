@@ -12,6 +12,16 @@ include 'header.php';
 // }
 ?>
 
+<style>
+    .message-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+    
+</style>
+
 <script>
         // Get the current page URL
         var url = window.location.href;
@@ -25,43 +35,22 @@ include 'header.php';
         });
 </script><!-- comment -->
 
-<!--<div class="blue-div">
-    <div class="robot-container">
-        <i class="fas fa-robot robot-icon"></i>
-        <div class="robot-info" id="robot-info">
-            <h3 style="color: white;">About the Chatbot</h3>
-            <div class="center-justify">
-                <p>This bot is here to assist you and provide answers to your questions. Feel free to ask anything!</p>
-            </div>
-        </div>
-    </div>
-</div>-->
-
 
 <div class="container">
     <div class="chat-container">
 
     <div class="bot-message">
-        <div class="message-content">
             <img src="robot-picture.jpg" alt="Robot Picture" class="message-picture">
-            <div class="message-text">
                 Hi there! I'm Polybot, your dearest friend in your college journey.
                 <br>I'm here to assist you and provide answers to your questions. Feel free to ask at any time!
-            </div>
-        </div>
     </div>
 
     <div class="bot-message">
-        <div class="message-content">
-            <img src="user-picture.jpg" alt="User Picture" class="message-picture">
-            <div class="message-text">
-                How can I help you today?
+            <img src="img/robot.jpg" alt="User Picture" class="message-picture">
                 <div class="option-buttons">
                     <button class="option-button" onclick="sendMessage('faq')">I want to see the Most Frequently Asked Questions</button>
                     <button class="option-button" onclick="sendMessage('majors')">I have a question about a specific course</button>
                 </div>
-            </div>
-        </div>
     </div>
     
     <div id="conversation-container"></div>
