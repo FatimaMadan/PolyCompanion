@@ -1,3 +1,14 @@
+<style>
+    
+    .user-chat {
+  background-color: var(--light);
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+    </style>
+
 <?php
 
 include 'debugging.php';
@@ -8,15 +19,20 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
     if ($action === 'faq') {
+        // Echo user message
+            echo '<div class="user-chat">I want to see the Most Frequently Asked Questions</div>';
+    
         // Handle show FAQ action
         $result = FaqBank::getAllFaqs();
         if (!empty($result)) {
+            
+             
             echo '<div class="bot-message">
                 Select a question you would like to know the answer to.
                 <div class="option-buttons">';
 
             for ($i = 0; $i < count($result); $i++) {
-                echo '<button class="option-button" onclick="ContConvo(\'showAnswer\',' . $result[$i]->FaqId . ') , sendMessage(\'help\')"> ' . $result[$i]->FQuestion . '</button>';
+                echo '<button class="option-button" onclick="ContConvo(\'showAnswer\',' . $result[$i]->FaqId . ')"> ' . $result[$i]->FQuestion . '</button>';
                 
             }
 
@@ -26,11 +42,15 @@ if (isset($_GET['action'])) {
             echo '<button class="option-button">Oppps</button>';
         }
     } elseif ($action === 'showAnswer') {
+          
         // Handle show courses action
         if (isset($_GET['Id'])) {
             $quesId = $_GET['Id'];
             $result = FaqBank::getAns($quesId);
-
+            
+            // Echo user message
+            echo '<div class="user-chat">'.  $result->FQuestion .'</div>';
+          
             if (!empty($result)) {
                 echo '<div class="bot-message">
                     Answering your question:
@@ -44,12 +64,18 @@ if (isset($_GET['action'])) {
                 </div>';
 
                 echo '<div id="response-container"></div>';
-
+                // Make an HTTP request to trigger the sendMessage function on the client-side
+            echo '<script>sendMessage(\'help\');</script>';
+            
             } else {
                 echo '<button class="option-button">OPPPs</button>';
             }
         }
+            
     } elseif ($action === 'majors') {
+        // Echo user message
+            echo '<div class="user-chat">I have a question about a specific course</div>';
+         
     // Handle show majors action
     $result = MajorBank::getAllMaj();
     if (!empty($result)) {
