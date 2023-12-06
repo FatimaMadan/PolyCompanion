@@ -1,14 +1,3 @@
-<style>
-    
-    .user-chat {
-  background-color: var(--light);
-  color: var(--primary);
-  border-radius: 8px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
-}
-    </style>
-
 <?php
 
 include 'debugging.php';
@@ -20,8 +9,8 @@ if (isset($_GET['action'])) {
 
     if ($action === 'faq') {
         // Echo user message
-            echo '<div class="user-chat">I want to see the Most Frequently Asked Questions</div>';
-    
+            echo '<div class="user-message">I want to see the Most Frequently Asked Questions</div>';
+            
         // Handle show FAQ action
         $result = FaqBank::getAllFaqs();
         if (!empty($result)) {
@@ -49,7 +38,7 @@ if (isset($_GET['action'])) {
             $result = FaqBank::getAns($quesId);
             
             // Echo user message
-            echo '<div class="user-chat">'.  $result->FQuestion .'</div>';
+            echo '<div class="user-message">'.  $result->FQuestion .'</div>';
           
             if (!empty($result)) {
                 echo '<div class="bot-message">
@@ -74,7 +63,7 @@ if (isset($_GET['action'])) {
             
     } elseif ($action === 'majors') {
         // Echo user message
-            echo '<div class="user-chat">I have a question about a specific course</div>';
+            echo '<div class="user-message">I have a question about a specific course</div>';
          
     // Handle show majors action
     $result = MajorBank::getAllMaj();

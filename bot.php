@@ -42,18 +42,18 @@ include 'header.php';
         </div>
     </div>
     <!-- Header End -->
+<!--    <img src="img/robot.jpg" alt="User Picture" class="message-picture"> comment -->
     
 <div class="container-xxl py-5">
     <div class="container">
         <div class="chat-container">
             <div class="bot-message">
-                <img src="robot-picture.jpg" alt="Robot Picture" class="message-picture">
                 Hi there! I'm Polybot, your dearest friend in your college journey.
                 <br>I'm here to assist you and provide answers to your questions. Feel free to ask at any time!
             </div>
 
             <div class="bot-message">
-                <img src="img/robot.jpg" alt="User Picture" class="message-picture">
+                How can I help you today?
                 <div class="option-buttons">
                     <button class="option-button" onclick="sendMessage('faq')">I want to see the Most Frequently Asked Questions</button>
                     <button class="option-button" onclick="sendMessage('majors')">I have a question about a specific course</button>

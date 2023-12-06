@@ -9,20 +9,29 @@ body {
   font-family: var(--font-family);
 }
 
-.user-chat {
-  background-color: var(--primary);
-  color: white;
+.user-message {
+  background-color: var(--light);
+  color: var(--primary);
   border-radius: 8px;
   padding: 8px 12px;
   margin-bottom: 10px;
+  margin-left: auto;
+  max-width: 30%;
+  word-wrap: break-word;
+  text-align: right;
 }
 
+
 .bot-message {
-  background-color: white;
+  background-color: #f5f5f5;
   color: #333333;
   border-radius: 8px;
   padding: 8px 12px;
   margin-bottom: 10px;
+  display: inline-block;
+  max-width: 80%; /* Adjust the maximum width as needed */
+  word-wrap: break-word; /* Enable wrapping of long words */
+  text-align: left; 
 }
 
 .option-button {
@@ -63,12 +72,6 @@ body {
   text-align: center;
 }
 
-.white-div {
-  width: 70%;
-  height: 100vh;
-  background-color: white;
-  float: left;
-}
 
 .chat-container {
   display: flex;
@@ -96,11 +99,11 @@ body {
 }
 
 #conversation-container {
-  align-self: flex-start;
-  margin-right: 20px;
-}
+    width: 100%;
+}/*
 
-#response-container {
+*/#response-container {
+  width: 100%;
   align-self: flex-end;
   margin-left: 20px;
 }
