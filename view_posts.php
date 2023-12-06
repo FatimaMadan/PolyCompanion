@@ -59,11 +59,17 @@ $conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
     die('Connection failed: ' . $conn->connect_error);
   }
   
+  if ($_SESSION['roleId'] != 1){
   // Prepare and execute a query to check if the post is saved
   $stmt = $conn->prepare('SELECT COUNT(*) FROM Flag WHERE QuestionId = ? AND UserId = ?');
   $stmt->bind_param('ii', $questionId, $userId);
   $stmt->execute();
-
+  }elseif($_SESSION['roleId'] == 1){
+      // Prepare and execute a query to check if the post is saved
+  $stmt = $conn->prepare('SELECT COUNT(*) FROM Flag WHERE QuestionId = ?');
+  $stmt->bind_param('i', $questionId);
+  $stmt->execute();
+  }
   // Fetch the result
   $stmt->bind_result($count);
   $stmt->fetch();

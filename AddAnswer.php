@@ -72,7 +72,7 @@ if (isset($_POST['save'])) {
         $newAns->setUser_UserId($_SESSION['uid']);
         
    if ($newAns->addAnswer()){
-           echo "ANSWER ADDED";
+            header("Location: view_posts.php?QtId=" . $QuesId);
 exit();
         }else{
          echo 'Error Adding Answer';

@@ -7,7 +7,7 @@ include "AnswerBank.php";
 include "SavedPosts.php";
 include "Users.php";
 
-if (empty($_SESSION['uid'])) {
+if (empty($_SESSION['uid']) || $_SESSION['roleId'] != 1) {
     // User is not logged in, redirect to login page
     echo $_SESSION['username'];
     header("Location: Login.php");
@@ -83,6 +83,12 @@ if (isset($_POST['save'])){
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"><!-- comment -->
+    
+    
+    
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -116,6 +122,22 @@ if (isset($_POST['save'])){
       const subcategory = event.target.nextElementSibling;
       subcategory.classList.toggle('visible');
     }
+    
+    function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  function savePhoto() {
+    // Implement your logic to save the photo here
+    closeModal();
+  }
+  
   
 </script>
 </head>
@@ -221,12 +243,29 @@ echo '</div>
 <div class="text-center border-end">
      <?php $uuser = new Users();
   $UserData = $uuser->initWithUid($_SESSION['uid']);
-   echo '<img class="img-fluid avatar-xxl rounded-circle" src='. $uuser->getUserDp().'>
-<form method="POST" enctype="multipart/form-data" >
-<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
-  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
-</form>
+  ?>
+<div class="image-container" onclick="openModal()">
+  <img class="img-fluid avatar-xxl rounded-circle" src="<?php echo $uuser->getUserDp(); ?>" alt="User Avatar">
 </div>
+
+<!-- Modal Dialog -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>Choose a Photo</h3>
+    <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <input class="file-input" type="file" name="imageFile" onchange="previewImage(event)">
+      <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button>
+    </form>
+  </div>
+</div>
+
+<?php
+//<form method="POST" enctype="multipart/form-data" >
+//<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
+//  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
+//</form>
+echo '</div>
 </div>
 <div class="col-md-9">
 <div class="ms-3">
@@ -279,7 +318,7 @@ if (!empty($data)) {
                 </tr>
             </thead>
             <tbody>';
-for ($i = 0; $i < 5; $i++) {
+for ($i = 0; $i < 4; $i++) {
     $allUser->initWithUid($data[$i]->UserId);
   
     echo '<tr>';?>
@@ -323,7 +362,7 @@ if (!empty($data)) {
             <thead>
             </thead>
             <tbody>';
-for ($i = 0; $i < 15; $i++) {
+for ($i = 0; $i < 8; $i++) {
   
     if($data[$i]->Action == "Logged in"){
     echo '<tr>
@@ -331,7 +370,7 @@ for ($i = 0; $i < 15; $i++) {
     </tr>';}
     elseif($data[$i]->Action == "Logged out"){
     echo '<tr>
-            <td>' .$data[$i]->UserName. ' ' .$data[$i]->Action. ' at ' .$data[$i]->Time. ' </td>
+            <td style="color: #181d38;">' .$data[$i]->UserName. ' ' .$data[$i]->Action. ' at ' .$data[$i]->Time. ' </td>
     </tr>';}
 }
 
@@ -345,7 +384,47 @@ echo '</tbody>
             echo '<p>Sorry no users were found in the database</p>';
         }
   ?>
-    
+      
+      <?php
+$allActivityLogs = new ActivityBank();
+$data = $allActivityLogs->getAllActivityLogs();
+
+if (!empty($data)) {
+    echo '<link rel="stylesheet" href="css/style.css">';
+    echo '<br />';
+    echo '<div style="margin-left: 0px; width: 90%; margin-top: 15px; border: 2px solid black;">
+     <h4>User Activity
+      <a href="DisplayActivity.php" style="float: right; margin-bottom: 10px; margin-right: 10px; font-size: 16px;">View All</a></h4>
+        <table class="my-table">
+            <thead>
+            </thead>
+            <tbody>';
+for ($i = 0; $i < 8; $i++) {
+    if (strpos($data[$i]->ActivityText, 'added') === 0) {
+    // The ActivityText starts with 'added'
+    echo '<tr>
+            <td style="color: #50C878 ;">' .$data[$i]->UserName. ' ' .$data[$i]->ActivityText. ' at ' .$data[$i]->Time. ' </td>
+    </tr>';}
+    elseif(strpos($data[$i]->ActivityText, 'deleted') === 0){
+    echo '<tr>
+            <td style="color: #DE3163;">' .$data[$i]->UserName. ' ' .$data[$i]->ActivityText. ' at ' .$data[$i]->Time. ' </td>
+    </tr>';}
+    elseif(strpos($data[$i]->ActivityText, 'edited') === 0){
+    echo '<tr>
+            <td style="color: #06BBCC;">' .$data[$i]->UserName. ' ' .$data[$i]->ActivityText. ' at ' .$data[$i]->Time. ' </td>
+    </tr>';}
+}
+echo '</tbody>
+      </table>
+    </div>'
+;}
+        else {
+             echo '<br />';
+            echo '<p>Sorry no user activity is found in the database</p>';
+        }
+  ?>
+      
+</div>
 </div>
 </div>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

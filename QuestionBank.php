@@ -157,7 +157,7 @@ class QuestionBank {
           // echo 'Executing SQL: ' . $sql;
             
             $data = $db->querySQL($sql);
-            
+          $this->addActivity();
             return true;
         } catch (Exception $e) {
             echo 'Exception: ' . $e;
@@ -167,7 +167,13 @@ class QuestionBank {
         return false;
     }
 }
-    
+function addActivity(){
+              $db = Database::getInstance();
+         $sql = "INSERT INTO ActivityLog (ActivityId, UserName, ActivityText) VALUES (NULL, '" . $_SESSION['username'] . "', 'added a question')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
+        }
+
       public function isValid() 
         {
             

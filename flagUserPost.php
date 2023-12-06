@@ -56,7 +56,9 @@ if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
         $existingUserIds[] = $row['UserId'];
     }
-
+    
+//    if NOT admin which has userId = 4
+if($userId != 4)
     if (in_array($userId, $existingUserIds)) {
         //The logged-in userId exists in SavedPosts for the given questionId
         $query2 = "Delete From Flag where QuestionId= $questionId and UserId = $userId";

@@ -70,7 +70,11 @@
                     <div class="dropdown-menu fade-down m-0">
                         <a href="Profile.php" class="dropdown-item">View Profile</a>
                         <a href="ResetPassword.php" class="dropdown-item">Change Password</a>
-                        <a href="AdminDashboard.php" class="dropdown-item">Admin Dashboard</a>
+                        <?php
+                        if($_SESSION['roleId'] == 1 ){
+                        echo '<a href="AdminDashboard.php" class="dropdown-item">Admin Dashboard</a>';
+                        }
+                        ?>
                         <a href="Logout.php" class="dropdown-item">Logout</a>
                     </div>
                 </div>

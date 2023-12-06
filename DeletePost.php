@@ -23,6 +23,8 @@ $questionId = $_POST['questionId'];
   $result = mysqli_query($conn, $query4);
    $query2 = "Delete FROM Questions WHERE QuestionId = $questionId";
   $result = mysqli_query($conn, $query2);
+  $query5 = "INSERT INTO ActivityLog (ActivityId, UserName, ActivityText) VALUES (NULL, '" . $_SESSION['username'] . "', 'deleted a question')";
+  $result = mysqli_query($conn, $query5);
  
         echo json_encode(['success' => true]);
         

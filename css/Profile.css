@@ -192,3 +192,61 @@ background:#f7f8fa
     margin-left: 7px;
     margin-top: 10px;
   }
+.modal {
+    display: none;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 500px; /* Optional: Set a maximum width for the modal */
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+}
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close:hover {
+    color: #000;
+  }
+ .image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-container::after {
+  content: "\f03e"; /* Unicode for the Font Awesome icon "far fa-comment" */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  font-size: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* Change the color as desired */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-container:hover::after {
+  opacity: 1;
+}
+
+.image-container:hover img {
+  filter: brightness(50%); /* Adjust the brightness value as desired */
+}
+
+.avatar-xxl {
+  width: 100px; /* Adjust the width as desired */
+  height: 100px; /* Adjust the height as desired */
+}

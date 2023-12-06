@@ -79,6 +79,16 @@ if (isset($_POST['save'])){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"><!-- comment -->
+    
+    
+    
+    
+    
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -123,7 +133,21 @@ if (isset($_POST['save'])){
     document.getElementById("saved-posts-button").classList.add("active");
   }
   
-  // Display My Posts content by default
+  function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  function savePhoto() {
+    // Implement your logic to save the photo here
+    closeModal();
+  }
+  
   displayMyPosts();
 </script>
 </head>
@@ -201,12 +225,38 @@ if (isset($_POST['save'])){
 <div class="text-center border-end">
      <?php $uuser = new Users();
   $UserData = $uuser->initWithUid($_SESSION['uid']);
-   echo '<img class="img-fluid avatar-xxl rounded-circle" src='. $uuser->getUserDp().'>
-<form method="POST" enctype="multipart/form-data" >
-<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
-  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
-</form>
+//   echo '<img class="img-fluid avatar-xxl rounded-circle" src='. $uuser->getUserDp().'>
+//    echo '<div class="image-container" onmouseover="showFileInput(this)" onmouseout="hideFileInput(this)">';
+//        ?>
+  <!--<img class="img-fluid avatar-xxl rounded-circle" src="<?php // echo $uuser->getUserDp(); ?>" alt="User Avatar">-->
+  <?php 
+//  echo '<input class="file-input" type="file" name="imageFile" onchange="previewImage(event) style="display: none;">
+//</div>';
+//  ?>
+  
+
+<div class="image-container" onclick="openModal()">
+  <img class="img-fluid avatar-xxl rounded-circle" src="<?php echo $uuser->getUserDp(); ?>" alt="User Avatar">
 </div>
+
+<!-- Modal Dialog -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>Choose a Photo</h3>
+    <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <input class="file-input" type="file" name="imageFile" onchange="previewImage(event)">
+      <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button>
+    </form>
+  </div>
+</div>
+
+<?php
+//<form method="POST" enctype="multipart/form-data" >
+//<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
+//  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
+//</form>
+echo '</div>
 </div>
 <div class="col-md-9">
 <div class="ms-3">
@@ -242,8 +292,8 @@ if (isset($_POST['save'])){
 </div>
 </div>
     </div>
-    <!--<h5 style="font-weight: bold; color: #06BBCC; margin-bottom: 30px; margin-top: 30px;  margin-left: 200px; "> —————————— My Posts ——————————</h5>-->
-
+   
+    
     <?php
 //******MY POSTS START
 //
