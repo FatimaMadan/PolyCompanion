@@ -93,13 +93,14 @@ function sendMessage(action, data = '') {
     xhr.send();
 }
 
-function ContConvo(action, Id) {
+function ContConvoCallBack(action, Id, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var response = xhr.responseText;
                 updateConversation(response);
+                callback(); // Invoke the callback function after ContConvo completes
             } else {
                 console.error('Request failed. Status:', xhr.status);
             }
@@ -110,13 +111,32 @@ function ContConvo(action, Id) {
     xhr.send();
 }
 
-function showCourseCol(action, Id, column) {
+function ContConvo(action, Id) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var response = xhr.responseText;
                 updateConversation(response);
+                callback(); // Invoke the callback function after ContConvo completes
+            } else {
+                console.error('Request failed. Status:', xhr.status);
+            }
+        }
+    };
+
+    xhr.open('GET', 'botBackend.php?action=' + action + '&Id=' + Id, true);
+    xhr.send();
+}
+
+function showCourseCol(action, Id, column, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                updateConversation(response);
+                callback();
             } else {
                 console.error('Request failed. Status:', xhr.status);
             }

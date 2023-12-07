@@ -281,6 +281,14 @@ class CourseBank {
     $data = $db->singleFetch($query);
     return $data;
 }
+
+    public static function getCourseName($course_id){
+
+     $db = Database::getInstance();
+    $query = 'Select * from Course WHERE CourseId = \'' . $course_id . '\'';
+    $data = $db->singleFetch($query);
+    return $data;
+    }
     
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
 //       $this->CourseId = $CourseId;
