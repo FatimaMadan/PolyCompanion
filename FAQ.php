@@ -78,7 +78,7 @@ function toggleAll() {
     }
 }
 
-//*****************************************************************************************************************
+//*******************************************************************
 
 
   function showDeleteConfirmation(faqId) {
@@ -91,21 +91,6 @@ function toggleAll() {
     document.getElementById("blur-background").style.display = "none";
     document.getElementById("delete-confirmation").style.display = "none";
   }
-
-//  function handleDeleteConfirmation() {
-//    // You can add further logic here to handle the delete confirmation
-//    var faqId = document.getElementById("faq-id").value;
-//    // Perform the delete operation using the FAQ ID
-//    console.log("Deleting FAQ with ID: " + faqId);
-//    // Add your delete logic here
-//      
-//    // Hide the delete confirmation
-//    hideDeleteConfirmation();
-//    
-//    console.log("Delete confirmed");
-//    
-//  }
-
 
 function handleDeleteConfirmation() {
   // You can add further logic here to handle the delete confirmation
@@ -139,7 +124,7 @@ function handleDeleteConfirmation() {
   console.log("Delete confirmed");
 }
 
-  
+
 
   document.getElementById("confirm-delete").addEventListener("click", handleDeleteConfirmation);
   document.getElementById("cancel-delete").addEventListener("click", hideDeleteConfirmation);
@@ -370,17 +355,17 @@ function handleDeleteConfirmation() {
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Gallery</h4>
+               <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Our Community</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-1.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-2.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-3.jpg" alt="">
                         </div>
                         <div class="col-4">
                             <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
@@ -395,14 +380,14 @@ function handleDeleteConfirmation() {
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <p>Academic Semester 2024-2025 admissions open now. </p><!-- comment --><p>Head to our University Page below.</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                   <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2" onclick="window.location.href = 'https://www.polytechnic.bh/';">More Details</button>
                     </div>
                 </div>
-            </div>
-        </div>
+                
+       </div>
+                     </div>
         <div class="container">
             <div class="copyright">
                 <div class="row">

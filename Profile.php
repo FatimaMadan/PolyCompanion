@@ -20,16 +20,12 @@ $id = $_SESSION['uid'];
     
 // Check if the form was submitted and the file was uploaded
 if (isset($_POST['save'])){
-    
      if ($_FILES && $_FILES['imageFile']['name']) 
-        {
-            $name = "img//" . $_FILES['imageFile']['name'];
+        {   $name = "img//" . $_FILES['imageFile']['name'];
             move_uploaded_file($_FILES['imageFile']['tmp_name'], $name);
-           if ($_FILES['imageFile']['error'] > 0) 
-{
+           if ($_FILES['imageFile']['error'] > 0){
     $errorCode = $_FILES['imageFile']['error'];
     $errorMessage = '';
-
     switch ($errorCode) {
         case UPLOAD_ERR_INI_SIZE:
             $errorMessage = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
@@ -56,7 +52,6 @@ if (isset($_POST['save'])){
             $errorMessage = 'Unknown error occurred';
             break;
     }
-
     echo "<p>There was an error:</p>";
     echo "<p>Error message: $errorMessage</p>";
 }
@@ -252,10 +247,6 @@ if (isset($_POST['save'])){
 </div>
 
 <?php
-//<form method="POST" enctype="multipart/form-data" >
-//<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
-//  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
-//</form>
 echo '</div>
 </div>
 <div class="col-md-9">
@@ -295,8 +286,7 @@ echo '</div>
    
     
     <?php
-//******MY POSTS START
-//
+//******MY POSTS START***********
 echo '<div id="my-posts-content">
 <h5 class="headings_dashed"> —————————— My Posts ——————————</h5>';
 
@@ -359,13 +349,6 @@ foreach ($page as $question) {
   $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
   echo '<p>'. $shortDesc .'</p>';
 
-  // ICONS Start
-  echo '<div class="icon-container">';
-  echo '5<i class="fas fa-thumbs-up"></i>';
-  echo '<i class="fas fa-flag"></i>';
-  echo '<i class="fas fa-star"></i>';
-  echo '</div>';
-
   echo '</div>';
   echo '</div>';
   echo '</div></a>';
@@ -396,7 +379,7 @@ echo '</div>';
 ?>
 
     <?php
-//******Saved POSTS START
+//******Saved POSTS START*********
 echo '<div id="saved-posts-content" style="display: none;">
 
 <h5 class="headings_dashed"> —————————— Saved Posts ——————————</h5>';
@@ -423,7 +406,6 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($current_page - 1) * $qts_per_page;
 
 // Get the qts for the current page
-
   $page = $qts->getSavedQuestionsByPageAndUser($offset, $qts_per_page, $_SESSION['uid']);
 
 foreach ($page as $question) {
@@ -441,13 +423,6 @@ foreach ($page as $question) {
   
   $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
   echo '<p>'. $shortDesc .'</p>';
-
-  // ICONS Start
-  echo '<div class="icon-container">';
-  echo '5<i class="fas fa-thumbs-up"></i>';
-  echo '<i class="fas fa-flag"></i>';
-  echo '<i class="fas fa-star"></i>';
-  echo '</div>';
 
   echo '</div>';
   echo '</div>';

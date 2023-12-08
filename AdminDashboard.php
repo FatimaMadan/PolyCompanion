@@ -100,24 +100,9 @@ if (isset($_POST['save'])){
     <link href="css/style.css" rel="stylesheet">
 
 <link rel="stylesheet" href="css/Profile.css">
-<!--<script>
-  function displayMyPosts() {
-    document.getElementById("my-posts-content").style.display = "block";
-    document.getElementById("saved-posts-content").style.display = "none";
-  }
-
-  function displaySavedPosts() {
-    document.getElementById("my-posts-content").style.display = "none";
-    document.getElementById("saved-posts-content").style.display = "block";
-  }
-</script>-->
 <script>
      src="https://code.jquery.com/jquery-3.6.0.min.js";
-//  function displayFlaggedPosts() {
-//    document.getElementById("flagged-posts-content").style.display = "block";
-//    
-//    document.getElementById("flagged-posts-button").classList.add("active");
-//  }
+     
    function toggleSubcategory(event) {
       const subcategory = event.target.nextElementSibling;
       subcategory.classList.toggle('visible');
@@ -138,7 +123,49 @@ if (isset($_POST['save'])){
     closeModal();
   }
   
-  
+ function showDeleteConfirmation(uid) {
+  document.getElementById("blur-background").style.display = "block";
+  document.getElementById("delete-confirmation").style.display = "block";
+  document.getElementById("uid-id").value = uid;
+}
+
+function hideDeleteConfirmation() {
+  document.getElementById("blur-background").style.display = "none";
+  document.getElementById("delete-confirmation").style.display = "none";
+}
+
+function handleDeleteConfirmation() {
+  var uid = document.getElementById("uid-id").value;
+
+  // Perform the delete operation using the User ID
+  console.log("Deleting User with ID: " + uid);
+
+  // Send an AJAX request to the server-side script (DeleteUser.php) to perform the delete operation
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "DeleteUser.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Handle the response from the server
+      var response = xhr.responseText;
+      if (response === "success") {
+        // Show success message or perform any additional actions
+        location.reload();
+      } else {
+        // Show error message or perform any additional actions
+        location.reload();
+      }
+    }
+  };
+  xhr.send("uid=" + uid);
+  // Hide the delete confirmation
+  hideDeleteConfirmation();
+
+  console.log("Delete confirmed");
+}
+
+document.getElementById("confirm-delete").addEventListener("click", handleDeleteConfirmation);
+document.getElementById("cancel-delete").addEventListener("click", hideDeleteConfirmation);
 </script>
 </head>
 <body>
@@ -330,7 +357,7 @@ for ($i = 0; $i < 4; $i++) {
             <td>' .$data[$i]->FirstName. '</td>
             <td>' .$data[$i]->LastName. '</td>
             <td><a href="EditUser.php?id=' . $data[$i]->UserId . '">Edit</a></td>
-            <td><a href="DeleteUser.php?id=' . $data[$i]->UserId . '">Delete</a></td>
+            <td  style= "color: red;"><a onclick="showDeleteConfirmation(' . $data[$i]->UserId . ')">Delete</a></td>
           </tr>';
 }
 
@@ -346,6 +373,19 @@ echo '</tbody>
     
 
 ?>
+            
+              <div id="blur-background"></div>
+
+<div id="delete-confirmation" style="display: none;">
+  <p>Are you sure you want to delete?</p>
+  <button id="confirm-delete" onclick="handleDeleteConfirmation()">Yes</button>
+  <button id="cancel-delete" onclick="hideDeleteConfirmation()">No</button>
+</div>
+    
+    <!--hidden input field-->
+    <input type="hidden" id="uid-id">
+    
+    
     
       <!--END manage users table-->
       <?php
@@ -400,8 +440,7 @@ if (!empty($data)) {
             </thead>
             <tbody>';
 for ($i = 0; $i < 8; $i++) {
-    if (strpos($data[$i]->ActivityText, 'added') === 0) {
-    // The ActivityText starts with 'added'
+    if (strpos($data[$i]->ActivityText, 'added') === 0){
     echo '<tr>
             <td style="color: #50C878 ;">' .$data[$i]->UserName. ' ' .$data[$i]->ActivityText. ' at ' .$data[$i]->Time. ' </td>
     </tr>';}
