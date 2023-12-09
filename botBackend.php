@@ -8,16 +8,20 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
     if ($action === 'faq') {
+        // Echo user message
+            echo '<div class="user-message">I want to see the Most Frequently Asked Questions</div>';
+            
         // Handle show FAQ action
         $result = FaqBank::getAllFaqs();
         if (!empty($result)) {
+            
+             
             echo '<div class="bot-message">
                 Select a question you would like to know the answer to.
                 <div class="option-buttons">';
 
             for ($i = 0; $i < count($result); $i++) {
-                echo '<button class="option-button" onclick="ContConvo(\'showAnswer\',' . $result[$i]->FaqId . ') , sendMessage(\'help\')"> ' . $result[$i]->FQuestion . '</button>';
-                
+                echo '<button class="option-button" onclick="ContConvoCallBack(\'showAnswer\', ' . $result[$i]->FaqId . ', function() { sendMessage(\'help\'); })">' . $result[$i]->FQuestion . '</button>';
             }
 
             echo '</div> 
@@ -26,11 +30,15 @@ if (isset($_GET['action'])) {
             echo '<button class="option-button">Oppps</button>';
         }
     } elseif ($action === 'showAnswer') {
+          
         // Handle show courses action
         if (isset($_GET['Id'])) {
             $quesId = $_GET['Id'];
             $result = FaqBank::getAns($quesId);
-
+            
+            // Echo user message
+            echo '<div class="user-message">'.  $result->FQuestion .'</div>';
+          
             if (!empty($result)) {
                 echo '<div class="bot-message">
                     Answering your question:
@@ -44,12 +52,18 @@ if (isset($_GET['action'])) {
                 </div>';
 
                 echo '<div id="response-container"></div>';
-
+                // Make an HTTP request to trigger the sendMessage function on the client-side
+            echo '<script>sendMessage(\'help\');</script>';
+            
             } else {
                 echo '<button class="option-button">OPPPs</button>';
             }
         }
+            
     } elseif ($action === 'majors') {
+        // Echo user message
+            echo '<div class="user-message">I have a question about a specific course</div>';
+         
     // Handle show majors action
     $result = MajorBank::getAllMaj();
     if (!empty($result)) {
@@ -72,11 +86,18 @@ if (isset($_GET['action'])) {
         echo '<button class="option-button">OPPPs</button>';
     }
     }  elseif ($action === 'showYear') {
+        
+        
         // Handle show courses action
         if (isset($_GET['Id'])) {
             $majorId = $_GET['Id'];
-            //$result = CourseBank::getCoursesByMajor($majorId);
+            $result = MajorBank::getName($majorId);
 
+            
+            // Echo user message
+            echo '<div class="user-message">'.  $result->MajorName .'</div>';
+            
+            
 //            if (!empty($result)) {
                 echo '<div class="bot-message">
                     In which year?
@@ -102,6 +123,9 @@ if (isset($_GET['action'])) {
             $year = $_GET['column'];
             //$result = CourseBank::getCoursesByMajor($majorId);
 
+            // Echo user message
+            echo '<div class="user-message"> Year '.  $year .'</div>';
+            
 //            if (!empty($result)) {
                 echo '<div class="bot-message">
                     In which semester?
@@ -134,6 +158,10 @@ if (isset($_GET['action'])) {
                 {
                     $sem = $_GET['sem'];
                     $result = CourseBank::getCoursesBySem($majorId, $year, $sem);
+                    
+                    // Echo user message
+            echo '<div class="user-message"> Semester '.  $sem .'</div>';
+            
                 }
             }
             
@@ -162,15 +190,20 @@ if (isset($_GET['action'])) {
     if (isset($_GET['Id'])) {
         $courseId = $_GET['Id'];
         $result = CourseBank::getCourseCol();
-
+        $name = CourseBank::getCourseName($courseId);
+        
+        // Echo user message
+            echo '<div class="user-message">'.  $name->CourseTitle .'</div>';
+            
+            
         if (!empty($result)) {
             echo '<div class="bot-message">
                 What would you like to know about this course?
                 <div class="option-buttons">';
 
             for ($i = 0; $i < count($result); $i++) {
-                echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $result[$i]->COLUMN_NAME . '\'), sendMessage(\'help\')">' . $result[$i]->COLUMN_NAME . '</button>';
-            }
+                echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $result[$i]->COLUMN_NAME . '\', function() { sendMessage(\'help\'); })">' . $result[$i]->COLUMN_NAME . '</button>';
+                }
 
             echo '</div> 
             </div>';
@@ -188,6 +221,9 @@ if (isset($_GET['action'])) {
         $colName = $_GET['column'];
         $result = CourseBank::getColAns($courseId, $colName);
 
+        // Echo user message
+            echo '<div class="user-message">'.  $colName .'</div>';
+            
         if (!empty($result)) {
             echo '<div class="bot-message">
                 This is the answer:
@@ -210,8 +246,8 @@ if (isset($_GET['action'])) {
                 Would you like me to help you with anything else?
                 <div class="option-buttons">';
             
-            echo '<button class="option-button" onclick=""> Yes </button>';
-            echo '<button class="option-button"> No </button>';
+            echo '<button class="option-button" onclick="sendMessage(\'restart\')"> Yes </button>';
+            echo '<button class="option-button" onclick="sendMessage(\'rate\')"> No </button>';
 
             echo '</div> 
             </div>';
@@ -219,6 +255,42 @@ if (isset($_GET['action'])) {
             echo '<div id="response-container"></div>';
 
 
+} elseif($action === 'restart') {
+    
+            // Echo user message
+            echo '<div class="user-message"> Yes </div>';
+            
+    
+     echo '<div class="bot-message">
+                How can I help you today?
+                <div class="option-buttons">
+                    <button class="option-button" onclick="sendMessage(\'faq\')">I want to see the Most Frequently Asked Questions</button>
+                    <button class="option-button" onclick="sendMessage(\'majors\')">I have a question about a specific course</button>
+                </div>
+            </div>';
+     echo '<div id="response-container"></div>';
+     
+} elseif($action === 'rate') {
+    
+     // Echo user message
+            echo '<div class="user-message"> No </div>';
+            
+     echo '<div class="bot-message">
+                Very glad I was able to help you today. Do not forget to rate your experience.
+                <div class="option-buttons">
+                    <button class="option-button" onclick="sendMessage(\'exit\')">Very helpful</button>
+                    <button class="option-button" onclick="sendMessage(\'exit\')">Not helpful</button>
+                </div>
+            </div>';
+     echo '<div id="response-container"></div>';
+}
+
+elseif($action === 'exit') {
+     echo '<div class="bot-message">
+                Do not hesitate to come if you need any help!
+               
+            </div>';
+     echo '<div id="response-container"></div>';
 }
     else {
         // Invalid action
