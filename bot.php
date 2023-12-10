@@ -106,6 +106,7 @@ include 'header.php';
     }
 </style>
 
+<body>
 <!-- Header Start -->
 <div class="container-fluid bg-primary py-5 mb-5 page-header">
     <div class="container py-5">
@@ -121,11 +122,13 @@ include 'header.php';
 </div>
 <!-- Header End -->
 
+
+    
 <div class="container-fluid bg-light py-3 conversation-header">
     <div class="container d-flex align-items-center justify-content-between">
         <div class="header-user-info">
             <img src="img/robot.jpg" alt="User Picture" class="header-user-picture">
-            <h4 class="header-user-name">Your Name</h4>
+            <h4 class="header-user-name">Polybot</h4>
         </div>
         <div class="header-menu">
             <button class="btn btn-primary tutorial-button">Tutorial</button>
@@ -144,7 +147,7 @@ include 'header.php';
     
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="chat-container">
+        <div class="chat-container" >
             <div class="bot-message">
                 Hi there! I'm Polybot, your dearest friend in your college journey.
                 <br>I'm here to assist you and provide answers to your questions. Feel free to ask at any time!
@@ -160,18 +163,25 @@ include 'header.php';
 
             <div id="conversation-container"></div>
             <div id="response-container"></div>
+            <div id="end"></div>
 
         </div>
     </div>
 </div>
+    
+</body>
 
 <script>
-    
+   
 var conversation = '';
 
 function updateConversation(message) {
     conversation += '<div>' + message + '</div>';
-    document.getElementById('response-container').innerHTML = conversation;
+    document.getElementById('conversation-container').innerHTML = conversation;
+
+    // Scroll to the div with id "end"
+    var endDiv = document.getElementById('end');
+    endDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function sendMessage(action, data = '') {
