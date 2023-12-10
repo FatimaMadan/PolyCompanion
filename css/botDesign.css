@@ -50,34 +50,12 @@ body {
   color: white;
 }
 
-.robot-icon {
-  color: white;
-  font-size: 120px;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.robot-info {
-  text-align: center;
-  color: white;
-}
-
-.robot-info p {
-  text-align: justify;
-}
-
-.center-justify {
-  text-align: center;
-}
-
 
 .chat-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 40px;
+  padding: 20px;
 }
 
 .option-buttons {
@@ -91,13 +69,6 @@ body {
   align-items: center;
 }
 
-.message-picture {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
 #conversation-container {
     width: 100%;
 }/*
@@ -107,4 +78,3 @@ body {
   align-self: flex-end;
   margin-left: 20px;
 }
-
