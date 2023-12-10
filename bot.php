@@ -4,12 +4,12 @@ include 'debugging.php';
 include 'header.php';
 
 
-// if (empty($_SESSION['uid'])) {
-//     // User is not logged in, redirect to login page
-//     echo $_SESSION['username'];
-//     header("Location: Login.php");
-//     exit();
-// }
+ if (empty($_SESSION['uid'])) {
+     // User is not logged in, redirect to login page
+     echo $_SESSION['username'];
+     header("Location: Login.php");
+     exit();
+ }
 ?>
 
 
@@ -104,6 +104,40 @@ include 'header.php';
     .btn-primary:hover {
         background-color: var(--dark);
     }
+    
+    .history-container {
+    background-color: var(--light);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.history-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.history-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-row {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.history-time {
+    width: 100px;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+.history-action {
+    flex-grow: 1;
+    color: var(--dark);
+}
 </style>
 
 <body>
@@ -121,9 +155,6 @@ include 'header.php';
     </div>
 </div>
 <!-- Header End -->
-
-
-    
 <div class="container-fluid bg-light py-3 conversation-header">
     <div class="container d-flex align-items-center justify-content-between">
         <div class="header-user-info">
@@ -137,14 +168,85 @@ include 'header.php';
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<!--                    <div class="dropdown-submenu">
+                        <button class="dropdown-item" type="button" id="historyDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a href="view_courses.php">History</a>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="historyDropdown">
+                            <a class="dropdown-item" href="#">Action 1</a>
+                            <a class="dropdown-item" href="#">Action 2</a>
+                             Add more history actions as needed 
+                        </div>
+                    </div>-->
+                    <a class="dropdown-item" href="view_history.php">History</a>
                     <a class="dropdown-item" href="#">Reports</a>
-                    <a class="dropdown-item" href="#">History</a>
+                    <a class="dropdown-item" href="#">Polybot privacy policy</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    
+
+<!-- submenu <script>
+// JavaScript code to handle hover event
+const dropdown = document.getElementById('dropdownMenuButton');
+const historyDropdown = document.getElementById('historyDropdown');
+const historyMenu = historyDropdown.nextElementSibling;
+
+let isHistoryHovered = false;
+
+dropdown.addEventListener('mouseenter', function() {
+  if (historyDropdown.getAttribute('aria-expanded') === 'true') {
+    historyDropdown.setAttribute('aria-expanded', 'false');
+    historyMenu.classList.remove('show');
+  }
+});
+
+historyDropdown.addEventListener('mouseenter', function() {
+  isHistoryHovered = true;
+  if (historyDropdown.getAttribute('aria-expanded') === 'false') {
+    historyDropdown.setAttribute('aria-expanded', 'true');
+    historyMenu.classList.add('show');
+  }
+});
+
+historyDropdown.addEventListener('mouseleave', function() {
+  isHistoryHovered = false;
+  setTimeout(function() {
+    if (!isHistoryHovered && historyDropdown.getAttribute('aria-expanded') === 'true') {
+      historyDropdown.setAttribute('aria-expanded', 'false');
+      historyMenu.classList.remove('show');
+    }
+  }, 200);
+});
+
+dropdown.addEventListener('mouseleave', function() {
+  setTimeout(function() {
+    if (!isHistoryHovered && dropdown.getAttribute('aria-expanded') === 'true') {
+      historyDropdown.setAttribute('aria-expanded', 'false');
+      historyMenu.classList.remove('show');
+    }
+  }, 200);
+});
+</script>-->
+
+<!--<style>
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -1px;
+}
+
+.dropdown-menu.show {
+  display: none;
+}
+</style> submenu-->
+
+
 <div class="container-xxl py-5">
     <div class="container">
         <div class="chat-container" >
@@ -168,7 +270,7 @@ include 'header.php';
         </div>
     </div>
 </div>
-    
+
 </body>
 
 <script>
@@ -176,12 +278,36 @@ include 'header.php';
 var conversation = '';
 
 function updateConversation(message) {
-    conversation += '<div>' + message + '</div>';
-    document.getElementById('conversation-container').innerHTML = conversation;
+    var conversation = document.getElementById('conversation-container');
+    conversation.innerHTML += '<div>' + message + '</div>';
 
     // Scroll to the div with id "end"
     var endDiv = document.getElementById('end');
     endDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+    // Extract content from the user message div and save it to messageHistory
+    var tempDiv = document.createElement('div');
+    tempDiv.innerHTML = message;
+    var userMessageDiv = tempDiv.querySelector('.user-message');
+    var messageHistory = userMessageDiv ? userMessageDiv.innerHTML : '';
+
+    var uid = <?php echo json_encode($_SESSION['uid']); ?>;
+
+    updateHistory(uid, messageHistory);
+}
+
+function updateHistory(uid, messageHistory, timestamp) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Handle the response from the server if needed
+            console.log(xhr.responseText);
+        }
+    };
+
+    var url = "botHistory.php?uid=" + uid + "&messageHistory=" + messageHistory;
+    xhr.open("GET", url, true);
+    xhr.send();
 }
 
 function sendMessage(action, data = '') {
