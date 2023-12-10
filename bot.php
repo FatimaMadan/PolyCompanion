@@ -26,23 +26,121 @@ include 'header.php';
             }
         });
 </script><!-- comment -->
+<style>
+    :root {
+        --primary: #06BBCC;
+        --light: #F0FBFC;
+        --dark: #181d38;
+        --font-family: "Nunito", sans-serif;
+    }
 
+    .conversation-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--light);
+        padding: 0.5rem 1rem;
+    }
+
+    .header-user-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-user-picture {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 1rem;
+    }
+
+    .header-user-name {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: var(--dark);
+    }
+
+    .header-menu {
+        display: flex;
+        align-items: center;
+    }
+
+    .dropdown-toggle {
+        background-color: transparent;
+        border: none;
+        color: var(--dark);
+        font-size: 1.5rem;
+        cursor: pointer;
+        border-radius: 7px !important;
+    }
+
+    .dropdown-menu {
+        min-width: 7rem;
+        padding: 0.5rem 0;
+        margin-top: 0.5rem; /* Add space between the dropdown menu and the tutorial button */
+    }
+
+    .btn-primary {
+        margin-left: 1rem;
+        background-color: var(--primary);
+        color: var(--light);
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 7px !important;
+    }
+
+    /* New CSS styles */
+    .tutorial-button {
+        margin-right: 1rem; /* Add margin to separate the tutorial button and dropdown */
+        border-radius: 7px !important;
+    }
+
+    .dropdown-item:hover {
+        background-color: var(--light);
+    }
+
+
+    .btn-primary:hover {
+        background-color: var(--dark);
+    }
+</style>
 
 <!-- Header Start -->
-    <div class="container-fluid bg-primary py-5 mb-5 page-header">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Polybot</h1>
-                    <nav aria-label="breadcrumb">
-                        <p class="breadcrumb-item text-white">Welcome to Polybot, your Polytechnic journey companion!<br>Ask away, and Polybot will provide quick and helpful answers to your course-related queries.</p>
-                    </nav>
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Polybot</h1>
+                <nav aria-label="breadcrumb">
+                    <p class="breadcrumb-item text-white">Welcome to Polybot, your Polytechnic journey companion!<br>Ask away, and Polybot will provide quick and helpful answers to your course-related queries.</p>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<div class="container-fluid bg-light py-3 conversation-header">
+    <div class="container d-flex align-items-center justify-content-between">
+        <div class="header-user-info">
+            <img src="img/robot.jpg" alt="User Picture" class="header-user-picture">
+            <h4 class="header-user-name">Your Name</h4>
+        </div>
+        <div class="header-menu">
+            <button class="btn btn-primary tutorial-button">Tutorial</button>
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Reports</a>
+                    <a class="dropdown-item" href="#">History</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Header End -->
-<!--    <img src="img/robot.jpg" alt="User Picture" class="message-picture"> comment -->
+</div>
     
 <div class="container-xxl py-5">
     <div class="container">
