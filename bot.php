@@ -180,7 +180,7 @@ include 'header.php';
                     </div>-->
                     <a class="dropdown-item" href="view_history.php">History</a>
                     <a class="dropdown-item" href="#">Reports</a>
-                    <a class="dropdown-item" href="#">Polybot privacy policy</a>
+                    <a class="dropdown-item" href="view_botPolicy.php">Polybot Policy</a>
                 </div>
             </div>
         </div>
