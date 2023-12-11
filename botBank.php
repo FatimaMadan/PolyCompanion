@@ -61,6 +61,11 @@ static function getUserHistory($user_id) {
         return $data;
     
 }
+
+static function deleteHistory($user_id) {
+        $db = Database::getInstance();
+        $db->singleFetch('Delete from bot_history where user_id  = \'' . $user_id . '\''); 
+}
     }
     
     

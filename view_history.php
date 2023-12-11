@@ -11,6 +11,8 @@ include 'header.php';
      header("Location: Login.php");
      exit();
  }
+ 
+ $uid = $_SESSION['uid'];
 ?>
 
 
@@ -21,43 +23,43 @@ include 'header.php';
       <h6 class="section-title bg-white text-start text-primary pe-3">About you</h6>
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h1 class="mb-0">Polybot History</h1>
-        <button class="btn btn-link">
+        <button class="btn btn-link" onclick="deleteHis(<?php echo $uid; ?>, 'delHis')">
           <p class="delete_btn"><i class="fas fa-trash-alt"></i> Clear My History</p>
         </button>
       </div>
-      <div class="history-div">
+      <div class="history-div" id="history-results">
       <?php
-      $userHistory = BotBank::getUserHistory($_SESSION['uid']);
-      if (!empty($userHistory)) {
-                            for ($i = 0; $i < count($userHistory); $i++) {
-                                echo '<h4 class="history-date">'.$userHistory[$i]->timestamp.'</h4>
-                                        <hr class="date-separator">
-                                        <table class="table">
-                                          <tbody>
-                                            <tr>
-                                              <td class="time-column">10:00 AM</td>
-                                              <td class="action-column">'.$userHistory[$i]->action.'</td>
-                                            </tr>
-                                          </tbody>
-                                        </table>';
-                                        
-                                }
-                        } else {
-                            echo '<h4 class="history-date">No data available</h4>
-        <hr class="date-separator">
-        <table class="table">
-          <tbody>
-            <tr>
-              <td class="time-column">No data available</td>
-              <td class="action-column">No data available</td>
-            </tr>
-            <tr>
-              <td class="time-column">No data available</td>
-              <td class="action-column">No data available</td>
-            </tr>
-          </tbody>
-        </table>';
-                        }
+//      $userHistory = BotBank::getUserHistory($uid);
+//      if (!empty($userHistory)) {
+//                            for ($i = 0; $i < count($userHistory); $i++) {
+//                                echo '<h4 class="history-date">'.$userHistory[$i]->timestamp.'</h4>
+//                                        <hr class="date-separator">
+//                                        <table class="table">
+//                                          <tbody>
+//                                            <tr>
+//                                              <td class="time-column">10:00 AM</td>
+//                                              <td class="action-column">'.$userHistory[$i]->action.'</td>
+//                                            </tr>
+//                                          </tbody>
+//                                        </table>';
+//                                        
+//                                }
+//                        } else {
+//                            echo '<h4 class="history-date">No data available</h4>
+//        <hr class="date-separator">
+//        <table class="table">
+//          <tbody>
+//            <tr>
+//              <td class="time-column">No data available</td>
+//              <td class="action-column">No data available</td>
+//            </tr>
+//            <tr>
+//              <td class="time-column">No data available</td>
+//              <td class="action-column">No data available</td>
+//            </tr>
+//          </tbody>
+//        </table>';
+//                        }
                         ?>
       </div>
     </div>
@@ -65,6 +67,50 @@ include 'header.php';
 </div>
 <!-- About End -->
 
+<script>
+    loadHistory();
+    
+    function loadHistory() {
+  // Create an AJAX request
+  var xhttp = new XMLHttpRequest();
+
+  // Define the callback function to handle the response
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // Update the content of the history-results container
+      document.getElementById("history-results").innerHTML = this.responseText;
+    }
+  };
+
+  // Specify the AJAX request details
+  xhttp.open("GET", "botHistory.php?uid=<?php echo $uid; ?>", true);
+  xhttp.send();
+}
+
+function deleteHis(uid, action) {
+  // Display a confirmation message to the user
+  var confirmed = confirm("Are you sure you want to clear your history? This action cannot be undone.");
+
+  // Proceed with deletion if the user confirms
+  if (confirmed) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Handle the response from the server if needed
+        console.log(xhr.responseText);
+
+        loadHistory();
+      }
+    };
+
+    var url = "botHistory.php?uid=" + uid + "&action=" + action;
+    xhr.open("GET", url, true);
+    xhr.send();
+  }
+}
+
+</script>
+    
 <style>
     .delete_btn {
      margin-bottom: 0; 
