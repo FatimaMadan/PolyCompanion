@@ -13,7 +13,6 @@ class Users
         private $UserDp;
         
         public function __construct() {
-          //  echo " inside User Constructor ";
             $this->uid = null;
             $this->username = null;
             $this->firstName = null;
@@ -159,6 +158,13 @@ class Users
             return $data;
         }
         
+         function getTotalUsers(){
+            $db = Database::getInstance();
+       $result= $db->singleFetch("SELECT COUNT(*) AS total FROM User");
+       
+        return $result->total;
+        }
+        
         public function isValid() 
         {
             
@@ -238,25 +244,39 @@ class Users
               session_destroy();
         }
 
-        
-        
-         function updateUser() {
-        try {
-            $db = Database::getInstance();
-             $data = 'UPDATE User set
-			Roles_RoleId = ' . $this->roleId . ' 
-                            WHERE UserId = ' . $this->uid;
-           //  echo $data;
-
-            $db->querySql($data);
-
-            return true;
-        } catch (Exception $e) {
-
-            echo 'Exception: ' . $e;
-            return false;
+          function enterLog($username){
+              $db = Database::getInstance();
+            $sql = "INSERT INTO Logs(LogId, UserName, Action) VALUES (NULL, '$username', 'Logged in')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
         }
+        
+           function enterLogout($username){
+              $db = Database::getInstance();
+            $sql = "INSERT INTO Logs(LogId, UserName, Action) VALUES (NULL, '$username', 'Logged out')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
+        }
+        
+        function updateUser() {
+    try {
+        $db = Database::getInstance();
+        $data = 'UPDATE User SET 
+                    Roles_RoleId = ' . $this->roleId . ',
+                    FirstName = "' . $this->firstName . '",
+                    LastName = "' . $this->lastName . '",
+                    UserName = "' . $this->username . '"
+                WHERE UserId = ' . $this->uid;
+        
+        $db->querySql($data);
+
+        return true;
+    } catch (Exception $e) {
+        
+        echo 'Exception: ' . $e;
+        return false;
     }
+}
     
     public function createRoleList() {
         $list = '';
@@ -264,7 +284,7 @@ class Users
         $data = $db->multiFetch('SELECT * FROM Role');
       
         //Kept it as 3 so that students won't be there in the list
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $list .='<option value="' . $data[$i]->RoleId . '"';
 
             if ($data[$i]->RoleId == $this->roleId)

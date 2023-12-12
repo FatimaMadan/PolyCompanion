@@ -26,6 +26,7 @@ if (isset($_POST['redirect'])) {
 
 <head>
        <!-- JavaScript code -->
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Get the current page URL
         var url = window.location.href;
@@ -42,7 +43,33 @@ if (isset($_POST['redirect'])) {
       const subcategory = event.target.nextElementSibling;
       subcategory.classList.toggle('visible');
     }
+    
+$(document).ready(function() {
+  $('.delete-btn').click(function() {
+    var questionId = this.getAttribute("data-question-id");
 
+    $.ajax({
+      type: 'POST',
+      url: 'DeletePost.php',
+      data: {questionId: questionId},
+      dataType: 'json',
+      success: function(response) {
+        if (response.success) {
+            location.reload();
+          // Update the UI to reflect the new like/dislike count
+          // You can update the button appearance or display a message indicating the action was successful
+          console.log('Deleted successfully.');
+        } else {
+             
+          console.error('Failed to delete: ' + response.error);
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('AJAX request failed: ' + error);
+      }
+    });
+  });
+   });
     </script>
     <meta charset="utf-8">
     <title>eLEARNING - eLearning HTML Template</title>
@@ -353,17 +380,18 @@ foreach ($page as $question) {
   echo '<h6 style="font-family: Arial;">'. $question->getQuesTitle() .'</h6>';
   
   $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
-  echo '<p>'. $shortDesc .'</p>';
+  echo '<p>'. $shortDesc .'</p></a>';
 
-  // ICONS Start
+  // If not a Student only then show this delete button
+  if($_SESSION['uid'] != 4 ){
   echo '<div class="icon-container">';
-  echo '<i class="fas fa-flag"></i>';
-  echo '<i class="fas fa-star"></i>';
+  echo '<i class="fas fa-trash-alt delete-btn" data-question-id="' . $question->getQuestionId() . '"></i>';
   echo '</div>';
-
+  }
+  
   echo '</div>';
   echo '</div>';
-  echo '</div></a>';
+  echo '</div>';
 }
 
 
@@ -476,11 +504,17 @@ echo '</div>';
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Gallery</h4>
+               <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Our Community</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-1.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-3.jpg" alt="">
                         </div>
                         <div class="col-4">
                             <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
@@ -489,25 +523,18 @@ echo '</div>';
                             <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
                             <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Newsletter</h4>
+                    <p>Academic Semester 2024-2025 admissions open now. </p><!-- comment --><p>Head to our University Page below.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                   <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2" onclick="window.location.href = 'https://www.polytechnic.bh/';">More Details</button>
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
-                </div>
        </div>
                      </div>
         <div class="container">

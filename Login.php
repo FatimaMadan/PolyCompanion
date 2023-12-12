@@ -12,10 +12,8 @@ if (isset($_POST['submitted'])) {
     
     if($user->login($username, $password))
     {
-       
+       $user->enterLog($username);
         header('Location: index.php');
-        
-        
     }else
     {
         echo '<script>alert("Wrong Login Credentials!");</script>';

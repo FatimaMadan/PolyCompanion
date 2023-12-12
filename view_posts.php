@@ -20,6 +20,68 @@ if (isset($_POST['redirect'])) {
     $user = new Users();
     $user->initWithUid($id);
     
+    
+function checkIfPostIsSaved($questionId, $userId) {
+    
+  // Create a new MySQLi connection
+$conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
+
+  // Check if the connection was successful
+  if ($conn->connect_error) {
+    die('Connection failed: ' . $conn->connect_error);
+  }
+  
+  // Prepare and execute a query to check if the post is saved
+  $stmt = $conn->prepare('SELECT COUNT(*) FROM SavedPosts WHERE Questions_QuestionId = ? AND User_UserId = ?');
+  $stmt->bind_param('ii', $questionId, $userId);
+  $stmt->execute();
+
+  // Fetch the result
+  $stmt->bind_result($count);
+  $stmt->fetch();
+
+  // Close the statement and database connection
+  $stmt->close();
+  $conn->close();
+
+  // Return true if the count is greater than 0, indicating that the post is saved
+  return $count > 0;
+}
+
+
+function checkIfPostIsFlagged($questionId, $userId) {
+    
+  // Create a new MySQLi connection
+$conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
+
+  // Check if the connection was successful
+  if ($conn->connect_error) {
+    die('Connection failed: ' . $conn->connect_error);
+  }
+  
+  if ($_SESSION['roleId'] != 1){
+  // Prepare and execute a query to check if the post is saved
+  $stmt = $conn->prepare('SELECT COUNT(*) FROM Flag WHERE QuestionId = ? AND UserId = ?');
+  $stmt->bind_param('ii', $questionId, $userId);
+  $stmt->execute();
+  }elseif($_SESSION['roleId'] == 1){
+      // Prepare and execute a query to check if the post is saved
+  $stmt = $conn->prepare('SELECT COUNT(*) FROM Flag WHERE QuestionId = ?');
+  $stmt->bind_param('i', $questionId);
+  $stmt->execute();
+  }
+  // Fetch the result
+  $stmt->bind_result($count);
+  $stmt->fetch();
+
+  // Close the statement and database connection
+  $stmt->close();
+  $conn->close();
+
+  // Return true if the count is greater than 0, indicating that the post is saved
+  return $count > 0;
+}
+    
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -43,30 +105,43 @@ if (isset($_POST['redirect'])) {
       subcategory.classList.toggle('visible');
     }
     
-//    document.addEventListener("DOMContentLoaded", function() {
-//  var likeBtns = document.getElementsByClassName("like-btn");
-//  for (var i = 0; i < likeBtns.length; i++) {
-//    likeBtns[i].addEventListener("click", function() {
-//      var answerId = this.getAttribute("data-answer-id");
-//       $.ajax({
-//      type: 'POST',
-//      url: 'updateLikes.php', // Replace with the PHP script that handles the database update
-//      data: { answerId: answerId, action: 'like' }, // Pass the answer ID and the action ('like' or 'dislike')
-//      success: function(response) {
-//          location.reload();
-//          likeButton.classList.add("disabled");
-//      },
-//      error: function(xhr, status, error) {
-//        // Handle error if the update fails
-//        console.log(error);
-//      }
-//    });
-//    });
-//  }
-//});
+    //************
+function deleteQuestion(questionId) {
+  // Perform AJAX call
+  $.ajax({
+    url: 'DeletePost.php',
+    type: 'POST',
+    data: { questionId: questionId },
+    dataType: 'json',
+    success: function(response) {
+      // Handle success response
+      if (response.success) {
+        // Refresh the page or perform any other actions
+               // Show the <div> element for 5 seconds
+       var popupDiv = document.getElementById('DeletepopupMessage');
+    popupDiv.style.display = 'block';
 
+    // Hide the popup message after 5 seconds
+    setTimeout(function() {
+      popupDiv.style.display = 'none';
+    }, 5000);
+    
+//        window.location.href = 'AdminDashboard.php';
+      } else {
+        // Handle error response
+        console.log(response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      // Handle AJAX error
+      console.log(error);
+    }
+  });
+}
 
-
+//***********
+   
+   
 $(document).ready(function() {
   $('.like-btn, .dislike-btn').click(function() {
     var answerId = this.getAttribute("data-answer-id");
@@ -101,6 +176,72 @@ $(document).ready(function() {
       }
     });
   });
+ $('.save-btn').click(function() {
+  var questionId = $(this).data("question-id");
+  var isSaved = $(this).hasClass('fas'); // Check if the icon is already filled
+  var saveBtn = $(this); // Store reference to the save button
+
+  // Determine the action based on the current state of the icon
+  var action = isSaved ? 'unsave' : 'save';
+
+  $.ajax({
+    type: 'POST',
+    url: 'saveUserPost.php',
+    data: { questionId: questionId, action: action },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        if (isSaved) {
+          console.log('Changed to unfilled star');
+          saveBtn.removeClass('fas').addClass('far'); // Change to unfilled star
+        } else {
+          console.log('Changed to filled star');
+          saveBtn.removeClass('far').addClass('fas'); // Change to filled star
+        }
+      } else {
+          console.log('Changing to unfilled star');
+          saveBtn.removeClass('fas').addClass('far');
+        console.error('Failed to save post: ' + response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('AJAX request failed: ' + error);
+    }
+  });
+});
+ $('.flag-btn').click(function() {
+  var questionId = $(this).data("question-id");
+  var isFlagged = $(this).hasClass('fas'); // Check if the icon is already filled
+  var flagBtn = $(this); // Store reference to the save button
+
+  // Determine the action based on the current state of the icon
+  var action = isFlagged ? 'unflag' : 'flag';
+
+  $.ajax({
+    type: 'POST',
+    url: 'flagUserPost.php',
+    data: { questionId: questionId, action: action },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        if (isFlagged) {
+          console.log('Changed to unfilled flag');
+          flagBtn.removeClass('fas').addClass('far'); // Change to unfilled star
+        } else {
+          console.log('Changed to filled flag');
+          flagBtn.removeClass('far').addClass('fas'); // Change to filled star
+        }
+      } else {
+          console.log('Changing to unfilled flag');
+          flagBtn.removeClass('fas').addClass('far');
+        console.error('Failed to save post: ' + response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('AJAX request failed: ' + error);
+    }
+  });
+});
 });
 
     </script>
@@ -142,19 +283,10 @@ $(document).ready(function() {
         </div>
     </div>
     <!-- Spinner End -->
-
-      
-    
-    
     
     
     <div id="popupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ This answer has been downvoted and will be shown to fewer people.</div>
-    
-    
-    
-    
-    
-    
+    <div id="DeletepopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Question has been deleted successfully!</div>
     
     
     
@@ -197,7 +329,7 @@ for ($i = 0; $i < count($data); $i++) {
          $PCourse = new CourseBank();
                 $Pdata = $PCourse->initWithMid(2);
                 for ($i = 0; $i < count($Pdata); $i++) {
-                echo '<li><a style="color: black;" href=inquiry.php?courseId=' . $Pdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Pdata[$i]->CourseTitle . '</a></li>'; 
+                echo '<li><a style="color: #06BBCC;" href=inquiry.php?courseId=' . $Pdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Pdata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
           </div>
@@ -210,7 +342,7 @@ for ($i = 0; $i < count($data); $i++) {
          $ICourse = new CourseBank();
                 $Idata = $ICourse->initWithMid(3);
                 for ($i = 0; $i < count($Idata); $i++) {
-                         echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $Idata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Idata[$i]->CourseTitle . '</a></li>'; 
+                         echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $Idata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Idata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
       </ul>
@@ -222,7 +354,7 @@ for ($i = 0; $i < count($data); $i++) {
          $NCourse = new CourseBank();
                 $Ndata = $NCourse->initWithMid(5);
                 for ($i = 0; $i < count($Ndata); $i++) {
-                echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $Ndata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $Ndata[$i]->CourseTitle . '</a></li>'; 
+                echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $Ndata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $Ndata[$i]->CourseTitle . '</a></li>'; 
                          }
                 ?>
       </ul>
@@ -234,7 +366,7 @@ for ($i = 0; $i < count($data); $i++) {
          $DSCourse = new CourseBank();
                 $DSdata = $DSCourse->initWithMid(4);
                 for ($i = 0; $i < count($DSdata); $i++) {
-              echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $DSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $DSdata[$i]->CourseTitle . '</a></li>'; 
+              echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $DSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $DSdata[$i]->CourseTitle . '</a></li>'; 
                            }
                 ?>
       </ul>
@@ -246,7 +378,7 @@ for ($i = 0; $i < count($data); $i++) {
          $CSCourse = new CourseBank();
                 $CSdata = $CSCourse->initWithMid(6);
                 for ($i = 0; $i < count($CSdata); $i++) {
-                       echo '<li><a style="color: black;" href="inquiry.php?courseId=' . $CSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">' . $CSdata[$i]->CourseTitle . '</a></li>'; 
+                       echo '<li><a style="color: #06BBCC;" href="inquiry.php?courseId=' . $CSdata[$i]->CourseId . '" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'#06BBCC\';">' . $CSdata[$i]->CourseTitle . '</a></li>'; 
                           }
                 ?>
       </ul>
@@ -273,8 +405,13 @@ for ($i = 0; $i < count($data); $i++) {
 
     
     
-  echo '<h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> —————————— Question ——————————</h5>'
-    . '<div><h6 style="color: lightgray; font-size: 14px;">';
+  echo '<h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> —————————— Question ——————————</h5>';
+   //is not a student only then show below 
+  if($_SESSION['roleId'] != 4){
+ echo '<a href="#" class="button-link" style="margin-bottom: 50px; background-color: #D70040;" onclick="deleteQuestion(' . $question->getQuestionId() . '); return false;">Delete Question</a>';
+ 
+  }
+         echo '<div><h6 style="color: lightgray; font-size: 14px;">';
   echo '<img class="border rounded-circle p-2 mx-auto" src='. $Quser->getUserDp() .' style="width: 50px; height: 50px;">'. $Quser->getFirstName() .' '. $Quser->getLastName() .'</h6>';
 
   echo '<h6 style="font-family: Arial;">'. $question->getQuesTitle() .'</h6>';
@@ -296,17 +433,20 @@ for ($i = 0; $i < count($data); $i++) {
 // Donwload files END
 
   // ICONS Start
-    echo '<i class="far fa-star" style="display: inline-block; float: right; margin-left: 15px; margin-right: 15px;">Save</i>';
-    echo '<i class="far fa-comment" style="display: inline-block; float: right; margin-left: 15px;"></i>';
-    echo '<i class="far fa-thumbs-up" style="display: inline-block; float: right; margin-left: 15px;">15</i></p>';
-    echo '</div>';
+    $isSaved = checkIfPostIsSaved($question->getQuestionId(), $_SESSION['uid']);
+    $isFlagged = checkIfPostIsFlagged($question->getQuestionId(), $_SESSION['uid']);
+    // Output the star icon based on the saved state
+    echo '<i class="' . ($isSaved ? 'fas' : 'far') . ' fa-star save-btn" data-question-id="' . $question->getQuestionId() . '" style="display: inline-block; color: #06BBCC; float: right; margin-left: 15px; margin-right: 15px;" title="Save Post"></i>';
+    echo '<a href="AddAnswer.php"><i class="far fa-comment ans-btn" style="display: inline-block; color: #06BBCC; float: right; margin-left: 15px;" title="Write an Answer"></i></a>';
+    echo '<i class="' . ($isFlagged ? 'fas' : 'far') . ' fa-flag flag-btn" data-question-id="' . $question->getQuestionId() . '" style="display: inline-block; color: #D70040; float: right; margin-left: 15px;" title="Flag Post"></i>';
+    
+   echo '</div>';
   // ICONS END
    
   
     //***************ANSWERS START****************
    echo '<br><div><h5 style="font-weight: bold; text-align: center; color: #06BBCC;"> ————— Responses —————</h5>'
-    . '<a href="AddAnswer.php?QtId=' . $QuesId . '" class="button-link">Add Answer</a><br></div>
-       <br>';
+    . '<a href="AddAnswer.php?QtId=' . $QuesId . '" class="button-link" style="margin-bottom: 50px;">Add Answer</a><br></div><br><br>';
    
    
     $ans = new AnswerBank();
@@ -344,8 +484,13 @@ foreach ($page as $answer) {
   echo '<div class="FP">';
   echo '<div class="FP-header">';
   echo '<h6 style="color: lightgray; font-size: 14px;">';
-  echo '<img class="border rounded-circle p-2 mx-auto" src='. $Auser->getUserDp() .' style="width: 50px; height: 50px;">'. $Auser->getFirstName() .' '. $Auser->getLastName() .'</h6>';
-
+  echo '<img class="border rounded-circle p-2 mx-auto" src='. $Auser->getUserDp() .' style="width: 50px; height: 50px;">'. $Auser->getFirstName() .' '. $Auser->getLastName() .'';
+           if($Auser->getRoleId() == 2)// if a program manager answer
+  {
+  echo '<i class="fas fa-star" style="display: inline-block; color: #ffd700; float: left; margin-top: 5px;" title="Answered by Program Manager"></i>';
+  }
+  echo '</h6>';
+ 
   echo '<p>'. $answer->getAnsText() .'</p>';
   
 // Donwload ANSWER files Start
@@ -368,8 +513,8 @@ foreach ($page as $answer) {
 
 // ICONS Start
 echo '<div class="icon-container">';
-echo '' . $answer->getLikes() . '<i class="fas fa-arrow-up like-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: green;"></i>';
-echo '<i class="fas fa-arrow-down dislike-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: red;"></i>';
+echo '' . $answer->getLikes() . '<i class="fas fa-arrow-up like-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: green;" title = "Upvote"></i>';
+echo '<i class="fas fa-arrow-down dislike-btn" data-answer-id="' . $answer->getAnsId() . '" style="color: red;" title = "Downvote"></i>';
 echo '</div>';
 // ICONS End
 
@@ -428,11 +573,17 @@ echo '</div>';
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Gallery</h4>
+              <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Our Community</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-1.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-3.jpg" alt="">
                         </div>
                         <div class="col-4">
                             <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
@@ -441,25 +592,18 @@ echo '</div>';
                             <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
                             <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Newsletter</h4>
+                    <p>Academic Semester 2024-2025 admissions open now. </p><!-- comment --><p>Head to our University Page below.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                   <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2" onclick="window.location.href = 'https://www.polytechnic.bh/';">More Details</button>
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
-                </div>
        </div>
                      </div>
         <div class="container">
