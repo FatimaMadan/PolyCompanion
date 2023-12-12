@@ -185,7 +185,7 @@ function handleDeleteConfirmation() {
                             <div class="col-sm-10 col-lg-8">
                                 <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Make Your Journey Easy</h5>
                                 <h1 class="display-3 text-white animated slideInDown">Connecting Students Together</h1>
-                                <p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea sanctus eirmod elitr.</p>
+                                <p class="fs-5 text-white mb-4 pb-2">Welcome to our FAQ page for students! We're here to help you navigate your educational journey smoothly and answer any questions you may have.</p>
                                 <?php 
                                 //3 == Registry member
                                 if ($_SESSION['roleId'] == 3) {
@@ -209,7 +209,6 @@ function handleDeleteConfirmation() {
 
 <div class ="faq-container"> 
      
-    
 <div class="white-div"></div>
 
 
@@ -218,7 +217,7 @@ function handleDeleteConfirmation() {
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h1 class="section-title bg-white text-center text-primary px-3">Frequently Alsked Questions</h1>
-                <p style="color: black"> hello jdshfjksf agdkjhgjkhs gkjaghgiew oiwetpqitew tskghmv cbv mznvm  lajkf adf woeipqi  fhdsjf dsjfhjds fjksdh fsjdkfh hjdfkds fewuriw roewirueyt ruwyiowr ewoir ewru ewuryw erewiuroiew thjsj nbcxvmz vkjdsfhjkafl afqpirwiue reour ryt dsfja vnzbvsj</p>
+                <p style="color: black"> We understand that starting or continuing your studies can sometimes be overwhelming, but don't worry! Our dedicated support team is committed to assisting you every step of the way. We've compiled a list of frequently asked questions to provide you with quick and convenient solutions. Remember, this page is continually updated to address your evolving needs. We value your feedback, so if you have suggestions for additional questions or topics you'd like us to cover, please let us know. Our goal is to make your educational journey as smooth as possible.</p>
             </div>
         </div>
     </div>
