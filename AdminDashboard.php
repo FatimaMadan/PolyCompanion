@@ -194,19 +194,14 @@ document.getElementById("cancel-delete").addEventListener("click", hideDeleteCon
 <h4 class="my-1 text-info"> '. $qts ->getCountQuestions() . '</h4>
 </div>
  <img class="rounded-circle" style="width: 60px; height: 60px; margin-left: 55px"; src="img/qtt.jpg">
-</div>
-</div>
-
+</div></div>
 <div class="card-body">
-<div class="d-flex align-items-center">
-<div>
+<div class="d-flex align-items-center"><div>
 <p class="mb-0 font-13" style="color: white;">Total Answers:</p>
 <h4 class="my-1 text-info">'. $ans ->getCountAnswers() . '</h4>
 </div>
    <img class="rounded-circle" style="width: 60px; height: 60px; margin-left: 55px"; src="img/ans.jpg">
-</div>
-</div>
-
+</div></div>
 <div class="card-body">
 <div class="d-flex align-items-center">
 <div>
@@ -214,15 +209,15 @@ document.getElementById("cancel-delete").addEventListener("click", hideDeleteCon
 <h4 class="my-1 text-info">'. $TUser->getTotalUsers().'</h4>
 </div>
    <img class="rounded-circle" style="width: 63px; height: 63px; margin-left: 72px"; src="img/users.png">
-</div>
-</div>
+</div></div>
 
 <div class="card-body">
 <div class="d-flex align-items-center">
 <div>
+
+
 <p class="mb-0 font-13" style="color: white;">Flagged Posts:</p>';
 
-          
 if ($qts->getFlaggedQuestions() > 0){
 //echo '<h4 style="color: red;"><a href="DisplayFlags.php" style="color: red;">'. $qts->getFlaggedQuestions() . '</a></h4>';
 
@@ -234,18 +229,14 @@ $Ldata = $allLogs->getAllFlags();
       <ul class="subcategory">
           <div>';
         for ($i = 0; $i < count($Ldata); $i++) {
-  
     echo '<tr>
             <td>' .$Ldata[$i]->UserId. '</td>
              <td><a href="view_posts.php?QtId=' . $Ldata[$i]->QuestionId . '">'. $Ldata[$i]->QuestionId.'</a></td><br>
-    </tr>';
-}
-          echo '</div>
+    </tr>';}
+    echo '</div>
       </ul>
     </li>';
-
     }elseif ($qts->getFlaggedQuestions() == 0){
-        
         echo '<h4 style="color: #06BBCC;">'. $qts->getFlaggedQuestions() . '</h4>';
     }
 echo '</div>
@@ -347,11 +338,8 @@ if (!empty($data)) {
             <tbody>';
 for ($i = 0; $i < 4; $i++) {
     $allUser->initWithUid($data[$i]->UserId);
-  
     echo '<tr>';?>
-
             <td><img class="border rounded-circle p-2 mx-auto mb-3" src=<?php echo $data[$i]->UserDp; ?> style="width: 50px; height: 50px;"></td>
-         
  <?php
           echo '<td>' .$data[$i]->UserName. '</td>
             <td>' .$data[$i]->FirstName. '</td>
@@ -360,7 +348,6 @@ for ($i = 0; $i < 4; $i++) {
             <td  style= "color: red;"><a onclick="showDeleteConfirmation(' . $data[$i]->UserId . ')">Delete</a></td>
           </tr>';
 }
-
 echo '</tbody>
       </table>
     </div>'
@@ -413,7 +400,6 @@ for ($i = 0; $i < 8; $i++) {
             <td style="color: #181d38;">' .$data[$i]->UserName. ' ' .$data[$i]->Action. ' at ' .$data[$i]->Time. ' </td>
     </tr>';}
 }
-
 echo '</tbody>
       </table>
     </div>'
