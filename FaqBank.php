@@ -59,6 +59,18 @@ class FaqBank {
         $this->User_UserId = $User_UserId;
     }
     
+    
+    static function getAllFaqs() {
+        $db = Database::getInstance();
+        $data = $db->multiFetch('Select * from FAQ');
+        return $data;
+    }
+    
+    static function getAns($quesId){
+        $db = Database::getInstance();
+        $data = $db->singleFetch("SELECT * FROM FAQ WHERE FaqId = " . $quesId ); 
+        return $data;
+    }
         
           public function isValid() {
         $errors = array();
@@ -80,13 +92,21 @@ class FaqBank {
         try {
             $db = Database::getInstance();
             $data = $db->querySql("DELETE FROM FAQ Where FaqId = ".$this->FaqId);
-            echo $data;
+           // echo $data;
+            $this->deleteActivity();
             return true;
         } catch (Exception $e) {
             echo 'Exception: ' . $e;
             return false;
         }
     }
+    
+    function deleteActivity(){
+              $db = Database::getInstance();
+         $sql = "INSERT INTO ActivityLog (ActivityId, UserName, ActivityText) VALUES (NULL, '" . $_SESSION['username'] . "', 'deleted a FAQ')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
+        }
    
     function addFaq() {
         
@@ -94,7 +114,7 @@ class FaqBank {
             $db = Database::getInstance();
             
             $insertQry="INSERT INTO FAQ VALUES( NULL,'$this->FQuestion', '$this->FAnswer','$this->User_UserId')";
-           
+            $this->addActivity();
             if(($db->querySql($insertQry)))
             { return false; }
             
@@ -107,6 +127,14 @@ class FaqBank {
         
     }
    
+     function addActivity(){
+              $db = Database::getInstance();
+         $sql = "INSERT INTO ActivityLog (ActivityId, UserName, ActivityText) VALUES (NULL, '" . $_SESSION['username'] . "', 'added a FAQ')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
+        }
+        
+        
     function updateDB() {
         try {
             $db = Database::getInstance();
@@ -118,7 +146,7 @@ class FaqBank {
              echo $data;
 
             $db->querySql($data);
-
+            $this->editActivity();
             return true;
         } catch (Exception $e) {
 
@@ -127,21 +155,17 @@ class FaqBank {
         }
     }
 
+     function editActivity(){
+              $db = Database::getInstance();
+         $sql = "INSERT INTO ActivityLog (ActivityId, UserName, ActivityText) VALUES (NULL, '" . $_SESSION['username'] . "', 'edited a FAQ')";
+           echo 'Executing SQL: ' . $sql;
+            $data = $db->querySQL($sql);
+        }
+        
     function getAllFaq() {
         $db = Database::getInstance();
         $data = $db->multiFetch('Select * from FAQ');
         return $data;
     }
-    
-    static function getAllFaqs() {
-        $db = Database::getInstance();
-        $data = $db->multiFetch('Select * from FAQ');
-        return $data;
-    }
-    
-    static function getAns($quesId){
-        $db = Database::getInstance();
-        $data = $db->singleFetch("SELECT * FROM FAQ WHERE FaqId = " . $quesId ); 
-        return $data;
-    }
 }
+

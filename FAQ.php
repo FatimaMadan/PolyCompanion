@@ -78,7 +78,7 @@ function toggleAll() {
     }
 }
 
-//*****************************************************************************************************************
+//*******************************************************************
 
 
   function showDeleteConfirmation(faqId) {
@@ -91,21 +91,6 @@ function toggleAll() {
     document.getElementById("blur-background").style.display = "none";
     document.getElementById("delete-confirmation").style.display = "none";
   }
-
-//  function handleDeleteConfirmation() {
-//    // You can add further logic here to handle the delete confirmation
-//    var faqId = document.getElementById("faq-id").value;
-//    // Perform the delete operation using the FAQ ID
-//    console.log("Deleting FAQ with ID: " + faqId);
-//    // Add your delete logic here
-//      
-//    // Hide the delete confirmation
-//    hideDeleteConfirmation();
-//    
-//    console.log("Delete confirmed");
-//    
-//  }
-
 
 function handleDeleteConfirmation() {
   // You can add further logic here to handle the delete confirmation
@@ -139,7 +124,7 @@ function handleDeleteConfirmation() {
   console.log("Delete confirmed");
 }
 
-  
+
 
   document.getElementById("confirm-delete").addEventListener("click", handleDeleteConfirmation);
   document.getElementById("cancel-delete").addEventListener("click", hideDeleteConfirmation);
@@ -200,7 +185,7 @@ function handleDeleteConfirmation() {
                             <div class="col-sm-10 col-lg-8">
                                 <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Make Your Journey Easy</h5>
                                 <h1 class="display-3 text-white animated slideInDown">Connecting Students Together</h1>
-                                <p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea sanctus eirmod elitr.</p>
+                                <p class="fs-5 text-white mb-4 pb-2">Welcome to our FAQ page for students! We're here to help you navigate your educational journey smoothly and answer any questions you may have.</p>
                                 <?php 
                                 //3 == Registry member
                                 if ($_SESSION['roleId'] == 3) {
@@ -224,7 +209,6 @@ function handleDeleteConfirmation() {
 
 <div class ="faq-container"> 
      
-    
 <div class="white-div"></div>
 
 
@@ -233,7 +217,7 @@ function handleDeleteConfirmation() {
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h1 class="section-title bg-white text-center text-primary px-3">Frequently Alsked Questions</h1>
-                <p style="color: black"> hello jdshfjksf agdkjhgjkhs gkjaghgiew oiwetpqitew tskghmv cbv mznvm  lajkf adf woeipqi  fhdsjf dsjfhjds fjksdh fsjdkfh hjdfkds fewuriw roewirueyt ruwyiowr ewoir ewru ewuryw erewiuroiew thjsj nbcxvmz vkjdsfhjkafl afqpirwiue reour ryt dsfja vnzbvsj</p>
+                <p style="color: black"> We understand that starting or continuing your studies can sometimes be overwhelming, but don't worry! Our dedicated support team is committed to assisting you every step of the way. We've compiled a list of frequently asked questions to provide you with quick and convenient solutions. Remember, this page is continually updated to address your evolving needs. We value your feedback, so if you have suggestions for additional questions or topics you'd like us to cover, please let us know. Our goal is to make your educational journey as smooth as possible.</p>
             </div>
         </div>
     </div>
@@ -370,17 +354,17 @@ function handleDeleteConfirmation() {
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Gallery</h4>
+               <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Our Community</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-1.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-2.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="img/testimonial-3.jpg" alt="">
                         </div>
                         <div class="col-4">
                             <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
@@ -395,14 +379,14 @@ function handleDeleteConfirmation() {
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <p>Academic Semester 2024-2025 admissions open now. </p><!-- comment --><p>Head to our University Page below.</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                   <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2" onclick="window.location.href = 'https://www.polytechnic.bh/';">More Details</button>
                     </div>
                 </div>
-            </div>
-        </div>
+                
+       </div>
+                     </div>
         <div class="container">
             <div class="copyright">
                 <div class="row">

@@ -20,16 +20,12 @@ $id = $_SESSION['uid'];
     
 // Check if the form was submitted and the file was uploaded
 if (isset($_POST['save'])){
-    
      if ($_FILES && $_FILES['imageFile']['name']) 
-        {
-            $name = "img//" . $_FILES['imageFile']['name'];
+        {   $name = "img//" . $_FILES['imageFile']['name'];
             move_uploaded_file($_FILES['imageFile']['tmp_name'], $name);
-           if ($_FILES['imageFile']['error'] > 0) 
-{
+           if ($_FILES['imageFile']['error'] > 0){
     $errorCode = $_FILES['imageFile']['error'];
     $errorMessage = '';
-
     switch ($errorCode) {
         case UPLOAD_ERR_INI_SIZE:
             $errorMessage = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
@@ -56,7 +52,6 @@ if (isset($_POST['save'])){
             $errorMessage = 'Unknown error occurred';
             break;
     }
-
     echo "<p>There was an error:</p>";
     echo "<p>Error message: $errorMessage</p>";
 }
@@ -79,6 +74,16 @@ if (isset($_POST['save'])){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"><!-- comment -->
+    
+    
+    
+    
+    
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -123,7 +128,21 @@ if (isset($_POST['save'])){
     document.getElementById("saved-posts-button").classList.add("active");
   }
   
-  // Display My Posts content by default
+  function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  function savePhoto() {
+    // Implement your logic to save the photo here
+    closeModal();
+  }
+  
   displayMyPosts();
 </script>
 </head>
@@ -201,12 +220,34 @@ if (isset($_POST['save'])){
 <div class="text-center border-end">
      <?php $uuser = new Users();
   $UserData = $uuser->initWithUid($_SESSION['uid']);
-   echo '<img class="img-fluid avatar-xxl rounded-circle" src='. $uuser->getUserDp().'>
-<form method="POST" enctype="multipart/form-data" >
-<input type="file" name="imageFile" class="custom-file-input" id="fileInput">
-  <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button><br>
-</form>
+//   echo '<img class="img-fluid avatar-xxl rounded-circle" src='. $uuser->getUserDp().'>
+//    echo '<div class="image-container" onmouseover="showFileInput(this)" onmouseout="hideFileInput(this)">';
+//        ?>
+  <!--<img class="img-fluid avatar-xxl rounded-circle" src="<?php // echo $uuser->getUserDp(); ?>" alt="User Avatar">-->
+  <?php 
+//  echo '<input class="file-input" type="file" name="imageFile" onchange="previewImage(event) style="display: none;">
+//</div>';
+//  ?>
+  
+
+<div class="image-container" onclick="openModal()">
+  <img class="img-fluid avatar-xxl rounded-circle" src="<?php echo $uuser->getUserDp(); ?>" alt="User Avatar">
 </div>
+
+<!-- Modal Dialog -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>Choose a Photo</h3>
+    <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <input class="file-input" type="file" name="imageFile" onchange="previewImage(event)">
+      <button type="submit" name="save" value="TRUE" style="background-color: #06BBCC; width: 130px; color: white; margin-top: 15px;">Save Picture</button>
+    </form>
+  </div>
+</div>
+
+<?php
+echo '</div>
 </div>
 <div class="col-md-9">
 <div class="ms-3">
@@ -242,11 +283,10 @@ if (isset($_POST['save'])){
 </div>
 </div>
     </div>
-    <!--<h5 style="font-weight: bold; color: #06BBCC; margin-bottom: 30px; margin-top: 30px;  margin-left: 200px; "> —————————— My Posts ——————————</h5>-->
-
+   
+    
     <?php
-//******MY POSTS START
-//
+//******MY POSTS START***********
 echo '<div id="my-posts-content">
 <h5 class="headings_dashed"> —————————— My Posts ——————————</h5>';
 
@@ -309,13 +349,6 @@ foreach ($page as $question) {
   $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
   echo '<p>'. $shortDesc .'</p>';
 
-  // ICONS Start
-  echo '<div class="icon-container">';
-  echo '5<i class="fas fa-thumbs-up"></i>';
-  echo '<i class="fas fa-flag"></i>';
-  echo '<i class="fas fa-star"></i>';
-  echo '</div>';
-
   echo '</div>';
   echo '</div>';
   echo '</div></a>';
@@ -346,7 +379,7 @@ echo '</div>';
 ?>
 
     <?php
-//******Saved POSTS START
+//******Saved POSTS START*********
 echo '<div id="saved-posts-content" style="display: none;">
 
 <h5 class="headings_dashed"> —————————— Saved Posts ——————————</h5>';
@@ -373,7 +406,6 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($current_page - 1) * $qts_per_page;
 
 // Get the qts for the current page
-
   $page = $qts->getSavedQuestionsByPageAndUser($offset, $qts_per_page, $_SESSION['uid']);
 
 foreach ($page as $question) {
@@ -391,13 +423,6 @@ foreach ($page as $question) {
   
   $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
   echo '<p>'. $shortDesc .'</p>';
-
-  // ICONS Start
-  echo '<div class="icon-container">';
-  echo '5<i class="fas fa-thumbs-up"></i>';
-  echo '<i class="fas fa-flag"></i>';
-  echo '<i class="fas fa-star"></i>';
-  echo '</div>';
 
   echo '</div>';
   echo '</div>';

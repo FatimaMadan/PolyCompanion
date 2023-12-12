@@ -125,12 +125,19 @@ class Files{
     }
 
     function addFile() {
-
+//echo "inside add file";
         try {
-             $db = Database::getInstance();
-            $data = $db->querySql('Insert into Files (FileId,User_UserId, FileName, FileLocation, FileType, Answers_AnsId, Questions_QuestionId, QId, AId, Type) values '
-                    . '(NULL, ' . $this->User_UserId . ', \'' . $this->FileName . '\',\'' . $this->FileLocation . '\',\'' .$this->FileType . '\',\'' .$this->Answers_AnsId . '\',\''  .$this->Questions_QuestionId . '\',\''  .$this->QId . '\',\''  .$this->AId . '\',\''  .$this->Type . '\')');
-           
+         //   echo "inside try add file";
+//             $db = Database::getInstance();
+//            $data = $db->querySql('Insert into Files (FileId,User_UserId, FileName, FileLocation, FileType, Answers_AnsId, Questions_QuestionId, QId, AId, Type) values '
+//                    . '(NULL, ' . $this->User_UserId . ', \'' . $this->FileName . '\',\'' . $this->FileLocation . '\',\'' .$this->FileType . '\',\'' .$this->Answers_AnsId . '\',\''  .$this->Questions_QuestionId . '\',\''  .$this->QId . '\',\''  .$this->AId . '\',\''  .$this->Type . '\')');
+//           
+            $db = Database::getInstance();
+$sql = 'INSERT INTO Files (FileId, User_UserId, FileName, FileLocation, FileType, Answers_AnsId, Questions_QuestionId, QId, AId, Type) VALUES '
+    . '(NULL, ' . $this->User_UserId . ', \'' . $this->FileName . '\', \'' . $this->FileLocation . '\', \'' . $this->FileType . '\', \'' . $this->Answers_AnsId . '\', \'' . $this->Questions_QuestionId . '\', \'' . $this->QId . '\', \'' . $this->AId . '\', \'' . $this->Type . '\')';
+$data = $db->querySql($sql);
+
+//echo $sql;
             return true;
         } catch (Exception $e) {
             echo 'Exception: ' . $e;
