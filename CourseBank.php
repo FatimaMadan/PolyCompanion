@@ -17,7 +17,7 @@ class CourseBank {
         private $total_hours;
         private $recommended_book_resources;
         private $TeachingStrategies;
-
+        private $COLUMN_NAME;
 
 
 
@@ -248,6 +248,47 @@ class CourseBank {
       return $data;
     } 
     
+    public static function getCoursesByMajor($major_id){
+        $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\'');
+      return $data;
+    }
+    
+    public static function getCoursesByYear($major_id, $year){
+        $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\'');
+      return $data;
+    }
+    
+    public static function getCoursesBySem($major_id, $year, $sem){
+
+     $db = Database::getInstance();
+    $query = 'Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\' AND Semester=  \'' . $sem . '\'';
+    $data = $db->multiFetch($query);
+    
+    return $data;
+    }
+    
+    public static function getCourseCol(){
+        $db = Database::getInstance();
+      $data = $db->multiFetch("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Course'");
+      return $data;
+    }
+    
+    public static function getColAns($courseId, $colName){
+    $db = Database::getInstance();
+    $query = 'SELECT ' . $colName . ' FROM Course WHERE CourseId = \'' . $courseId . '\'';
+    $data = $db->singleFetch($query);
+    return $data;
+}
+
+    public static function getCourseName($course_id){
+
+     $db = Database::getInstance();
+    $query = 'Select * from Course WHERE CourseId = \'' . $course_id . '\'';
+    $data = $db->singleFetch($query);
+    return $data;
+    }
     
 //    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
 //       $this->CourseId = $CourseId;

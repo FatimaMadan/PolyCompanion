@@ -59,6 +59,18 @@ class FaqBank {
         $this->User_UserId = $User_UserId;
     }
     
+    
+    static function getAllFaqs() {
+        $db = Database::getInstance();
+        $data = $db->multiFetch('Select * from FAQ');
+        return $data;
+    }
+    
+    static function getAns($quesId){
+        $db = Database::getInstance();
+        $data = $db->singleFetch("SELECT * FROM FAQ WHERE FaqId = " . $quesId ); 
+        return $data;
+    }
         
           public function isValid() {
         $errors = array();
@@ -156,3 +168,4 @@ class FaqBank {
         return $data;
     }
 }
+

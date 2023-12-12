@@ -57,6 +57,19 @@ function getSelectedOption() {
 </script>
 
 <script>
+        // Get the current page URL
+        var url = window.location.href;
+
+        // Check each menu item's URL against the current page URL
+        var menuItems = document.querySelectorAll('.nav-item.nav-link');
+        menuItems.forEach(function(item) {
+            if (item.href === url) {
+                item.classList.add('active'); // Add the 'active' class to the matching menu item
+            }
+        });
+    </script>
+
+<script>
     var selectedFilter = "All Majors"; // Variable to store selected filter option
 
     function selectOption(option) {
@@ -79,6 +92,20 @@ function getSelectedOption() {
     // Rest of your JavaScript code...
 </script>
 
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">Courses</h1>
+                    <nav aria-label="breadcrumb">
+                        <p class="breadcrumb-item text-white">Welcome! Dive into a world of knowledge with our diverse range of captivating courses this semester. <br> <b>Explore, learn, and thrive!</b></p>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
 
     <!-- Courses Start -->
         <div class="container">

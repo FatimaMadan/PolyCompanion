@@ -45,6 +45,11 @@ class MajorBank{
         return $data;
     }
     
+    static function getName($major_id) {
+        $db = Database::getInstance();
+        $data = $db->singleFetch('SELECT * FROM Major WHERE MajorId = \'' . $major_id .  '\'');
+        return $data;
+    }
 }
 /* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
