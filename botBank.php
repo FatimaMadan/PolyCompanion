@@ -47,11 +47,11 @@ class BotBank{
         $this->action = $action;
     }
     
-     static function insertHistory($user_id, $action) {
+    static function insertHistory($user_id, $action) {
     $db = Database::getInstance();
     $query = "INSERT INTO bot_history (user_id, action) VALUES ('$user_id', '$action')";
     $data = $db->singleFetch($query);
-    return $data;
+    echo $query;
     
 }
 

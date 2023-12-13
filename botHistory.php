@@ -3,6 +3,22 @@
 include 'debugging.php';
 include 'botBank.php';
 
+if (isset($_GET['messageHistory']) && isset($_GET['uid'])) {
+    $mess = $_GET['messageHistory'];
+    $user_id = $_GET['uid'];
+    
+    if ($mess != ""){
+        echo 'i am here';
+         BotBank::insertHistory($user_id, $mess);
+    } 
+} elseif (isset($_GET['action']) == 'delHis') {
+    $user_id = $_GET['uid'];
+    BotBank::deleteHistory($user_id);
+}
+
+
+
+
 $uid = $_GET['uid'];
 
 // Retrieve the user history
@@ -38,18 +54,3 @@ if (!empty($userHistory)) {
       </tbody>
     </table>';
 }
-
-
-if (isset($_GET['messageHistory']) && isset($_GET['uid'])) {
-    $mess = $_GET['messageHistory'];
-    $user_id = $_GET['uid'];
-    
-    if ($mess != ""){
-         BotBank::insertHistory($user_id, $mess);
-    } 
-} elseif (isset($_GET['action']) == 'delHis') {
-    $user_id = $_GET['uid'];
-    BotBank::deleteHistory($user_id);
-}
-
-

@@ -30,6 +30,8 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    
+    <link href="css/botDesign.css" rel="stylesheet">
 
     <!-- JavaScript code -->
     <script>
