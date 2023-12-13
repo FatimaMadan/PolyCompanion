@@ -48,29 +48,7 @@
     public function setClicks($clicks) {
         $this->clicks = $clicks;
     }
-   
 
-//    public function generateHourlyReport()
-//    {
-//        $db = Database::getInstance();
-//
-//        // Query to generate the hourly report
-//        $query = "
-//            INSERT INTO bot_reports (report_timestamp, action, clicks)
-//            SELECT
-//                CURRENT_TIMESTAMP AS report_timestamp,
-//                action,
-//                COUNT(*) AS clicks
-//            FROM
-//                bot_history
-//            WHERE
-//                timestamp >= DATE_SUB(NOW(), INTERVAL 1 HOUR) AND timestamp < NOW()
-//            GROUP BY
-//                action
-//        ";
-//
-//        $db->singleFetch($query);
-//    }
 }
 
 ?>
