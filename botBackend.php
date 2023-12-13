@@ -278,17 +278,36 @@ if (isset($_GET['action'])) {
      echo '<div class="bot-message">
                 Very glad I was able to help you today. Do not forget to rate your experience.
                 <div class="option-buttons">
-                    <button class="option-button" onclick="sendMessage(\'exit\')">Very helpful</button>
-                    <button class="option-button" onclick="sendMessage(\'exit\')">Not helpful</button>
+                    <button class="option-button" onclick="sendMessage(\'helpful\')">Very helpful</button>
+                    <button class="option-button" onclick="sendMessage(\'nothelp\')">Not helpful</button>
                 </div>
             </div>';
      echo '<div id="response-container"></div>';
-}
-
-elseif($action === 'exit') {
+} elseif($action === 'helpful') {
+    
+     // Echo user message
+            echo '<div class="user-message"> Very helpful </div>';
+            
      echo '<div class="bot-message">
-                Do not hesitate to come if you need any help!
-               
+                Very glad I was able to help you today. <br> Ready to rescue you whenever you want! 😎✨
+            </div>';
+     echo '<div id="response-container"></div>';
+} elseif($action === 'nothelp') {
+    
+     // Echo user message
+            echo '<div class="user-message"> Not helpful </div>';
+            
+     echo '<div class="bot-message">
+                I am very sorry to hear that. <br>
+                Hope I can guid you next time.
+                
+            </div><br>';
+     
+     echo '<div class="bot-message">
+                For any complains or suggestions click on the button below.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                </div>
             </div>';
      echo '<div id="response-container"></div>';
 }

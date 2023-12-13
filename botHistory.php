@@ -43,8 +43,10 @@ if (!empty($userHistory)) {
 if (isset($_GET['messageHistory']) && isset($_GET['uid'])) {
     $mess = $_GET['messageHistory'];
     $user_id = $_GET['uid'];
-    BotBank::insertHistory($user_id, $mess);
     
+    if ($mess != ""){
+         BotBank::insertHistory($user_id, $mess);
+    } 
 } elseif (isset($_GET['action']) == 'delHis') {
     $user_id = $_GET['uid'];
     BotBank::deleteHistory($user_id);
