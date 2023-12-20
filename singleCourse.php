@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include 'header.php';
 include 'debugging.php';
 
@@ -14,7 +15,104 @@ $major = new MajorBank();
 $major->initWithId($major_id);
         
 ?>
+<html lang="en">
 
+<head>
+       <!-- JavaScript code -->
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function subscribeCourse(courseId) {
+  // Perform AJAX call
+  $.ajax({
+    url: 'subsUserPost.php',
+    type: 'POST',
+    data: { courseId: courseId },
+    dataType: 'json',
+    success: function(response) {
+      // Handle success response
+      if (response.success) {
+        // Refresh the page or perform any other actions
+               // Show the <div> element for 5 seconds
+       var popupDiv = document.getElementById('SubspopupMessage');
+    popupDiv.style.display = 'block';
+
+    // Hide the popup message after 5 seconds
+    setTimeout(function() {
+      popupDiv.style.display = 'none';
+    }, 5000);
+    
+        console.log("subscribed successfully");
+//        window.location.href = 'AdminDashboard.php';
+      } else {
+        // Handle error response
+        console.log(response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      // Handle AJAX error
+      console.log(error);
+    }
+  });
+}
+     function unSubscribeCourse(courseId) {
+  // Perform AJAX call
+  $.ajax({
+    url: 'unSubsUserPost.php',
+    type: 'POST',
+    data: { courseId: courseId },
+    dataType: 'json',
+    success: function(response) {
+      // Handle success response
+      if (response.success) {
+        // Refresh the page or perform any other actions
+               // Show the <div> element for 5 seconds
+       var popupDiv = document.getElementById('UnSubspopupMessage');
+    popupDiv.style.display = 'block';
+
+    // Hide the popup message after 5 seconds
+    setTimeout(function() {
+      popupDiv.style.display = 'none';
+    }, 5000);
+    
+        console.log("unsubscribed successfully");
+//        window.location.href = 'AdminDashboard.php';
+      } else {
+        // Handle error response
+        console.log(response.error);
+      }
+    },
+    error: function(xhr, status, error) {
+      // Handle AJAX error
+      console.log(error);
+    }
+  });
+}
+ </script>
+  <meta charset="utf-8">
+    <title>eLEARNING - eLearning HTML Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+      </head>
 <body>
 
           <!-- Carousel Start -->
@@ -32,7 +130,37 @@ $major->initWithId($major_id);
                                                                      Level <?php echo $course->getCourseLevel() ?> &bull;
                                                                      <?php echo $major->getMajorName() ?> Major
                                 </p>
-                                <a href=inquiry.php?courseId=<?php echo $id?> class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Ask Away</a>
+                                <?php 
+                                
+                                // Establish a database connection
+                                $conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
+                                
+                                // Get the post ID and action from the AJAX request
+                                $courseId = $course->getCourseId();
+                                $userId = $_SESSION['uid'];
+
+                                  $query1 = "SELECT User_UserId FROM Subscriptions WHERE Course_CourseId = $courseId";
+                                  $result = mysqli_query($conn, $query1);
+
+                                if ($result) {
+                                    $existingUserIds = array();
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $existingUserIds[] = $row['User_UserId'];
+                                    }
+
+                                    if (in_array($userId, $existingUserIds)) {
+                                        //The logged-in userId already exists in Subscriptions for the given Course_CourseId
+                                           echo '<button class="btn btn-primary py-md-3 px-md-5 me-3" onclick="unSubscribeCourse('. $course->getCourseId(). ');" >UnSubscribe</button>';
+
+                                    }else {
+                                          //The logged-in userId does not exist in Subscriptions for the given Course_CourseId
+                                       
+                                           echo '<button class="btn btn-primary py-md-3 px-md-5 me-3" onclick="subscribeCourse('. $course->getCourseId(). ');" >Subscribe</button>';
+                                    }
+                                    }
+                                       
+                                ?>
+                            
                               </div>
                         </div>
                     </div>
@@ -41,7 +169,9 @@ $major->initWithId($major_id);
         </div>
     </div>
     <!-- Carousel End -->
-
+ <div id="SubspopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Course subscribed successfully!</div>
+    <div id="UnSubspopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Course Unsubscribed successfully!</div>
+    
     
     <!-- Service Start -->
 <div class="container-xxl py-5">
