@@ -4,8 +4,8 @@ include 'debugging.php';
 include 'header.php';
 include 'Users.php';// Update the file path if necessary
 
-if (empty($_SESSION['uid'])) {
-    // User is not logged in, redirect to login page
+
+if (empty($_SESSION['uid']) || $_SESSION['roleId'] != 1) {
     echo $_SESSION['username'];
     header("Location: Login.php");
     exit();
