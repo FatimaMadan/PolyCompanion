@@ -69,8 +69,40 @@ if (empty($_SESSION['uid'])) {
   <link rel="stylesheet" href="css/loginStyle.css">
 </head>
 
-<html>
 <head>
+    <script>
+function validateForm() {
+  var password = document.getElementById('password').value;
+  var repassword = document.getElementById('repassword').value;
+  var passwordError = document.getElementById('password-error');
+  
+  // Reset error message
+  passwordError.innerHTML = "";
+  
+  // Check password length
+  if (password.length < 8) {
+    passwordError.innerHTML = "Password should be at least 8 characters long.";
+    return false; // Prevent form submission
+  }
+  
+  // Check for symbol and number
+  var symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  var numberRegex = /[0-9]/;
+  if (!symbolRegex.test(password) || !numberRegex.test(password)) {
+    passwordError.innerHTML = "Password should contain at least one symbol and one number.";
+    return false; // Prevent form submission
+  }
+  
+  // Check if passwords match
+  if (password !== repassword) {
+    passwordError.innerHTML = "Passwords do not match.";
+    return false; // Prevent form submission
+  }
+  
+  // Form is valid, allow submission
+  return true;
+}
+</script>
 <title> Reset Password </title>
 </head>
 <body>
@@ -83,12 +115,13 @@ if (empty($_SESSION['uid'])) {
             <p>For your security, choose a strong password.</p>
           </div>
         </div>
-        <form class="login-form" method="POST">
-          
-           <input required type="password" name="Password" placeholder="Password"/><br>
-           <input required type="password" name="RePassword" placeholder="Re-Enter Password"/><br>
-          <button name="submitted" value="TRUE">Reset</button>
-        </form>
+       <form class="login-form" method="POST" onsubmit="return validateForm()">
+  <input required type="password" name="password" id="password" placeholder="Password"/><br>
+  <input required type="password" name="repassword" id="repassword" placeholder="Re-Enter Password"/><br>
+  <span id="password-error" style="color: red;"></span>
+  <button name="submitted" value="TRUE">Reset</button>
+</form>
+
       </div>
     </div>
 	 <!-- Login End -->
