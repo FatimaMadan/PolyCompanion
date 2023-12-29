@@ -46,7 +46,7 @@ class FaqBank {
         
         
          public function initWithFid($id) {
-             echo "inside initi";
+             
         $db = Database::getInstance();
         $data = $db->singleFetch("SELECT * FROM FAQ WHERE FaqId = " . $id );
         $this->initWith($data->FaqId, $data->FQuestion, $data->FAnswer, $data->User_UserId);

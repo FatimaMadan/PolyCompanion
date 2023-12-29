@@ -12,34 +12,38 @@ if (empty($_SESSION['uid'])) {
 }
 
     if (isset($_POST['submitted'])) {
-     
+//     echo "hello";
         $username = $_SESSION['username'];
-        $password = $_POST['Password'];
-        $repassword = $_POST['RePassword'];
+        $password = $_POST['password'];
 
         // Check if the password and RePassword match
-        if ($password === $repassword) {
-            echo "Password and Re-Password match";
+//        if ($password === $repassword) {
+//            echo "Password and Re-Password match";
             $user = new Users();
            
             if ($user->updatePassword($username, $password)){
                 echo '<script>alert("Password Reset Successfully.");</script>';
-                  header('Location: index.php');
+                 // header('Location: index.php');
             }else{
                 echo "Password Reset failed!";
             }
             
             // Additional logic or actions can be performed here after a successful match
-        } else {
-            echo "Passwords do not match";
-            // Additional logic or actions can be performed here if the values do not match
-        }
+//        } else {
+//            echo "Passwords do not match";
+//            // Additional logic or actions can be performed here if the values do not match
+//        }
     
 }
 ?>
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8">
+   
+
+
+
+
+ <meta charset="utf-8">
     <title>eLEARNING - eLearning HTML Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -67,6 +71,7 @@ if (empty($_SESSION['uid'])) {
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="css/loginStyle.css">
+
 </head>
 
 <head>
