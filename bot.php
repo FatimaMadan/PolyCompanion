@@ -169,7 +169,12 @@ include 'header.php';
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="view_history.php">History</a>
-                    <a class="dropdown-item" href="#">Reports</a>
+                    
+                        <?php
+                        if($_SESSION['roleId'] == 1 ){
+                        echo '<a class="dropdown-item" href="#">Reports</a>';
+                        }
+                        ?>
                     <a class="dropdown-item" href="view_botPolicy.php">Polybot Policy</a>
                 </div>
             </div>
