@@ -304,5 +304,11 @@ class CourseBank {
     $data = $db->singleFetch($query);
     return $data;
     }
+    
+   public static function deleteCourse($course_id) {
+    $db = Database::getInstance();
+    $query = 'DELETE FROM Course WHERE CourseId = \'' . $course_id . '\'';
+    $db->singleFetch($query);
+}
 
 }
