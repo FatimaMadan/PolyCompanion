@@ -28,39 +28,6 @@ include 'header.php';
         </button>
       </div>
       <div class="history-div" id="history-results">
-      <?php
-//      $userHistory = BotBank::getUserHistory($uid);
-//      if (!empty($userHistory)) {
-//                            for ($i = 0; $i < count($userHistory); $i++) {
-//                                echo '<h4 class="history-date">'.$userHistory[$i]->timestamp.'</h4>
-//                                        <hr class="date-separator">
-//                                        <table class="table">
-//                                          <tbody>
-//                                            <tr>
-//                                              <td class="time-column">10:00 AM</td>
-//                                              <td class="action-column">'.$userHistory[$i]->action.'</td>
-//                                            </tr>
-//                                          </tbody>
-//                                        </table>';
-//                                        
-//                                }
-//                        } else {
-//                            echo '<h4 class="history-date">No data available</h4>
-//        <hr class="date-separator">
-//        <table class="table">
-//          <tbody>
-//            <tr>
-//              <td class="time-column">No data available</td>
-//              <td class="action-column">No data available</td>
-//            </tr>
-//            <tr>
-//              <td class="time-column">No data available</td>
-//              <td class="action-column">No data available</td>
-//            </tr>
-//          </tbody>
-//        </table>';
-//                        }
-                        ?>
       </div>
     </div>
   </div>

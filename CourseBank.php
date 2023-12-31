@@ -207,12 +207,6 @@ class CourseBank {
         $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->ProgramManager, $data->CurrentDeveloper, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->total_hours, $data->recommended_book_resources, $data->TeachingStrategies);
     }
     
-        public static function getCourses() {
-    $db = Database::getInstance();
-    $q = 'SELECT * FROM Course ORDER BY CourseId DESC';
-    $data = $db->multiFetch($q);
-    return $data;
-}
     
      function getAllCourses() {
         $db = Database::getInstance();
@@ -220,54 +214,80 @@ class CourseBank {
         return $data;
     }
     
-    static function searchByTitle($searchText){
-        $db = Database::getInstance();
-        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle) AGAINST('*".$searchText."*' IN BOOLEAN MODE)";
-        $result = $db->multiFetch($query);    
-        return $result;
-    }
-    
+// Retrieve all courses from the database
+           public static function getCourses() {
+    $db = Database::getInstance();
+    $q = 'SELECT * FROM Course ORDER BY CourseId DESC';
+    $data = $db->multiFetch($q);
+    return $data;
+}
+
+// Search for courses by title and filter by major
     static function searchByTitleAndFilter($searchText, $filter){
         $db = Database::getInstance();
         $mid = MajorBank::getMajorFromName($filter);
-        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle) AGAINST('*".$searchText."*' AND Major_MajorId = \'' . $mid . '\')";
+        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle)"
+                . "AGAINST('*".$searchText."*' AND Major_MajorId = \'' . $mid . '\')";
         $result = $db->multiFetch($query);    
         return $result;
     }
     
-    
+    // Search for courses by title, code and short title
+        static function searchByTitle($searchText){
+        $db = Database::getInstance();
+        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle)"
+                . "AGAINST('*".$searchText."*' IN BOOLEAN MODE)";
+        $result = $db->multiFetch($query);    
+        return $result;
+    } 
+
+    // Retrieve the outcomes of a course based on CourseId
     public static function getOutcomes($CourseId) {
       $db = Database::getInstance();
       $data = $db->multiFetch('SELECT * FROM CLO WHERE CourseId = \'' . $CourseId . '\'');
       return $data;
     } 
 
-    public static function getAllColumns() {
-      $db = Database::getInstance();
-      $data = $db->multiFetch('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "Course"');
-      return $data;
-    } 
-    
+    // Retrieve courses belonging to the specified major
     public static function getCoursesByMajor($major_id){
         $db = Database::getInstance();
       $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\'');
       return $data;
     }
     
+    // Retrieve courses belonging to the specified major and year
     public static function getCoursesByYear($major_id, $year){
         $db = Database::getInstance();
-      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\'');
+      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\''
+              . 'AND Year=  \'' . $year . '\'');
       return $data;
     }
     
+        // Retrieve courses belonging to the specified major, year, and semester
     public static function getCoursesBySem($major_id, $year, $sem){
 
      $db = Database::getInstance();
-    $query = 'Select * from Course WHERE Major_MajorId = \'' . $major_id . '\' AND Year=  \'' . $year . '\' AND Semester=  \'' . $sem . '\'';
+    $query = 'Select * from Course WHERE Major_MajorId = \'' . $major_id . '\''
+            . 'AND Year=  \'' . $year . '\' AND Semester=  \'' . $sem . '\'';
     $data = $db->multiFetch($query);
-    
     return $data;
     }
+    
+         // Retrieve all columns of the Course table
+    public static function getAllColumns() {
+      $db = Database::getInstance();
+      $data = $db->multiFetch('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
+              . 'WHERE TABLE_NAME = "Course"');
+      return $data;
+    } 
+    
+            public static function getColAns($courseId, $colName){
+    $db = Database::getInstance();
+    $query = 'SELECT ' . $colName . ' FROM Course WHERE CourseId = \'' . $courseId . '\'';
+    $data = $db->singleFetch($query);
+    return $data;
+}
+    
     
     public static function getCourseCol(){
         $db = Database::getInstance();
@@ -275,12 +295,7 @@ class CourseBank {
       return $data;
     }
     
-    public static function getColAns($courseId, $colName){
-    $db = Database::getInstance();
-    $query = 'SELECT ' . $colName . ' FROM Course WHERE CourseId = \'' . $courseId . '\'';
-    $data = $db->singleFetch($query);
-    return $data;
-}
+
 
     public static function getCourseName($course_id){
 
@@ -289,86 +304,5 @@ class CourseBank {
     $data = $db->singleFetch($query);
     return $data;
     }
-    
-//    private function initWith($CourseId,$CourseCode,$CourseTitle,$Major_MajorId) {
-//       $this->CourseId = $CourseId;
-//       $this->CourseCode = $CourseCode;
-//        $this->CourseTitle = $CourseTitle;
-//        $this->Major_MajorId = $Major_MajorId;
-//    }
 
-    
-    
-//          public function isValid() {
-//        $errors = array();
-//
-//        if (empty($this->FQuestion))
-//            $errors[] = 'You must enter a Question';
-//
-//        if (empty($this->FAnswer))
-//            $errors[] = 'You must enter an Answer';
-//        
-//        $this->MissingError=$errors;
-//        if (empty($errors))
-//            return true;
-//        else
-//            return false;
-//    }
-        
-//        function deleteCourse() {
-//        try {
-//            echo "inside deleteCourse";
-//            $db = Database::getInstance();
-//            /*     * ********************** TODO Question 4 Part B****************** */
-//         // replace ...... with  Delete Query on line No 104.
-//            //echo 'Delete from Books where idBook=' . $this->idBook;
-//            $data = $db->querySql("DELETE FROM Course Where CourseId = ".$this->CourseId);
-//            echo $data;
-//            return true;
-//        } catch (Exception $e) {
-//            echo 'Exception: ' . $e;
-//            return false;
-//        }
-//    }
-   
-//    function addCourse() {
-//        
-//        try {
-//            $db = Database::getInstance();
-//            
-//            $insertQry="INSERT INTO FAQ VALUES( NULL,'$this->FQuestion', '$this->FAnswer','$this->User_UserId')";
-//           
-//            if(($db->querySql($insertQry)))
-//            { return false; }
-//            
-//            return true;
-//           
-//        } catch (Exception $e) {
-//            echo 'Exception: ' . $e;
-//            return false;
-//        }
-//        
-//    }
-   
-//    function updateDB() {
-//        try {
-//            $db = Database::getInstance();
-//             $data = 'UPDATE FAQ set
-//			FQuestion = \'' . $this->FQuestion . '\' ,
-//                            FAnswer = \'' . $this->FAnswer . '\' ,
-//                              User_UserId = \'' . $this->User_UserId. '\' 
-//                            WHERE FaqId = ' . $this->FaqId;
-//             echo $data;
-//
-//            $db->querySql($data);
-//
-//            return true;
-//        } catch (Exception $e) {
-//
-//            echo 'Exception: ' . $e;
-//            return false;
-//        }
-//    }
-
-   
 }

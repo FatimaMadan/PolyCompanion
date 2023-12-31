@@ -1,6 +1,6 @@
 <?php 
 
-    class BotBank {
+    class BotReportsBank {
     
     private $report_id;
     private $report_timestamp;

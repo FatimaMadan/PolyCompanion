@@ -26,7 +26,8 @@ $major->initWithId($major_id);
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-sm-10 col-lg-8">
-                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown"><?php echo $course->getCourseCode() ?> &bull; <?php echo $course->getShortTitle() ?></h5>
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown"><?php echo $course->getCourseCode() ?> &bull; 
+                                    <?php echo $course->getShortTitle() ?></h5>
                                 <h1 class="display-3 text-white animated slideInDown"><?php echo $course->getCourseTitle() ?></h1>
                                 <p class="fs-5 text-white mb-4 pb-2"><?php echo $course->getCredits() ?> Credits &bull;
                                                                      Level <?php echo $course->getCourseLevel() ?> &bull;
@@ -89,7 +90,7 @@ $major->initWithId($major_id);
 <!-- Service End -->
 
 
-<!-- About Start -->
+<!-- About Course -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5">

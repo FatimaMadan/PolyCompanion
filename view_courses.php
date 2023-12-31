@@ -108,7 +108,9 @@ function getSelectedOption() {
                 <div class="col-lg-10 text-center">
                     <h1 class="display-3 text-white animated slideInDown">Courses</h1>
                     <nav aria-label="breadcrumb">
-                        <p class="breadcrumb-item text-white">Welcome! Dive into a world of knowledge with our diverse range of captivating courses this semester. <br> <b>Explore, learn, and thrive!</b></p>
+                        <p class="breadcrumb-item text-white">Welcome! Dive into a world of knowledge with
+                            our diverse range of captivating courses this semester.
+                            <br> <b>Explore, learn, and thrive!</b></p>
                     </nav>
                 </div>
             </div>
@@ -121,43 +123,44 @@ function getSelectedOption() {
 				<div class="row"> <!--search part-->
 							
                                                 <div class="row g-4 justify-content-center">
-                                                   <form class="search" autocomplete="off" action="search.php">
-    <div class="form-group">
-        <div class="input-group">
-            <input type="text" name="searchText" oninput="searchCourse(this.value)" class="form-control" placeholder="Type something here">
-            <div class="input-group-btn">
-                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="input-group-btn" style="margin-left: 10px;">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-filter"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="filterDropdown">
-                        <!-- Add your filter options here -->
-                        <a class="dropdown-item active" href="#" onclick="selectOption('All Majors')">All Majors</a>
-                        <?php
-                        $AllMajors = MajorBank::getAllMaj();
-                        if (!empty($AllMajors)) {
-                            for ($i = 0; $i < count($AllMajors); $i++) {
-                                echo '<a class="dropdown-item" href="#" onclick="selectOption(\''.$AllMajors[$i]->MajorName.'\')">'.$AllMajors[$i]->MajorName.'</a>';
-                            }
-                        } else {
-                            echo '<a class="dropdown-item" href="#">opppps</a>';
-                        }
-                        ?>
-                    </div>
-                </div>
-            </div>
-            <div class="input-group-btn" style="margin-left: 10px;">
-                <button class="btn btn-primary"><i class="fas fa-sort"></i></button>
-            </div>
-            <div class="input-group-btn" style="margin-left: 10px;">
-                <a href="AddCourse.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-            </div>
-        </div>
-    </div>
-</form>
+                                                    <form class="search" autocomplete="off" action="search.php">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input type="text" name="searchText" oninput="searchCourse(this.value)" class="form-control" placeholder="Type something here">
+                                                                <div class="input-group-btn">
+                                                                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                                                </div>
+                                                                <div class="input-group-btn" style="margin-left: 10px;">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="fas fa-filter"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                                                                            <!-- Add your filter options here -->
+                                                                            <a class="dropdown-item active" href="#" onclick="selectOption('All Majors')">All Majors</a>
+                                                                            <?php
+                                                                            $AllMajors = MajorBank::getAllMaj();
+                                                                            if (!empty($AllMajors)) {
+                                                                                for ($i = 0; $i < count($AllMajors); $i++) {
+                                                                                    echo '<a class="dropdown-item" href="#" '
+                                                                                    . 'onclick="selectOption(\'' . $AllMajors[$i]->MajorName . '\')">' . $AllMajors[$i]->MajorName . '</a>';
+                                                                                }
+                                                                            } else {
+                                                                                echo '<a class="dropdown-item" href="#">opppps</a>';
+                                                                            }
+                                                                            ?>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="input-group-btn" style="margin-left: 10px;">
+                                                                    <button class="btn btn-primary"><i class="fas fa-sort"></i></button>
+                                                                </div>
+                                                                <div class="input-group-btn" style="margin-left: 10px;">
+                                                                    <a href="AddCourse.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                     
                                                     
                                                 </div>
@@ -167,7 +170,6 @@ function getSelectedOption() {
 <div class="row g-4 justify-content-center" id="searchResult">
     <?php
     $list = CourseBank::getCourses();
-
     // Check if the result is not empty
     if (!empty($list)) {
         for ($i = 0; $i < count($list); $i++) {
@@ -228,7 +230,7 @@ function getSelectedOption() {
             // Redirect to deleteCourse.php with the courseId parameter
             window.location.href = "deleteCourse.php?cid=" + courseId;
         }
-        alert ('edited successfully');
+        alert ('deleted successfully');
     }
 </script>
 

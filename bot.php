@@ -155,13 +155,16 @@ include 'header.php';
             <div class="col-lg-10 text-center">
                 <h1 class="display-3 text-white animated slideInDown">Polybot</h1>
                 <nav aria-label="breadcrumb">
-                    <p class="breadcrumb-item text-white">Welcome to Polybot, your Polytechnic journey companion!<br>Ask away, and Polybot will provide quick and helpful answers to your course-related queries.</p>
+                    <p class="breadcrumb-item text-white">Welcome to Polybot, your Polytechnic journey companion!
+                        <br>Ask away, and Polybot will provide quick and helpful answers to your course-related queries.</p>
                 </nav>
             </div>
         </div>
     </div>
 </div>
 <!-- Header End -->
+
+<!-- Conversation Header -->
 <div class="container-fluid bg-light py-3 conversation-header">
     <div class="container d-flex align-items-center justify-content-between">
         <div class="header-user-info">
@@ -171,7 +174,8 @@ include 'header.php';
         <div class="header-menu">
             <button class="btn btn-primary tutorial-button">Tutorial</button>
             <div class="dropdown">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" 
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -201,8 +205,10 @@ include 'header.php';
             <div class="bot-message">
                 How can I help you today?
                 <div class="option-buttons">
-                    <button class="option-button" onclick="sendMessage('faq')">I want to see the Most Frequently Asked Questions</button>
-                    <button class="option-button" onclick="sendMessage('majors')">I have a question about a specific course</button>
+                    <button class="option-button" onclick="sendMessage('faq')">
+                        I want to see the Most Frequently Asked Questions</button>
+                    <button class="option-button" onclick="sendMessage('majors')">
+                        I have a question about a specific course</button>
                 </div>
             </div>
 
