@@ -183,9 +183,11 @@ function getSelectedOption() {
                             <a href="editCourse.php?cid='.$list[$i]->CourseId.'"
                                 class="flex-shrink-0 btn btn-sm btn-primary px-2"
                                 style="border-radius: 50%;"><i class="fas fa-edit"></i></a>
-                            <a href="#" onclick="confirmDelete('.$list[$i]->CourseId.')"
-                                class="flex-shrink-0 btn btn-sm btn-danger px-2 me-1"
-                                style="border-radius: 50%;"><i class="fas fa-trash"></i></a>
+<a href="#" onclick="confirmDelete(\'' . $list[$i]->CourseId . '\', \'delete\')"
+      class="flex-shrink-0 btn btn-sm btn-danger px-2 me-1"
+      style="border-radius: 50%;">
+      <i class="fas fa-trash"></i>
+</a>
                         </div>
                         <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
                             <a href="singleCourse.php?cid='.$list[$i]->CourseId.'"
@@ -225,14 +227,27 @@ function getSelectedOption() {
 </div>
 
 <script>
-    function confirmDelete(courseId) {
-        if (confirm("Are you sure you want to delete this course?")) {
-            // Redirect to deleteCourse.php with the courseId parameter
-            window.location.href = "deleteCourse.php?cid=" + courseId;
-        }
-        alert ('deleted successfully');
+function confirmDelete(cid, action) {
+    if (confirm("Are you sure you want to delete this course?")) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "courseBackend.php?cid=" + cid + "&action=" + action, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    alert('Deleted successfully');
+                } else {
+                    alert('An error occurred while deleting the course.');
+                }
+            }
+        };
+        xhr.send();
     }
+}
+
 </script>
+
+
+
 
 </div>
     </div>
