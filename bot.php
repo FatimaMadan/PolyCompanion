@@ -10,10 +10,17 @@ include 'header.php';
      header("Location: Login.php");
      exit();
  }
+ 
+
+
 ?>
 
-
-
+   <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      alert('Note that by using the Polybot page you are agrreing to the Polybot Policy!');
+    });
+   </script><!-- comment -->
+   
 <script>
         // Get the current page URL
         var url = window.location.href;
@@ -172,7 +179,7 @@ include 'header.php';
                     
                         <?php
                         if($_SESSION['roleId'] == 1 ){
-                        echo '<a class="dropdown-item" href="#">Reports</a>';
+                        echo '<a class="dropdown-item" href="bot_reports.php">Reports</a>';
                         }
                         ?>
                     <a class="dropdown-item" href="view_botPolicy.php">Polybot Policy</a>

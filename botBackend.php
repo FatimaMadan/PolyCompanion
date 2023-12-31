@@ -304,9 +304,10 @@ if (isset($_GET['action'])) {
             </div><br>';
      
      echo '<div class="bot-message">
-                For any complains or suggestions click on the button below.<br>
+                For any complains or suggestions click on the contact button below or you can access the ask away page to publish your question.<br>
                 <div class="option-buttons">
                     <button class="option-button"><a href="contact.php">Contact us</a></button>
+                    <button class="option-button"><a href="inquiry.php">Ask Away</a></button>
                 </div>
             </div>';
      echo '<div id="response-container"></div>';
