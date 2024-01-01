@@ -15,7 +15,6 @@ include 'header.php';
  $uid = $_SESSION['uid'];
 ?>
 
-
 <!-- About Start -->
 <div class="container-xxl py-5">
   <div class="container">
@@ -29,30 +28,36 @@ include 'header.php';
       </div>
       <div class="history-div" id="history-results">
       </div>
+      <div class="pagination" id="pagination-container">
+      </div>
     </div>
   </div>
 </div>
 <!-- About End -->
 
 <script>
-    loadHistory();
-    
-    function loadHistory() {
-  // Create an AJAX request
-  var xhttp = new XMLHttpRequest();
+    // Initial page load
+    loadHistory(1);
 
-  // Define the callback function to handle the response
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      // Update the content of the history-results container
-      document.getElementById("history-results").innerHTML = this.responseText;
+    function loadHistory(page) {
+        // Create an AJAX request
+        var xhttp = new XMLHttpRequest();
+
+        // Define the callback function to handle the response
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Update the content of the history-results container
+                document.getElementById("history-results").innerHTML = this.responseText;
+                // Update the pagination container
+                document.getElementById("pagination-container").innerHTML = this.getResponseHeader("pagination");
+            }
+        };
+
+        // Specify the AJAX request details
+        xhttp.open("GET", "botHistory.php?uid=<?php echo $uid; ?>&page=" + page, true);
+        xhttp.send();
     }
-  };
 
-  // Specify the AJAX request details
-  xhttp.open("GET", "botHistory.php?uid=<?php echo $uid; ?>", true);
-  xhttp.send();
-}
 
 function deleteHis(uid, action) {
   // Display a confirmation message to the user
