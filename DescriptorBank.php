@@ -69,13 +69,13 @@ class DescriptorBank{
        
     }
 
-    function addFile() {
-//echo "inside add file";
+    function addFile($User_UserId, $FileName, $FileLocation, $FileType) {
+echo "inside add file";
         try {
         
             $db = Database::getInstance();
 $sql = 'INSERT INTO Descriptor (FileId, User_UserId, FileName, FileLocation, FileType) VALUES '
-    . '(NULL, ' . $this->User_UserId . ', \'' . $this->FileName . '\', \'' . $this->FileLocation . '\', \'' . $this->FileType . '\')';
+    . '(NULL, ' . $User_UserId . ', \'' . $FileName . '\', \'' . $FileLocation . '\', \'' . $FileType . '\')';
 $data = $db->querySql($sql);
 
 //echo $sql;
@@ -107,11 +107,19 @@ $data = $db->querySql($sql);
     }
     
   
-//   function getDescWithCId($cid){
-//      $db = Database::getInstance();
-//      $data = $db->multiFetch('Select * from Descriptor where CourseId =' . $cid);
-//      return $data;
-//      
-//  }
+   function getDescWithCId($cid){
+      $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Descriptor where CourseId =' . $cid);
+      return $data;
+      
+  }
+  
+     function getFileWithQuesidAndUserId($qid, $uid){
+    
+        $db = Database::getInstance();
+        $data = $db->singleFetch("Select * from Descriptor CourseId QId = $qid and User_UserId= $uid");
+        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->Answers_AnsId, $data->User_UserId, $data->Questions_QuestionId, $data->QId, $data->AId, $data->Type);
+        return $this;
+  }
   
 }

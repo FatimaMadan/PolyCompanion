@@ -389,4 +389,12 @@ public static function getAllColumns() {
 
 }
 
+function getMaxCourseId(){
+    $db = Database::getInstance();
+    $sql = "SELECT MAX(CourseId) AS MaxCourseId FROM Course";
+    $data = $db->singleFetch($sql);
+    
+    return (int) $data->MaxCourseId;
+}
+
 }
