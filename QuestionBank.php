@@ -154,7 +154,7 @@ class QuestionBank {
         try {
             $db = Database::getInstance();
             $sql = "INSERT INTO Questions(QuestionId, QuesTitle, QuesDescription, Tags, Likes, Course_CourseId, User_UserId) VALUES (NULL, '$this->QuesTitle', '$this->QuesDescription', '$this->Tags', '$this->Likes', '$this->Course_CourseId',  '$this->User_UserId')";
-          // echo 'Executing SQL: ' . $sql;
+          echo 'Executing SQL: ' . $sql;
             
             $data = $db->querySQL($sql);
           $this->addActivity();

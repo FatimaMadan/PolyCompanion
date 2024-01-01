@@ -27,10 +27,10 @@ if (isset($_POST['save'])) {
         $file->setFileName($upload->getFilepath());
         $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
         $file->setFileType($upload->getFileType());
-        $file->setAnswers_AnsId(16);
+        $file->setAnswers_AnsId(19);
         $qt = new QuestionBank();
         $maxQId = $qt->getMaxQuestionId();
-        $file->setQuestions_QuestionId(25);
+        $file->setQuestions_QuestionId(46);
         $file->setQId($maxQId + 1);
         $file->setAId(1);
         $file->setType("Question");
@@ -59,8 +59,30 @@ if (isset($_POST['save'])) {
         $newqt->setCourse_CourseId($_POST['course']);
         
    if ($newqt->addQuestion()){
-       
-            header("Location: inquiry.php");
+       echo 'insdie add qt';
+//  //UPLOAD FILE *****************
+//      if(!empty($_FILES)) {
+//        $upload = new Upload();
+//        $upload->setUploadDir('images/');
+//        $msg = $upload->upload('name');
+//        
+//           if(empty($msg)){
+//        $file = new Files();
+//        $file->setUser_UserId($_SESSION['uid']);
+//        $file->setFileName($upload->getFilepath());
+//        $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
+//        $file->setFileType($upload->getFileType());
+//        $file->setAnswers_AnsId(1);
+//        $qt = new QuestionBank();
+//        $maxQId = $qt->getMaxQuestionId();
+//        $file->setQuestions_QuestionId(1);
+//        $file->setQId($maxQId + 1);
+//        $file->addFile();
+//         }else   print_r ($msg);
+//      }else{
+// echo '<p> try again';
+//    }
+//            header("Location: inquiry.php");
 exit();
         }else{
          echo 'Error Adding Question';

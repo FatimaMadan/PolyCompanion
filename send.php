@@ -24,9 +24,11 @@ if (isset($_POST["send"])) {
     $user = new Users();
     $user->setUsername($username);
 
-    if ($user->initWithUsername()) {
-        echo "<script> alert('UserName Does not Exist!'); document.location.href = 'ForgotPassword.php'; </script>";
-    } else {
+   if ($user->initWithUsername()) {
+    echo "<script> alert('UserName Does not Exist!'); document.location.href = 'ForgotPassword.php'; </script>";
+    echo '<p style="color: red;">UserName Does not Exist!</p>';
+}
+    else {
         $useremail = $user->getUserEmail($username);
         if (empty($useremail)) {
             echo "<script> alert('Email Does not Exist'); document.location.href = 'ForgotPassword.php'; </script>";
@@ -57,7 +59,6 @@ if (isset($_POST["send"])) {
             </script>
         </head>
         <body onload="submitForm()">
-            <h1>Email sent successfully!</h1>
             <form id="myForm" method="POST" action="FPverify.php">
                 <input type="hidden" id="codeInput" name="code" value="">
                 <input type="hidden" id="usernameInput" name="username" value="">

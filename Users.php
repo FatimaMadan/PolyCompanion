@@ -11,9 +11,7 @@ class Users
         private $password;
         private $roleId;
         private $UserDp;
-        private $agree_to_policy ;
-
-
+        
         public function __construct() {
             $this->uid = null;
             $this->username = null;
@@ -22,7 +20,6 @@ class Users
             $this->password = null;
             $this->roleId = null;
             $this->UserDp = null;
-            $this->agree_to_policy = null;
         }
         
         
@@ -88,15 +85,7 @@ class Users
             $this->UserDp = $UserDp;
         }
         
-        public function getAgree_to_policy() {
-            return $this->agree_to_policy;
-        }
-
-        public function setAgree_to_policy($agree_to_policy): void {
-            $this->agree_to_policy = $agree_to_policy;
-        }
-
-                function initWith($uid, $username, $firstName, $lastName, $email, $password, $roleId, $UserDp) 
+        function initWith($uid, $username, $firstName, $lastName, $email, $password, $roleId, $UserDp) 
         {
             
             $this->uid = $uid;
@@ -333,8 +322,8 @@ public function getAUserName($userid) {
            
             $db = Database::getInstance();
            
-             $data = "UPDATE User SET Password = AES_ENCRYPT('$password', 'qwe') WHERE UserName = $username";
-           //  echo $data;
+             $data = "UPDATE User SET Password = AES_ENCRYPT('$password', 'qwe') WHERE UserName = '$username'";
+//         echo $data;
 
             $db->querySql($data);
             
@@ -346,22 +335,6 @@ public function getAUserName($userid) {
             return false;
         }
     }
-    
-       public static function getUserAgree($userid) {
-    $db = Database::getInstance();
-    $q = 'SELECT agree_to_policy FROM User WHERE UserId = ' .$userid;
-    $data = $db->singleFetch($q);
-    if ($data != null) {
-        return $data->agree_to_policy;
-    }
-    return null;
-}
-
-public static function updateUserAgree($userId, $agreeStatus) {
-    $db = Database::getInstance();
-    $q = "UPDATE User SET agree_to_policy = " . $agreeStatus . " WHERE UserId = " . $userId;
-    $db->singleFetch($q);
-}
     }
    
 

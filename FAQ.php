@@ -258,68 +258,6 @@ function handleDeleteConfirmation() {
     <!--hidden input field-->
     <input type="hidden" id="faq-id">
     
-    
-    
-        <div class="faq-row">
-            <div class="faq-question">Question 2
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-             </div>
-            <div class="faq-answer">Answer 2</div>
-        </div>
-        <div class="faq-row">
-            <div class="faq-question">Question 3
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-             </div>
-            <div class="faq-answer">Answer 3</div>
-        </div>
-        <div class="faq-row">
-            <div class="faq-question">Question 4
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 4</div>
-        </div>
-        <div class="faq-row">
-            <div class="faq-question">Question 5
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 5</div>
-        </div>
-         <div class="faq-row">
-            <div class="faq-question">Question 1
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-         </div><!-- comment -->
-           <div class="faq-row">
-            <div class="faq-question">Question 1
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-           </div><!-- comment -->
-            <div class="faq-row">
-            <div class="faq-question">Question 1
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
-            <div class="faq-row">
-            <div class="faq-question">Question 1
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
-            <div class="faq-row">
-            <div class="faq-question">Question 1
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
-            <div class="faq-row">
-            <div class="faq-question">Question 10000
-            <button class="faq-toggle-btn" onclick="toggleAnswer(event)">+</button>
-            </div>
-            <div class="faq-answer">Answer 1</div>
-        </div>
     </div>
 
 

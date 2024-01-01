@@ -30,7 +30,7 @@ if (empty($_SESSION['uid'])) {
         });
     </script>
     <meta charset="utf-8">
-    <title>eLEARNING - eLearning HTML Template</title>
+    <title>PolyCompanion: Home</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -80,7 +80,7 @@ if (empty($_SESSION['uid'])) {
                             <div class="col-sm-10 col-lg-8">
                                 <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Make Your Journey Easy</h5>
                                 <h1 class="display-3 text-white animated slideInDown">Connecting Students Together</h1>
-                                <p class="fs-5 text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea sanctus eirmod elitr.</p>
+                                <p class="fs-5 text-white mb-4 pb-2">Start your journey today and revolutionize the way you connect, collaborate, and succeed. Join us and discover a new era of virtual collaboration with PolyCompanion!</p>
                                 <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
                                 <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
                             </div>

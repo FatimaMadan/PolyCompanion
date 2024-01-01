@@ -12,34 +12,38 @@ if (empty($_SESSION['uid'])) {
 }
 
     if (isset($_POST['submitted'])) {
-     
+//     echo "hello";
         $username = $_SESSION['username'];
-        $password = $_POST['Password'];
-        $repassword = $_POST['RePassword'];
+        $password = $_POST['password'];
 
         // Check if the password and RePassword match
-        if ($password === $repassword) {
-            echo "Password and Re-Password match";
+//        if ($password === $repassword) {
+//            echo "Password and Re-Password match";
             $user = new Users();
            
             if ($user->updatePassword($username, $password)){
                 echo '<script>alert("Password Reset Successfully.");</script>';
-                  header('Location: index.php');
+                 // header('Location: index.php');
             }else{
                 echo "Password Reset failed!";
             }
             
             // Additional logic or actions can be performed here after a successful match
-        } else {
-            echo "Passwords do not match";
-            // Additional logic or actions can be performed here if the values do not match
-        }
+//        } else {
+//            echo "Passwords do not match";
+//            // Additional logic or actions can be performed here if the values do not match
+//        }
     
 }
 ?>
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8">
+   
+
+
+
+
+ <meta charset="utf-8">
     <title>eLEARNING - eLearning HTML Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -67,10 +71,43 @@ if (empty($_SESSION['uid'])) {
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="css/loginStyle.css">
+
 </head>
 
-<html>
 <head>
+    <script>
+function validateForm() {
+  var password = document.getElementById('password').value;
+  var repassword = document.getElementById('repassword').value;
+  var passwordError = document.getElementById('password-error');
+  
+  // Reset error message
+  passwordError.innerHTML = "";
+  
+  // Check password length
+  if (password.length < 8) {
+    passwordError.innerHTML = "Password should be at least 8 characters long.";
+    return false; // Prevent form submission
+  }
+  
+  // Check for symbol and number
+  var symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  var numberRegex = /[0-9]/;
+  if (!symbolRegex.test(password) || !numberRegex.test(password)) {
+    passwordError.innerHTML = "Password should contain at least one symbol and one number.";
+    return false; // Prevent form submission
+  }
+  
+  // Check if passwords match
+  if (password !== repassword) {
+    passwordError.innerHTML = "Passwords do not match.";
+    return false; // Prevent form submission
+  }
+  
+  // Form is valid, allow submission
+  return true;
+}
+</script>
 <title> Reset Password </title>
 </head>
 <body>
@@ -83,12 +120,13 @@ if (empty($_SESSION['uid'])) {
             <p>For your security, choose a strong password.</p>
           </div>
         </div>
-        <form class="login-form" method="POST">
-          
-           <input required type="password" name="Password" placeholder="Password"/><br>
-           <input required type="password" name="RePassword" placeholder="Re-Enter Password"/><br>
-          <button name="submitted" value="TRUE">Reset</button>
-        </form>
+       <form class="login-form" method="POST" onsubmit="return validateForm()">
+  <input required type="password" name="password" id="password" placeholder="Password"/><br>
+  <input required type="password" name="repassword" id="repassword" placeholder="Re-Enter Password"/><br>
+  <span id="password-error" style="color: red;"></span>
+  <button name="submitted" value="TRUE">Reset</button>
+</form>
+
       </div>
     </div>
 	 <!-- Login End -->

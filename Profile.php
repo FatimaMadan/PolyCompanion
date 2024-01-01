@@ -5,6 +5,7 @@ include "header.php";
 include "QuestionBank.php";
 include "AnswerBank.php";
 include "SavedPosts.php";
+include "Subscriptions.php";
 include "Users.php";
 
 if (empty($_SESSION['uid'])) {
@@ -115,19 +116,32 @@ if (isset($_POST['save'])){
   function displayMyPosts() {
     document.getElementById("my-posts-content").style.display = "block";
     document.getElementById("saved-posts-content").style.display = "none";
+    document.getElementById("subs-posts-content").style.display = "none";
     
     document.getElementById("my-posts-button").classList.add("active");
     document.getElementById("saved-posts-button").classList.remove("active");
+    document.getElementById("subs-posts-button").classList.remove("active");
   }
 
   function displaySavedPosts() {
     document.getElementById("my-posts-content").style.display = "none";
+    document.getElementById("subs-posts-content").style.display = "none";
     document.getElementById("saved-posts-content").style.display = "block";
     
     document.getElementById("my-posts-button").classList.remove("active");
+    document.getElementById("subs-posts-button").classList.remove("active");
     document.getElementById("saved-posts-button").classList.add("active");
   }
   
+  function displaySubsPosts() {
+    document.getElementById("my-posts-content").style.display = "none";
+    document.getElementById("saved-posts-content").style.display = "none";
+    document.getElementById("subs-posts-content").style.display = "block";
+    
+    document.getElementById("my-posts-button").classList.remove("active");
+    document.getElementById("saved-posts-button").classList.remove("active");
+    document.getElementById("subs-posts-button").classList.add("active");
+  }
   function openModal() {
     document.getElementById('myModal').style.display = 'block';
     document.body.style.overflow = 'hidden';
@@ -161,6 +175,7 @@ if (isset($_POST['save'])){
     $qts = new QuestionBank();
     $ans = new AnswerBank();
     $sPosts = new SavedPosts();
+    $subsPosts = new Subscriptions();
  echo '<div class="blue-div">
      <h3 style= "color: #06BBCC; margin-top: 20px;">————Stats————</h3>
      <div class ="container">
@@ -188,7 +203,7 @@ if (isset($_POST['save'])){
 <div class="d-flex align-items-center">
 <div>
 <p class="mb-0 font-13" style="color: white;">Subscriptions:</p>
-<h4 class="my-1 text-info">18</h4>
+<h4 class="my-1 text-info">'. $subsPosts ->getTotalSubscribedQuestionsByUser($_SESSION['uid']) . '</h4>
 </div>
    <img class="rounded-circle" style="width: 60px; height: 60px; margin-left: 55px"; src="img/bell.jpg">
 </div>
@@ -275,7 +290,12 @@ echo '</div>
     <span class="d-none d-sm-block">Saved Posts</span>
   </a>
 </li>
-
+<li class="nav-item" role="presentation">
+  <a class="nav-link px-4" data-bs-toggle="tab" href="#projects-tab" role="tab" aria-selected="false" tabindex="-1" id="subs-posts-button" onclick="displaySubsPosts()">
+    <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
+    <span class="d-none d-sm-block">Subscribed Courses</span>
+  </a>
+</li>
 </ul>
 </div>
 </div>
@@ -407,6 +427,82 @@ $offset = ($current_page - 1) * $qts_per_page;
 
 // Get the qts for the current page
   $page = $qts->getSavedQuestionsByPageAndUser($offset, $qts_per_page, $_SESSION['uid']);
+
+foreach ($page as $question) {
+  $Quser = new Users();
+  $UserData = $Quser->initWithUid($question->getUser_UserId());
+
+  echo '<a href="view_posts.php?QtId=' . $question->getQuestionId() . '" >';
+   echo '<div class="myposts-form">';
+  echo '<div class="FP">';
+  echo '<div class="FP-header">';
+  echo '<h6 style="color: lightgray; font-size: 14px;">';
+  echo '<img class="rounded-circle p-2 mx-auto" src='. $Quser->getUserDp() .' style="width: 50px; height: 50px;">'. $Quser->getFirstName() .' '. $Quser->getLastName() .'</h6>';
+
+  echo '<h6 style="font-family: Arial;">'. $question->getQuesTitle() .'</h6>';
+  
+  $shortDesc = substr($question->getQuesDescription(), 0, 150). '...';
+  echo '<p>'. $shortDesc .'</p>';
+
+  echo '</div>';
+  echo '</div>';
+  echo '</div></a>';
+}
+
+
+
+//<!-- PAGINATION 1 START -->
+if ($total_qts != 0 ){
+    
+       echo '<div class="pagination-links">
+    <label style="margin-left: 300px; font-weight: bold; font-size: 20px;">Page: </label>';
+    
+    $courseId = $_GET['courseId']; // Retrieve the courseId from the URL parameters
+
+    for ($i = 1; $i <= $total_pages; $i++) {
+        if ($i == $current_page) {
+            echo "<span class=\"current\">$i</span> ";
+        } elseif (empty($courseId)) {
+            echo "<a href=\"?page=$i\">$i</a> ";
+        }else{
+             echo "<a href=\"?courseId=$courseId&page=$i\">$i</a> ";
+        }
+    }
+echo '</div>';
+}
+echo '</div>';
+?>
+    
+    
+      <?php
+//******Saved POSTS START*********
+echo '<div id="subs-posts-content" style="display: none;">
+
+<h5 class="headings_dashed"> —————————— Subscribed Courses ——————————</h5>';
+ $qts = new Subscriptions();
+
+// Set the number of articles to display per page
+$qts_per_page = 3;
+
+  $total_qts = $qts->getTotalSubscribedQuestionsByUser($_SESSION['uid']);
+//   echo $total_qts;
+   if ($total_qts == 0 ){
+       echo '<div class="no-questions-message">';
+echo '<h3 class="text-center">No Questions to Display</h3>';
+echo '</div>';
+  }
+
+// Calculate the total number of pages
+$total_pages = ceil($total_qts / $qts_per_page);
+
+// Get the current page number from the URL
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Calculate the offset
+$offset = ($current_page - 1) * $qts_per_page;
+
+// Get the qts for the current page
+  $page = $qts->getSubscribedQuestionsByPageAndUser($offset, $qts_per_page, $_SESSION['uid']);
 
 foreach ($page as $question) {
   $Quser = new Users();
