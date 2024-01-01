@@ -14,26 +14,35 @@ include 'header.php';
 
 
 ?>
+
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    
 <div class="container-fluid p-0 mb-5">
     <div class="owl-carousel header-carousel position-relative">
         <div class="owl-carousel-item position-relative">
-            <img class="img-fluid" src="img/tutorial1.jpg" alt="">
+            <img class="img-fluid animate__animated animate__fadeIn" src="img/tutorial1.jpg" alt="">
         </div>
         <div class="owl-carousel-item position-relative">
-            <img class="img-fluid" src="img/tutorial2.jpg" alt="">
+            <img class="img-fluid animate__animated animate__fadeIn" src="img/tutorial2.jpg" alt="">
         </div>
         <div class="owl-carousel-item position-relative">
-            <img class="img-fluid" src="img/tutorial3.jpg" alt="">
+            <img class="img-fluid animate__animated animate__fadeIn" src="img/tutorial3.jpg" alt="">
         </div>
         <div class="owl-carousel-item position-relative">
-            <img class="img-fluid" src="img/tutorial4.jpg" alt="">
+            <img class="img-fluid animate__animated animate__fadeIn" src="img/tutorial4.jpg" alt="">
         </div>
         <div class="owl-carousel-item position-relative">
-            <img class="img-fluid" src="img/tutorial5.jpg" alt="">
+            <img class="img-fluid animate__animated animate__fadeIn" src="img/tutorial5.jpg" alt="">
         </div>
     </div>
 </div>
-<!-- Carousel End -->
 
 
     <?php

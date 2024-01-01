@@ -57,33 +57,34 @@ $major->initWithId($major_id);
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item text-center pt-3 h-100">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-check-square text-primary mb-4"></i>
-                        <h5 class="mb-3">Prerequisites</h5>
-                        <p><?php echo $course->getPreRequisite() ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item text-center pt-3 h-100">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
-                        <h5 class="mb-3">Sources</h5>
-                        <p><?php echo $course->getRecommended_book_resources() ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="service-item text-center pt-3 h-100">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-clock text-primary mb-4"></i>
-                        <h5 class="mb-3">Total Hours</h5>
-                        <p><?php echo $course->getTotal_hours() ?> hours</p>
-                    </div>
-                </div>
-            </div>
+    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+    <div class="service-item text-center pt-3 h-100">
+        <div class="p-4">
+            <i class="fas fa-3x fa-check-circle text-primary mb-4"></i>
+            <h5 class="mb-3">Prerequisites</h5>
+            <p><?php echo $course->getPreRequisite() ?></p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+    <div class="service-item text-center pt-3 h-100">
+        <div class="p-4">
+            <i class="fas fa-3x fa-pencil-alt text-primary mb-4"></i>
+            <h5 class="mb-3">Examinations</h5>
+            <p><?php echo $course->getExams() ?></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+    <div class="service-item text-center pt-3 h-100">
+        <div class="p-4">
+            <i class="fas fa-3x fa-clipboard-check text-primary mb-4"></i>
+            <h5 class="mb-3">Uncontrolled Assessments</h5>
+            <p><?php echo $course->getUncontrolledAssess() ?></p>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>

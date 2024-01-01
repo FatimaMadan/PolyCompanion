@@ -92,10 +92,10 @@ if (!empty($result)) {
                     </div>
                     <h5 class="mb-2 course-title">' . $result[$i]->CourseTitle . '</h5>
                     </div>
-                    <div class="d-flex border-top">
-                    <small class="flex-fill text-center border-end py-2"><i
-                    class="fa fa-user-tie text-primary me-2"></i>' . $result[$i]->ProgramManager . '</small>
-                    <small class="flex-fill text-center border-end py-2"><i
+                    <div class="d-flex border-top">';
+//                  <small class="flex-fill text-center border-end py-2"><i 
+//                   class="fa fa-user-tie text-primary me-2"></i>' . $result[$i]->ProgramManager . '</small>
+                   echo'<small class="flex-fill text-center border-end py-2"><i
                     class="fa fa-clock text-primary me-2"></i>' . $result[$i]->Credits . ' Credits</small>
                     <small class="flex-fill text-center py-2"><i
                     class="fa fa-level-up-alt text-primary me-2"></i>' . $result[$i]->CourseLevel . ' Level</small>

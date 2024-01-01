@@ -7,16 +7,13 @@ class CourseBank {
         private $CourseLevel;
         private $ValidFrom;
         private $Credits;
-        private $ProgramManager;
-        private $CurrentDeveloper;
+        private $uncontrolledAssess;
+        private $exams;
         private $AssessmentMethod;
         private $CourseAim;
         private $PreRequisite;
         private $Major_MajorId;
         private $owner;
-        private $total_hours;
-        private $recommended_book_resources;
-        private $TeachingStrategies;
         private $COLUMN_NAME;
 
 
@@ -78,14 +75,23 @@ class CourseBank {
             return $this->Credits;
         }
 
-        public function getProgramManager() {
-            return $this->ProgramManager;
+        public function getUncontrolledAssess() {
+            return $this->uncontrolledAssess;
         }
 
-        public function getCurrentDeveloper() {
-            return $this->CurrentDeveloper;
+        public function getExams() {
+            return $this->exams;
         }
 
+        public function setUncontrolledAssess($uncontrolledAssess): void {
+            $this->uncontrolledAssess = $uncontrolledAssess;
+        }
+
+        public function setExams($exams): void {
+            $this->exams = $exams;
+        }
+
+        
         public function getAssessmentMethod() {
             return $this->AssessmentMethod;
         }
@@ -100,14 +106,6 @@ class CourseBank {
 
         public function getOwner() {
             return $this->owner;
-        }
-
-        public function getTotal_hours() {
-            return $this->total_hours;
-        }
-
-        public function getRecommended_book_resources() {
-            return $this->recommended_book_resources;
         }
 
         public function setShortTitle($ShortTitle): void {
@@ -126,14 +124,6 @@ class CourseBank {
             $this->Credits = $Credits;
         }
 
-        public function setProgramManager($ProgramManager): void {
-            $this->ProgramManager = $ProgramManager;
-        }
-
-        public function setCurrentDeveloper($CurrentDeveloper): void {
-            $this->CurrentDeveloper = $CurrentDeveloper;
-        }
-
         public function setAssessmentMethod($AssessmentMethod): void {
             $this->AssessmentMethod = $AssessmentMethod;
         }
@@ -150,21 +140,7 @@ class CourseBank {
             $this->owner = $owner;
         }
 
-        public function setTotal_hours($total_hours): void {
-            $this->total_hours = $total_hours;
-        }
 
-        public function setRecommended_book_resources($recommended_book_resources): void {
-            $this->recommended_book_resources = $recommended_book_resources;
-        }
-        
-        public function getTeachingStrategies() {
-            return $this->TeachingStrategies;
-        }
-
-        public function setTeachingStrategies($TeachingStrategies): void {
-            $this->TeachingStrategies = $TeachingStrategies;
-        }
 
                         
         function initWithCTitle($title)
@@ -181,7 +157,7 @@ class CourseBank {
         return $data;
     }
 
-    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel, $ValidFrom, $Credits, $ProgramManager, $CurrentDeveloper, $AssessmentMethod, $CourseAim, $PreRequisite, $Major_MajorId, $owner, $total_hours, $recommended_book_resources, $TeachingStrategies) {
+    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel, $ValidFrom, $Credits, $AssessmentMethod, $CourseAim, $PreRequisite, $Major_MajorId, $owner, $uncontrolledAssess, $exams) {
     $this->CourseId = $CourseId;
     $this->CourseCode = $CourseCode;
     $this->CourseTitle = $CourseTitle;
@@ -189,22 +165,19 @@ class CourseBank {
     $this->CourseLevel = $CourseLevel;
     $this->ValidFrom = $ValidFrom;
     $this->Credits = $Credits;
-    $this->ProgramManager = $ProgramManager;
-    $this->CurrentDeveloper = $CurrentDeveloper;
     $this->AssessmentMethod = $AssessmentMethod;
     $this->CourseAim = $CourseAim;
     $this->PreRequisite = $PreRequisite;
     $this->Major_MajorId = $Major_MajorId;
-    $this->owner = $owner;
-    $this->total_hours = $total_hours;
-    $this->recommended_book_resources = $recommended_book_resources;
     $this->TeachingStrategies = $TeachingStrategies;
+    $this->uncontrolledAssess = $uncontrolledAssess;
+    $this->exams = $exams;
 }
     
     function initWithId($course_id) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM Course WHERE CourseId = \'' . $course_id .  '\'');
-        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->ProgramManager, $data->CurrentDeveloper, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->total_hours, $data->recommended_book_resources, $data->TeachingStrategies);
+        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams);
     }
     
     
@@ -287,14 +260,13 @@ public static function searchCourseNoTitle($major, $sort) {
       return $data;
     }
     
-//    // Retrieve courses belonging to the specified major and year
-//    public static function getCoursesByYear($major_id, $year){
-//        $db = Database::getInstance();
-//      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\''
-//              . 'AND Year=  \'' . $year . '\'');
-//      return $data;
-//    }
-//    
+    public static function getCoursesByYear($major_id, $year){
+        $db = Database::getInstance();
+      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\''
+              . 'AND Year=  \'' . $year . '\'');
+      return $data;
+    }
+    
         // Retrieve courses belonging to the specified major, year, and semester
     public static function getCoursesBySem($major_id, $year, $sem){
 
@@ -327,8 +299,6 @@ public static function searchCourseNoTitle($major, $sort) {
       return $data;
     }
     
-
-
     public static function getCourseName($course_id){
 
      $db = Database::getInstance();
