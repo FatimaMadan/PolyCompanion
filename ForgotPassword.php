@@ -58,7 +58,7 @@ include 'Users.php';
         <br>
       <input required type="text" name="UserName" placeholder="UserName" />
       <br>
-      <button type="submit" name="send">Send Verification Code</button>
+    <button type="submit" name="send">Send Verification Code</button>
     </form>
   </div>
 </div>

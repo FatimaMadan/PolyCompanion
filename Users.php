@@ -322,8 +322,8 @@ public function getAUserName($userid) {
            
             $db = Database::getInstance();
            
-             $data = "UPDATE User SET Password = AES_ENCRYPT('$password', 'qwe') WHERE UserName = $username";
-           //  echo $data;
+             $data = "UPDATE User SET Password = AES_ENCRYPT('$password', 'qwe') WHERE UserName = '$username'";
+//         echo $data;
 
             $db->querySql($data);
             

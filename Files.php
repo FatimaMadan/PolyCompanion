@@ -31,7 +31,6 @@ class Files{
     }
 
     function getUser_UserId() {
-        echo "to get user Id";
         return $this->User_UserId;
     }
     

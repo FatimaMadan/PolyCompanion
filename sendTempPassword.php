@@ -36,7 +36,7 @@ require 'phpmailer/src/SMTP.php';
        
       
 $password = rand(1000000, 9999999);
-$mail->Body = "Temporary Password: " . $password;
+$mail->Body = "Here's you PolyCompanion Temporary Password: " . $password;
 
 if ($mail->send()) {
     

@@ -31,7 +31,6 @@ else {
 }
 
 if (isset($_POST['save'])) {
-    echo "inside save file";
 //UPLOAD FILE *****************
       if(!empty($_FILES)) {
         $upload = new Upload();
@@ -46,7 +45,7 @@ if (isset($_POST['save'])) {
         $file->setFileType($upload->getFileType());
           $ans = new AnswerBank();
         $maxAnsId = $ans->getMaxAnswerId();
-        $file->setAnswers_AnsId(16);
+        $file->setAnswers_AnsId(19);
         $file->setAId($maxAnsId + 1);
         $file->setQuestions_QuestionId($QuesId);
         $file->setQId($QuesId);
