@@ -178,7 +178,7 @@ include 'header.php';
             <h4 class="header-user-name">Polybot</h4>
         </div>
         <div class="header-menu">
-            <button class="btn btn-primary tutorial-button">Tutorial</button>
+            <a href="bot_tutorial.php"><button class="btn btn-primary tutorial-button">Tutorial</button></a>
             <div class="dropdown">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" 
                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
