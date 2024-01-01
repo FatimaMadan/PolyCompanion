@@ -374,4 +374,19 @@ public static function getAllColumns() {
     $db->singleFetch($query);
 }
 
+    
+     function addCourse() {
+        try {
+            $db = Database::getInstance();
+            $sql = "INSERT INTO Course(CourseId, CourseCode , CourseTitle, Major_MajorId) VALUES (NULL, '$this->CourseCode', '$this->CourseTitle', '$this->Major_MajorId')";
+          // echo 'Executing SQL: ' . $sql;           
+            $data = $db->querySQL($sql);
+            return true;
+        } catch (Exception $e) {
+            echo 'Exception: ' . $e;
+            return false;
+        }
+
+}
+
 }

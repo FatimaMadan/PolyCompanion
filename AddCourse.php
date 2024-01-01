@@ -2,7 +2,6 @@
 ob_start();
 include 'debugging.php';
 include 'header.php';
-include 'QuestionBank.php';
 include 'CourseBank.php';
 include 'Users.php';
 
@@ -26,26 +25,18 @@ if (isset($_POST['save'])) {
     
 //UPLOAD FILE *****************
       if(!empty($_FILES)) {
-        $upload = new Upload();
-        $upload->setUploadDir('images/');
+        $upload = new UploadDescr();
+        $upload->setUploadDir('descriptors/');
         $msg = $upload->upload('name');
         
            if(empty($msg)){
-        $file = new Files();
+        $file = new DescriptorBank();
         $file->setUser_UserId($_SESSION['uid']);
         $file->setFileName($upload->getFilepath());
         $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
         $file->setFileType($upload->getFileType());
-        $file->setAnswers_AnsId(16);
-        $qt = new QuestionBank();
-        $maxQId = $qt->getMaxQuestionId();
-        $file->setQuestions_QuestionId(25);
-        $file->setQId($maxQId + 1);
-        $file->setAId(1);
-        $file->setType("Question");
         $file->addFile();
-        
-        
+                
          }
          
          else   print_r ($msg);
@@ -59,43 +50,18 @@ if (isset($_POST['save'])) {
  if (isset($_POST['submitted'])) {
      
      
-    $newqt = new QuestionBank();
-        $newqt->setQuesTitle($_POST['QuesTitle']);
-        $newqt->setQuesDescription($_POST['QuesDescription']);
-        $newqt->setTags($_POST['Tags']);
-        $newqt->setLikes(0);
+    $newcourse = new CourseBank();
+        $newcourse->setCourseCode($_POST['code']);
+        $newcourse->setCourseTitle($_POST['title']);
+
+        $newcourse->setMajor_MajorId(1);
         
-        $newqt->setUser_UserId($_SESSION['uid']);
-        $newqt->setCourse_CourseId($_POST['course']);
-        
-   if ($newqt->addQuestion()){
+   if ($newcourse->addQuestion()){
        
-//  //UPLOAD FILE *****************
-//      if(!empty($_FILES)) {
-//        $upload = new Upload();
-//        $upload->setUploadDir('images/');
-//        $msg = $upload->upload('name');
-//        
-//           if(empty($msg)){
-//        $file = new Files();
-//        $file->setUser_UserId($_SESSION['uid']);
-//        $file->setFileName($upload->getFilepath());
-//        $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
-//        $file->setFileType($upload->getFileType());
-//        $file->setAnswers_AnsId(1);
-//        $qt = new QuestionBank();
-//        $maxQId = $qt->getMaxQuestionId();
-//        $file->setQuestions_QuestionId(1);
-//        $file->setQId($maxQId + 1);
-//        $file->addFile();
-//         }else   print_r ($msg);
-//      }else{
-// echo '<p> try again';
-//    }
-            header("Location: inquiry.php");
+            header("Location: view_courses.php");
 exit();
         }else{
-         echo 'Error Adding Question';
+         echo 'Error Adding Course';
         }
 }
 ?>
@@ -117,15 +83,6 @@ exit();
           </div>
         </div>
           <form action="" class="login-form" method="POST" enctype="multipart/form-data">
-<!--              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than hundred characters.</p>-->
-<!--              <input required type="text" placeholder="Course Year" name="QuesTitle" value="<?php echo isset($_POST['QuesTitle']) ? $_POST['QuesTitle'] : ''; ?>"/>
-<input required type="text" placeholder="Course Semester" name="QuesTitle" value="<?php echo isset($_POST['QuesTitle']) ? $_POST['QuesTitle'] : ''; ?>"/>
-
-              <textarea required placeholder="Question Description" name="QuesDescription"><?php echo isset($_POST['QuesDescription']) ? $_POST['QuesDescription'] : ''; ?></textarea>
-              <textarea required placeholder="Question Description" name="QuesDescription"></textarea><br />
-              <p style="color: #a52834; font-size: 9px; float: left;">(Optional) *Please separate the tags by commas. </p>
-               <input type="text" placeholder="Tags" name="Tags" value="<?php echo isset($_POST['Tags']) ? $_POST['Tags'] : ''; ?>"/>
-          <div> <form action="" method ="post" enctype="multipart/form-data">-->
              <select required name="course">
           <option value="">Select A year</option>
           <option value="">Year 1</option>
@@ -146,14 +103,11 @@ exit();
              <input type="file" name="name" multiple required/> 
              <button name="save" value="TRUE" style="padding: 5px 10px; background-color: #181d38; width: 100px">Save File</button><br>
  <?php
-    $files = new Files();
-    $ques = new QuestionBank();
-    $maxQuesId = $ques->getMaxQuestionId();
-    $row = $files->getFileWithQuesid($maxQuesId + 1);
+    $files = new DescriptorBank();
     
 if (!empty($row)) {
    
-     $userFile = new Files();
+     $userFile = new DescriptorBank();
      $uid = $_SESSION['uid'];
     $userFile->getFileWithQuesidAndUserId($maxQuesId + 1, $uid);
     if($uid == $userFile->getUser_UserId()){

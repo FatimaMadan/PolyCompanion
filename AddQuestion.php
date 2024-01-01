@@ -60,28 +60,6 @@ if (isset($_POST['save'])) {
         
    if ($newqt->addQuestion()){
        
-//  //UPLOAD FILE *****************
-//      if(!empty($_FILES)) {
-//        $upload = new Upload();
-//        $upload->setUploadDir('images/');
-//        $msg = $upload->upload('name');
-//        
-//           if(empty($msg)){
-//        $file = new Files();
-//        $file->setUser_UserId($_SESSION['uid']);
-//        $file->setFileName($upload->getFilepath());
-//        $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
-//        $file->setFileType($upload->getFileType());
-//        $file->setAnswers_AnsId(1);
-//        $qt = new QuestionBank();
-//        $maxQId = $qt->getMaxQuestionId();
-//        $file->setQuestions_QuestionId(1);
-//        $file->setQId($maxQId + 1);
-//        $file->addFile();
-//         }else   print_r ($msg);
-//      }else{
-// echo '<p> try again';
-//    }
             header("Location: inquiry.php");
 exit();
         }else{
