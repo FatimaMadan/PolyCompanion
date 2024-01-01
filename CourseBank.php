@@ -277,13 +277,73 @@ public static function searchCourseNoTitle($major, $sort) {
     return $data;
     }
     
-         // Retrieve all columns of the Course table
-    public static function getAllColumns() {
-      $db = Database::getInstance();
-      $data = $db->multiFetch('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
-              . 'WHERE TABLE_NAME = "Course"');
-      return $data;
-    } 
+
+// Retrieve all columns of the Course table
+public static function getAllColumns() {
+    $db = Database::getInstance();
+    $columnNames = $db->multiFetch('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "Course"');
+
+    $columnMappings = array(
+        'Credits' => 'Credits',
+        'AssessmentMethod' => 'Assessment Method',
+        'CourseAim' => 'Course Aim',
+        'PreRequisite' => 'Pre-Requisite',
+        'owner' => 'Owner',
+        'Year' => 'Year',
+        'Semester' => 'Semester',
+        'uncontrolledAssess' => 'Uncontrolled Assessment',
+        'exams' => 'Exams',
+        'CourseCode' => 'Course Code',
+        'CourseTitle' => 'Course Title',
+        'ShortTitle' => 'Short Title',
+        'CourseLevel' => 'Course Level'
+    );
+
+    $displayColumnNames = array();
+
+    foreach ($columnNames as $column) {
+        $columnName = $column->COLUMN_NAME;
+        
+        if (isset($columnMappings[$columnName])) {
+            $displayColumnName = $columnMappings[$columnName];
+            $displayColumnNames[$columnName] = $displayColumnName;
+        }
+    }
+
+    return $displayColumnNames;
+}
+
+// Retrieve all columns of the Course table
+//public static function getAllColumns() {
+//    $db = Database::getInstance();
+//    $data = $db->multiFetch('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
+//        . ' WHERE TABLE_NAME = "Course"');
+//    
+//    $columnNames = array();
+//    
+//    // Define a mapping between original column names and display names
+//    $columnMappings = array(
+//        'Column1' => 'Display Name 1',
+//        'Column2' => 'Display Name 2',
+//        'Column3' => 'Display Name 3',
+//        // Add more columns and their display names as needed
+//    );
+//    
+//    foreach ($data as $column) {
+//        $columnName = $column->COLUMN_NAME;
+//        
+//        // Check if a display name is defined for the column
+//        if (isset($columnMappings[$columnName])) {
+//            $displayColumnName = $columnMappings[$columnName];
+//        } else {
+//            $displayColumnName = $columnName; // Use the original column name as the default display name
+//        }
+//        
+//        $columnNames[] = $displayColumnName;
+//    }
+//    
+//    return $columnNames;
+//}
     
             public static function getColAns($courseId, $colName){
     $db = Database::getInstance();

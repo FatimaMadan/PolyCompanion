@@ -15,18 +15,42 @@ include 'header.php';
 
 ?>
 
-   <script>
-       var uid = <?php echo json_encode($_SESSION['uid']); ?>;
+<script>
+    var uid = <?php echo json_encode($_SESSION['uid']); ?>;
     window.addEventListener('DOMContentLoaded', function() {
-      alert('Note that by using the Polybot page you are agrreing to the Polybot Policy!');
-      updateHistory(uid, "access Polybot page"); 
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var userAgree = xhr.responseText;
+                if (userAgree !== '1') {
+                    var confirmation = confirm('Note that by using the Polybot page you are agreeing to the Polybot Policy! Click OK to agree or Cancel to decline.');
+                    if (confirmation) {
+                        // User clicked OK, update agreement
+                        updateAgreement('confirm', uid);
+                    } else {
+                        // User clicked Cancel, redirect to another page
+                        window.location.href = 'index.php';
+                    }
+                }
+                updateHistory(uid, "access Polybot page");
+            }
+        };
+        xhr.open('GET', 'check_user_agree.php', true);
+        xhr.send();
     });
-        
-//                window.onload = function() {
-//    updateHistory(1, "access Polybot page"); // Call the searchCourse function when the page loads
-//};
-   </script><!-- comment -->
-   
+
+    function updateAgreement(action, uid) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Handle the response if needed
+            console.log(xhr.responseText);
+        }
+    };
+    xhr.open('GET', 'check_user_agree.php?action=' + action + '&uid=' + uid, true);
+    xhr.send();
+}
+</script>
 <script>
         // Get the current page URL
         var url = window.location.href;

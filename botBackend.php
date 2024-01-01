@@ -191,30 +191,34 @@ if (isset($_GET['action'])) {
         $courseId = $_GET['Id'];
         $result = CourseBank::getCourseCol();
         $name = CourseBank::getCourseName($courseId);
+        $displayColumns = CourseBank::getAllColumns(); // Replace YourClassName with the actual class name
         
         // Echo user message
-            echo '<div class="user-message">'.  $name->CourseTitle .'</div>';
-            
-            
+        echo '<div class="user-message">'. $name->CourseTitle .'</div>';
+        
         if (!empty($result)) {
             echo '<div class="bot-message">
                 What would you like to know about this course?
                 <div class="option-buttons">';
+                
+            foreach ($result as $row) {
+                $columnName = $row->COLUMN_NAME;
 
-            for ($i = 0; $i < count($result); $i++) {
-                echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $result[$i]->COLUMN_NAME . '\', function() { sendMessage(\'help\'); })">' . $result[$i]->COLUMN_NAME . '</button>';
+                if (isset($displayColumns[$columnName])) {
+                    $displayColumnName = $displayColumns[$columnName];
+                    echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $columnName . '\', function() { sendMessage(\'help\'); })">' . $displayColumnName . '</button>';
                 }
-
-            echo '</div> 
+            }
+            
+            echo '</div>
             </div>';
 
             echo '<div id="response-container"></div>';
-
         } else {
             echo '<button class="option-button">OPPPs</button>';
         }
     }
-}elseif ($action === 'colAns') {
+} elseif ($action === 'colAns') {
     // Handle show courses action
     if (isset($_GET['Id'])) {
         $courseId = $_GET['Id'];
