@@ -12,6 +12,14 @@ include 'header.php';
      exit();
  }
  
+     // Check if the user is logged in and has the appropriate role
+    if ($_SESSION['roleId'] != 1) {
+        
+        // Redirect the user to a different page or display an error message
+        header('Location: index.php');
+        exit;
+    }
+ 
  $uid = $_SESSION['uid'];
  
  $repo = new BotReports();
@@ -31,39 +39,82 @@ include 'header.php';
   <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
     <div class="service-item text-center pt-3 h-100">
       <div class="p-4">
-        <i class="fa fa-3x fa-users text-primary mb-4"></i>
+        <i class="fas fa-users fa-3x text-primary mb-4"></i>
         <h5 class="mb-3"><?php echo $repo->getTodaysAccess('access Polybot page')->click_count; ?></h5>
-        <p>times people have accessed the Polybot page today</p>
+        <p>times users have accessed the Polybot page today</p>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
     <div class="service-item text-center pt-3 h-100">
       <div class="p-4">
-        <i class="fa fa-3x fa-thumbs-up text-primary mb-4"></i>
-        <h5 class="mb-3">87493</h5>
-        <p>Times people chose option "Very helpful" this week</p>
+        <i class="fas fa-thumbs-up fa-3x text-primary mb-4"></i>
+        <h5 class="mb-3"><?php echo $repo->getWeekAccess(' Very helpful')->click_count; ?></h5>
+        <p>times users chose option "Very helpful" this week</p>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
     <div class="service-item text-center pt-3 h-100">
       <div class="p-4">
-        <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
-        <h5 class="mb-3">87%</h5>
-        <p>of students have used the Polybot this week</p>
+        <i class="fas fa-times-circle fa-3x text-primary mb-4"></i>
+        <h5 class="mb-3"><?php echo $repo->getWeekAccess(' Not helpful')->click_count; ?></h5>
+        <p>times users chose option "Not helpful" this week</p>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
     <div class="service-item text-center pt-3 h-100">
       <div class="p-4">
-        <i class="fa fa-3x fa-hourglass-start text-primary mb-4"></i>
-        <h5 class="mb-3">1%</h5>
-        <p>of students haven't used the Polybot yet</p>
+        <i class="fas fa-question-circle fa-3x text-primary mb-4"></i>
+        <h5 class="mb-3"><?php echo $repo->getMonthAccess('I want to see the Most Frequently Asked Questions')->click_count; ?></h5>
+        <p>times users checked the most FAQs in the last 30 days</p>
       </div>
     </div>
   </div>
+    
+<!-- Second Row -->
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+  <div class="service-item text-center pt-3 h-100">
+    <div class="p-4">
+      <i class="fas fa-clock fa-3x text-primary mb-4"></i>
+      <h5 class="mb-3"><?php echo $repo->getHourAccess('Asc')->report_hour; ?></h5>
+      <p>is the most active hour for Polybot usage</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+  <div class="service-item text-center pt-3 h-100">
+    <div class="p-4">
+      <i class="fas fa-chart-line fa-3x text-primary mb-4"></i>
+      <h5 class="mb-3"><?php echo $repo->getHourAccess('Desc')->report_hour; ?></h5>
+      <p>is the most frequently used action</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+  <div class="service-item text-center pt-3 h-100">
+    <div class="p-4">
+      <i class="fas fa-calendar-day fa-3x text-primary mb-4"></i>
+      <h5 class="mb-3"><?php echo $repo->getHighDayAccess()->report_date; ?></h5>
+      <p>is the busiest day for Polybot usage</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+  <div class="service-item text-center pt-3 h-100">
+    <div class="p-4">
+      <i class="fas fa-tasks fa-3x text-primary mb-4"></i>
+      <h5 class="mb-3"><?php echo $repo->getAllWeekAccess()->click_count; ?></h5>
+      <p>are the total actions performed on Polybot this week</p>
+    </div>
+  </div>
+</div>
+    
+
 </div>
       
     </div>

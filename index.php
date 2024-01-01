@@ -11,6 +11,7 @@ if (empty($_SESSION['uid'])) {
     exit();
 }
 
+
 ?><!DOCTYPE html>
 <html lang="en">
 
