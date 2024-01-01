@@ -14,6 +14,9 @@
 <?php
 ob_start();
 include 'debugging.php';
+include 'QuestionBank.php';
+
+$que = new QuestionBank();
 
 if (empty($_SESSION['uid'])) {
 // User is not logged in, redirect to login page
@@ -25,10 +28,6 @@ if (empty($_SESSION['uid'])) {
 $title = $_GET['title'];
 $major = $_GET['filter'];
 $sort = $_GET['sort'];
-
-//echo $title;
-//echo $major;
-//echo $sort;
 
 if ($_GET['title'] != ""){
     //search by title, filter and sort
@@ -83,12 +82,13 @@ if (!empty($result)) {
                     <div class="text-center p-4 pb-0">
                     <h3 class="mb-0">' . $shortTitle . '</h3>
                     <div class="mb-3">
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small>(123)</small>
+                    <small class="fa fa-question-circle text-primary"></small>
+<small class="fa fa-question-circle text-primary"></small>
+<small class="fa fa-question-circle text-primary"></small>
+<small class="fa fa-question-circle text-primary"></small>
+<small class="fa fa-question-circle text-primary"></small>
+                    <small> ('. $que->getTotalPostedQuestionsByCourse($result[$i]->CourseId).')</small>
+                                            
                     </div>
                     <h5 class="mb-2 course-title">' . $result[$i]->CourseTitle . '</h5>
                     </div>
