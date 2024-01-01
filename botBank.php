@@ -56,10 +56,9 @@ class BotBank{
 }
 
 static function getUserHistory($user_id) {
-        $db = Database::getInstance();
-        $data = $db->multiFetch('Select * from bot_history where user_id  = \'' . $user_id . '\'');
-        return $data;
-    
+    $db = Database::getInstance();
+    $data = $db->multiFetch('SELECT * FROM bot_history WHERE user_id = \'' . $user_id . '\' ORDER BY timestamp DESC LIMIT 200');
+    return $data;
 }
 
 static function deleteHistory($user_id) {

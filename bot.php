@@ -11,8 +11,6 @@ include 'header.php';
      exit();
  }
  
-
-
 ?>
 
 <script>
