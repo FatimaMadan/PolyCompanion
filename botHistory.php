@@ -1,5 +1,4 @@
 <?php
-
 include 'debugging.php';
 include 'botBank.php';
 

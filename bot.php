@@ -16,9 +16,15 @@ include 'header.php';
 ?>
 
    <script>
+       var uid = <?php echo json_encode($_SESSION['uid']); ?>;
     window.addEventListener('DOMContentLoaded', function() {
       alert('Note that by using the Polybot page you are agrreing to the Polybot Policy!');
+      updateHistory(uid, "access Polybot page"); 
     });
+        
+//                window.onload = function() {
+//    updateHistory(1, "access Polybot page"); // Call the searchCourse function when the page loads
+//};
    </script><!-- comment -->
    
 <script>

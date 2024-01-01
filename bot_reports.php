@@ -1,7 +1,7 @@
 <?php
 ob_start();
 include 'debugging.php';
-include 'botBank.php';
+include 'botReportsBank.php';
 include 'header.php';
 
 
@@ -13,6 +13,9 @@ include 'header.php';
  }
  
  $uid = $_SESSION['uid'];
+ 
+ $repo = new BotReports();
+ 
 ?>
 
 
@@ -29,8 +32,8 @@ include 'header.php';
     <div class="service-item text-center pt-3 h-100">
       <div class="p-4">
         <i class="fa fa-3x fa-users text-primary mb-4"></i>
-        <h5 class="mb-3">739</h5>
-        <p>people have used the Polybot today</p>
+        <h5 class="mb-3"><?php echo $repo->getTodaysAccess('access Polybot page')->click_count; ?></h5>
+        <p>times people have accessed the Polybot page today</p>
       </div>
     </div>
   </div>
