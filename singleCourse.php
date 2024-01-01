@@ -152,7 +152,7 @@ $major->initWithId($major_id);
                             </div>
                         </div>
                         <div class="text-center p-4">
-                            <h5 class="mb-0"><?php echo $course->getProgramManager() ?></h5>
+                            <h5 class="mb-0"><?php //echo $course->getProgramManager() ?></h5>
                             <small>Program Manager</small>
                         </div>
                     </div>
@@ -170,7 +170,7 @@ $major->initWithId($major_id);
                             </div>
                         </div>
                         <div class="text-center p-4">
-                            <h5 class="mb-0"><?php echo $course->getCurrentDeveloper() ?></h5>
+                            <h5 class="mb-0"><?php //echo $course->getCurrentDeveloper() ?></h5>
                             <small>Current Developer</small>
                         </div>
                     </div>

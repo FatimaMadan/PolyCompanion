@@ -44,13 +44,7 @@ if ($_GET['title'] != ""){
    
 if (!empty($result)) {
                                for ($i = 0; $i < count($result); $i++) {
-        // Rest of your code...
 
-        // Truncate the title if it exceeds a certain number of characters
-        $shortTitle = $result[$i]->ShortTitle;
-        if (strlen($shortTitle) > 20) {
-            $shortTitle = substr($shortTitle, 0, 20) . '...';
-        }
 
                     echo '<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item bg-light position-relative">
@@ -80,7 +74,7 @@ if (!empty($result)) {
                     </div>
                     </div>
                     <div class="text-center p-4 pb-0">
-                    <h3 class="mb-0">' . $shortTitle . '</h3>
+                    <h3 class="mb-0">' . $result[$i]->CourseCode . '</h3>
                     <div class="mb-3">
                     <small class="fa fa-question-circle text-primary"></small>
 <small class="fa fa-question-circle text-primary"></small>
@@ -103,6 +97,7 @@ if (!empty($result)) {
                     </div>
                     </div>';
     }
+    echo '<div style="margin-bottom: 20px;"></div>'; // Add a space
 } else {
     echo '<h6>Oops, no courses available.</h6>';
 }
