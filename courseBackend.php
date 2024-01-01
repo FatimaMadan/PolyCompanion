@@ -7,4 +7,6 @@ include 'CourseBank.php';
         $action = $_GET['action'];
         $course_id = $_GET['cid'];
         CourseBank::deleteCourse($course_id);
+        echo $course_id;
+        echo "some";
     }

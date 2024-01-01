@@ -12,6 +12,11 @@ if (empty($_SESSION['uid'])) {
 ?>            
 
 <script>
+    
+            window.onload = function() {
+    searchCourse(); // Call the searchCourse function when the page loads
+}
+    
 // Get the current page URL
     var url = window.location.href;
 
@@ -22,6 +27,8 @@ if (empty($_SESSION['uid'])) {
             item.classList.add('active'); // Add the 'active' class to the matching menu item
         }
     });
+    
+    
 </script><!-- comment -->
 
 <style>
@@ -41,7 +48,9 @@ if (empty($_SESSION['uid'])) {
 </style><!-- comment -->
 
 <script>
+    
 
+    
     function searchCourse() {
         var str = document.getElementsByName("searchText")[0].value; // Get the value from the input field
         var filter = selectedFilter;
@@ -49,9 +58,9 @@ if (empty($_SESSION['uid'])) {
         var sort;
 
     if (sortIcon.classList.contains('rotate')) {
-        sort = "Asc";
-    } else {
         sort = "Desc";
+    } else {
+        sort = "Asc";
     }
 //create the AJAX request object
         xmlhttp = new XMLHttpRequest();
@@ -125,7 +134,7 @@ function toggleSort() {
 <!--            <form class="search" autocomplete="off" >  action="search.php"-->
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" name="searchText" oninput="searchCourse()" class="form-control" placeholder="Type something here">
+                        <input type="text" name="searchText" oninput="searchCourse()" class="form-control" placeholder="Type the course title or code here..">
                         <div class="input-group-btn">
                             <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                         </div>
@@ -149,7 +158,7 @@ function toggleSort() {
 </div>
                         <div class="input-group-btn" style="margin-left: 10px;">
     <button class="btn btn-primary" id="sortButton" onclick="toggleSort(), searchCourse()">
-        <i id="sortIcon" class="fas fa-arrow-down"></i>
+        <i id="sortIcon" class="fas fa-arrow-up"></i>
     </button>
 </div>
                         <?php
@@ -169,69 +178,7 @@ function toggleSort() {
     <div class="row">
 
         <div class="row g-4 justify-content-center" id="searchResult">
-            <?php
-            $list = CourseBank::getCourses();
-// Check if the result is not empty
-            if (!empty($list)) {
-                for ($i = 0; $i < count($list); $i++) {
-// Rest of the code...
 
-                    echo '<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="course-item bg-light position-relative">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-1.jpg" alt="">';
-                    ?>
-
-                    <?php
-                    if ($_SESSION['roleId'] == 1) {
-                        echo '<div class="w-100 d-flex justify-content-center position-absolute top-0 start-0 mt-3">
-                        <a href="editCourse.php?cid=' . $list[$i]->CourseId . '"
-                        class="flex-shrink-0 btn btn-sm btn-primary px-2"
-                        style="border-radius: 50%;"><i class="fas fa-edit"></i></a>
-                        <a href="#" onclick="confirmDelete(\'' . $list[$i]->CourseId . '\', \'delete\')"
-                        class="flex-shrink-0 btn btn-sm btn-danger px-2 me-1"
-                        style="border-radius: 50%;">
-                        <i class="fas fa-trash"></i>
-                        </a>
-                        </div>';
-                    }
-
-
-        echo '<div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                    <a href="singleCourse.php?cid=' . $list[$i]->CourseId . '"
-                    class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px;">Read More</a>
-                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0;">Join Now</a>
-                    </div>
-                    </div>
-                    <div class="text-center p-4 pb-0">
-                    <h3 class="mb-0">' . $shortTitle . '</h3>
-                    <div class="mb-3">
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small class="fa fa-star text-primary"></small>
-                    <small>(123)</small>
-                    </div>
-                    <h5 class="mb-2 course-title">' . $list[$i]->CourseTitle . '</h5>
-                    </div>
-                    <div class="d-flex border-top">
-                    <small class="flex-fill text-center border-end py-2"><i
-                    class="fa fa-user-tie text-primary me-2"></i>' . $list[$i]->ProgramManager . '</small>
-                    <small class="flex-fill text-center border-end py-2"><i
-                    class="fa fa-clock text-primary me-2"></i>' . $list[$i]->Credits . ' Credits</small>
-                    <small class="flex-fill text-center py-2"><i
-                    class="fa fa-level-up-alt text-primary me-2"></i>' . $list[$i]->CourseLevel . ' Level</small>
-                    </div>
-                    </div>
-                    </div>';
-    }
-} else {
-    echo '<h6>Oops, no courses yet.</h6>';
-}
-?>
         </div>
 
         <script>
@@ -242,6 +189,8 @@ function toggleSort() {
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
+                                alert(cid);
+                                alert(action);
                                 alert('Deleted successfully');
                             } else {
                                 alert('An error occurred while deleting the course.');
@@ -250,6 +199,7 @@ function toggleSort() {
                     };
                     xhr.send();
                 }
+//                searchCourse();
             }
 
         </script>

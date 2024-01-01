@@ -215,31 +215,63 @@ class CourseBank {
     }
     
 // Retrieve all courses from the database
-           public static function getCourses() {
+    public static function getCourses() {
     $db = Database::getInstance();
-    $q = 'SELECT * FROM Course ORDER BY CourseId DESC';
+    $q = 'SELECT * FROM Course ORDER BY CourseTitle Asc';
     $data = $db->multiFetch($q);
     return $data;
 }
 
-// Search for courses by title and filter by major
-    static function searchByTitleAndFilter($searchText, $filter){
-        $db = Database::getInstance();
-        $mid = MajorBank::getMajorFromName($filter);
-        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle)"
-                . "AGAINST('*".$searchText."*' AND Major_MajorId = \'' . $mid . '\')";
-        $result = $db->multiFetch($query);    
-        return $result;
+public static function searchCourseWithTitle($searchText, $major, $sort) {
+    $db = Database::getInstance();
+    if ($major == "All Majors") {
+        $q = "SELECT * FROM Course WHERE (CourseCode LIKE '%$searchText%' OR CourseTitle LIKE '%$searchText%' OR ShortTitle LIKE '%$searchText%') ORDER BY CourseTitle $sort";
+    } else {
+        $q = "SELECT * FROM Course WHERE (CourseCode LIKE '%$searchText%' OR CourseTitle LIKE '%$searchText%' OR ShortTitle LIKE '%$searchText%') AND Major_MajorId = '$major' ORDER BY CourseTitle $sort";
     }
     
-    // Search for courses by title, code and short title
-        static function searchByTitle($searchText){
-        $db = Database::getInstance();
-        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle)"
-                . "AGAINST('*".$searchText."*' IN BOOLEAN MODE)";
-        $result = $db->multiFetch($query);    
-        return $result;
-    } 
+    // echo $q; // Uncomment this line for debugging purposes
+    $data = $db->multiFetch($q);
+    return $data;
+}
+    
+public static function searchCourseNoTitle($major, $sort) {
+    $db = Database::getInstance();
+    if ($major == "All Majors") {
+        $q = "SELECT * FROM Course ORDER BY CourseTitle " . $sort;
+    } else {
+        $q = "SELECT * FROM Course WHERE Major_MajorId = '" . $major . "' ORDER BY CourseTitle " . $sort;
+    }
+    
+    // echo $q; // Uncomment this line for debugging purposes
+    $data = $db->multiFetch($q);
+    return $data;
+}
+    
+    //SELECT * FROM Course ORDER BY CourseTitle \'' . Asc . '\'
+    //SELECT * FROM Course WHERE Major_MajorId = \'' . 1 . '\' ORDER BY CourseTitle \'' . Asc . '\'
+        
+
+
+
+//// Search for courses by title and filter by major
+//    static function searchByTitleAndFilter($searchText, $filter){
+//        $db = Database::getInstance();
+//        $mid = MajorBank::getMajorFromName($filter);
+//        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle)"
+//                . "AGAINST('*".$searchText."*' AND Major_MajorId = \'' . $mid . '\')";
+//        $result = $db->multiFetch($query);    
+//        return $result;
+//    }
+    
+//    // Search for courses by title, code and short title
+//        static function searchByTitle($searchText){
+//        $db = Database::getInstance();
+//        $query = "SELECT * FROM Course WHERE MATCH(CourseCode, CourseTitle, ShortTitle)"
+//                . "AGAINST('*".$searchText."*' IN BOOLEAN MODE)";
+//        $result = $db->multiFetch($query);    
+//        return $result;
+//    } 
 
     // Retrieve the outcomes of a course based on CourseId
     public static function getOutcomes($CourseId) {
@@ -255,14 +287,14 @@ class CourseBank {
       return $data;
     }
     
-    // Retrieve courses belonging to the specified major and year
-    public static function getCoursesByYear($major_id, $year){
-        $db = Database::getInstance();
-      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\''
-              . 'AND Year=  \'' . $year . '\'');
-      return $data;
-    }
-    
+//    // Retrieve courses belonging to the specified major and year
+//    public static function getCoursesByYear($major_id, $year){
+//        $db = Database::getInstance();
+//      $data = $db->multiFetch('Select * from Course WHERE Major_MajorId = \'' . $major_id . '\''
+//              . 'AND Year=  \'' . $year . '\'');
+//      return $data;
+//    }
+//    
         // Retrieve courses belonging to the specified major, year, and semester
     public static function getCoursesBySem($major_id, $year, $sem){
 
@@ -308,6 +340,7 @@ class CourseBank {
    public static function deleteCourse($course_id) {
     $db = Database::getInstance();
     $query = 'DELETE FROM Course WHERE CourseId = \'' . $course_id . '\'';
+    echo $q;
     $db->singleFetch($query);
 }
 
