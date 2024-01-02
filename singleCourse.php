@@ -131,10 +131,14 @@ $major->initWithId($major_id);
                                                                      Level <?php echo $course->getCourseLevel() ?> &bull;
                                                                      <?php echo $major->getMajorName() ?> Major
                                 </p>
-                                <?php 
+<!--                                
+                               <a href="inquiry.php?cid=<?php echo $id; ?>">-->
+    <button class="btn btn-primary py-md-3 px-md-5 me-3" onclick="unSubscribeCourse(<?php echo $course->getCourseId(); ?>);">Unsubscribe</button>
+</a>
+    <?php 
                                 
                                 // Establish a database connection
-                                $conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
+                                $conn = mysqli_connect("localhost", "u202001312", "u202001312", "db202001312");
                                 
                                 // Get the post ID and action from the AJAX request
                                 $courseId = $course->getCourseId();
@@ -161,6 +165,10 @@ $major->initWithId($major_id);
                                     }
                                        
                                 ?>
+                                
+                                
+
+<!--                                
                             
                               </div>
                         </div>

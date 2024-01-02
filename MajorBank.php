@@ -51,19 +51,17 @@ class MajorBank{
         return $data;
     }
     
-public function createMajorList() {
+public function createMajorList($selectedMajorId = null) {
     $list = '';
     $db = Database::getInstance();
     $data = $db->multiFetch('SELECT * FROM Major');
 
-    for ($i = 0; $i < count($data); $i++) {
-        $list .= '<option value="' . $data[$i]->MajorId . '"';
+    foreach ($data as $major) {
+        $selected = ($selectedMajorId == $major->MajorId) ? 'selected' : '';
 
-        if ($data[$i]->MajorId == $this->MajorId)
-            $list .= ' selected ';
-
-        $list .= '>' . $data[$i]->MajorName . '</option>';
+        $list .= '<option value="' . $major->MajorId . '" ' . $selected . '>' . $major->MajorName . '</option>';
     }
+
     return $list;
 }
 }

@@ -192,7 +192,7 @@ function addActivity(){
     function getAllQuestions() {
     $db = Database::getInstance();
     $sql = 'SELECT * FROM Questions ';
-  //  echo 'SQL Statement: ' . $sql . '<br>'; // Echo the SQL statement
+    echo 'SQL Statement: ' . $sql . '<br>'; // Echo the SQL statement
     $data = $db->multiFetch($sql);
     return $data;
 }
@@ -381,6 +381,15 @@ public function getTotalPostedQuestionsByUser($uid) {
     $result = $db->singleFetch($query);
 
     return $result->total;
+}
+
+public static function getPopuolarQuestions(){
+    $db = Database::getInstance();
+    $query ='SELECT * FROM Questions ORDER BY Likes DESC';
+
+    $result = $db->MultiFetch($query);
+
+    return $result;
 }
    
 

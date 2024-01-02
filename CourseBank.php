@@ -217,6 +217,53 @@ class CourseBank {
 
         return $errors;
     }
+    
+    public function isValidForEdit() {
+        $errors = [];
+
+
+        if (empty($this->CourseTitle)) {
+            $errors[] = 'Course title is required.';
+        }
+
+        if (empty($this->ShortTitle)) {
+            $errors[] = 'Short title is required.';
+        }
+
+        if (empty($this->CourseLevel) || $this->CourseLevel > 10 || $this->CourseLevel < 1) {
+            $errors[] = 'Invalid course level.';
+        }
+
+        if (empty($this->Credits) || $this->Credits > 65 || $this->Credits < 5) {
+            $errors[] = 'Invalid credits.';
+        }
+
+        if (empty($this->uncontrolledAssess)) {
+            $errors[] = 'Uncontrolled assessment is required.';
+        }
+
+        if (empty($this->exams)) {
+            $errors[] = 'Exams field is required.';
+        }
+
+        if (empty($this->AssessmentMethod)) {
+            $errors[] = 'Assessment method is required.';
+        }
+
+        if (empty($this->CourseAim)) {
+            $errors[] = 'Course aim is required.';
+        }
+
+        if (empty($this->PreRequisite)) {
+            $errors[] = 'Pre-requisite is required.';
+        }
+
+        if (empty($this->Major_MajorId)) {
+            $errors[] = 'Major ID is required.';
+        }
+
+        return $errors;
+    }
 
     function addCourse() {
 
@@ -249,6 +296,49 @@ class CourseBank {
             return false;
         }
     }
+    
+    function updateCourse() {
+    $errors = $this->isValidForEdit();
+
+    if (count($errors) === 0) {
+        try {
+            // Update the course in the database
+            $db = Database::getInstance();
+            $sql = "UPDATE Course SET 
+                        CourseCode = '$this->CourseCode',
+                        CourseTitle = '$this->CourseTitle',
+                        ShortTitle = '$this->ShortTitle',
+                        CourseLevel = '$this->CourseLevel',
+                        Credits = '$this->Credits',
+                        uncontrolledAssess = '$this->uncontrolledAssess',
+                        exams = '$this->exams',
+                        AssessmentMethod = '$this->AssessmentMethod',
+                        CourseAim = '$this->CourseAim',
+                        PreRequisite = '$this->PreRequisite',
+                        Major_MajorId = '$this->Major_MajorId',
+                        owner = '$this->owner',
+                        Year = '$this->Year',
+                        Semester = '$this->sem'
+                    WHERE CourseId = $this->CourseId";
+            
+            echo 'Executing SQL: ' . $sql;
+
+            $data = $db->querySQL($sql);
+
+            return true;
+        } catch (Exception $e) {
+            $error_message = 'Exception: ' . $e->getMessage();
+            // Display the error message to the user or handle it as needed
+            echo $error_message;
+            return false;
+        }
+    } else {
+        $error_message = implode('<br>', $errors);
+        // Display the error message to the user or handle it as needed
+        echo $error_message;
+        return false;
+    }
+}
 
     function initWithCTitle($title) {
         echo "Init with CourseTitle";
@@ -286,10 +376,37 @@ class CourseBank {
         $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams);
     }
     
-     function initForEdit($course_id) {
+public function getCourseDetails($courseId) {
         $db = Database::getInstance();
-        $data = $db->singleFetch('SELECT * FROM Course WHERE CourseId = \'' . $course_id . '\'');
-        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams, $data->Year, $data->sem);
+        $query = "SELECT * FROM Course WHERE CourseId = ". $courseId;
+        $result = $db->singleFetch($query);
+
+        if ($result) {
+            // Course data found, return as an associative array
+            $courseData = array(
+                'CourseId' => $result->CourseId,
+                'CourseCode' => $result->CourseCode,
+                'CourseTitle' => $result->CourseTitle,
+                'ShortTitle' => $result->ShortTitle,
+                'CourseLevel' => $result->CourseLevel,
+                'ValidFrom' => $result->ValidFrom,
+                'Credits' => $result->Credits,
+                'AssessmentMethod' => $result->AssessmentMethod,
+                'CourseAim' => $result->CourseAim,
+                'PreRequisite' => $result->PreRequisite,
+                'Major_MajorId' => $result->Major_MajorId,
+                'owner' => $result->owner,
+                'uncontrolledAssess' => $result->uncontrolledAssess,
+                'exams' => $result->exams,
+                'Year' => $result->Year,
+                'sem'=> $result->Semester,
+            );
+            return $courseData;
+        }
+        
+        echo $query;
+        // Course not found, return false
+        return false;
     }
 
     function getAllCourses() {
@@ -388,6 +505,24 @@ class CourseBank {
         $data = $db->multiFetch($query);
         return $data;
     }
+    
+     // Retrieve courses belonging to the specified major, year, and semester
+    public static function getPopuolarCourses() {
+
+        $db = Database::getInstance();
+        $query = 'SELECT Course.*
+FROM Course
+INNER JOIN (
+    SELECT Course_CourseId, COUNT(QuestionId) AS QuestionCount
+    FROM Questions
+    GROUP BY Course_CourseId
+    ORDER BY QuestionCount DESC
+    LIMIT 3
+) AS TopCourses ON Course.CourseId = TopCourses.Course_CourseId';
+        $data = $db->multiFetch($query);
+        return $data;
+    }
+
 
 // Retrieve all columns of the Course table
     public static function getAllColumns() {
