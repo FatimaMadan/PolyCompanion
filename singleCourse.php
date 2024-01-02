@@ -88,30 +88,7 @@ $major->initWithId($major_id);
   });
 }
  </script>
-  <meta charset="utf-8">
-    <title>eLEARNING - eLearning HTML Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
       </head>
 <body>
 
@@ -132,8 +109,8 @@ $major->initWithId($major_id);
                                                                      <?php echo $major->getMajorName() ?> Major
                                 </p>
 <!--                                
-                               <a href="inquiry.php?cid=<?php echo $id; ?>">-->
-    <button class="btn btn-primary py-md-3 px-md-5 me-3" onclick="unSubscribeCourse(<?php echo $course->getCourseId(); ?>);">Unsubscribe</button>
+-->                               <a href="inquiry.php?cid=<?php echo $id; ?>">
+    <button class="btn btn-primary py-md-3 px-md-5 me-3">Ask Away</button>
 </a>
     <?php 
                                 
@@ -170,13 +147,13 @@ $major->initWithId($major_id);
 
 <!--                                
                             
-                              </div>
+-->                              </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div><!--
     <!-- Carousel End -->
  <div id="SubspopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Course subscribed successfully!</div>
     <div id="UnSubspopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Course Unsubscribed successfully!</div>

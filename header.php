@@ -62,7 +62,6 @@
              <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.php" class="nav-item nav-link">Home</a>
-                <a href="about.php" class="nav-item nav-link">About</a>
                 <a href="view_courses.php" class="nav-item nav-link">Courses</a>
                 <a href="bot.php" class="nav-item nav-link">PolyBot</a>
                 <a href="inquiry.php" class="nav-item nav-link">Ask Away</a>

@@ -15,7 +15,7 @@ if (empty($_SESSION['uid'])) {
 
 if (isset($_POST['save'])) {
     
-//UPLOAD FILE *****************
+//UPLOAD FILE *******
       if(!empty($_FILES)) {
         $upload = new Upload();
         $upload->setUploadDir('images/');
@@ -59,8 +59,8 @@ if (isset($_POST['save'])) {
         $newqt->setCourse_CourseId($_POST['course']);
         
    if ($newqt->addQuestion()){
-       echo 'insdie add qt';
-//  //UPLOAD FILE *****************
+      
+//  //UPLOAD FILE *******
 //      if(!empty($_FILES)) {
 //        $upload = new Upload();
 //        $upload->setUploadDir('images/');
@@ -82,7 +82,7 @@ if (isset($_POST['save'])) {
 //      }else{
 // echo '<p> try again';
 //    }
-//            header("Location: inquiry.php");
+            header("Location: inquiry.php");
 exit();
         }else{
          echo 'Error Adding Question';
