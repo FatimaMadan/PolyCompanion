@@ -1,0 +1,36 @@
+Follow these steps to open the PolyCompanion project:
+A. To open the website click on the URL: PolyCompanion (azure.com)
+
+
+B. If you want to run the project in your device do the following steps:
+1. Download the project from the GitHub link: GitHub - FatimaMadan/PolyCompanion
+2. Download the SQL file and run it in phpMyAdmin
+3. Open the project in an IDE that supports PHP.
+4. Change the credentials in the file Database.php to your own one.
+5. Change the connection configuration to your own.
+6. Run the project.
+
+Note: If you don’t have the previous information, you can use the ones below:
+1. phpMyAdmin account: 
+Username: u202001312
+Password: u202001312
+ And keep the connection configuration and the database details in Database.php file the same.
+
+
+For login these credentials:
+1. Admin
+Username: 202001312
+password: @53gR121
+
+4. Student:
+Username: 202001313
+Password: @53gR121
+
+3. Program Manager:
+Username: 202001314
+Password: @53gR121
+
+4. Registry team member:
+Username: 202001315
+Password: @53gR121
+
