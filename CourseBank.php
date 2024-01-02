@@ -285,6 +285,12 @@ class CourseBank {
         $data = $db->singleFetch('SELECT * FROM Course WHERE CourseId = \'' . $course_id . '\'');
         $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams);
     }
+    
+     function initForEdit($course_id) {
+        $db = Database::getInstance();
+        $data = $db->singleFetch('SELECT * FROM Course WHERE CourseId = \'' . $course_id . '\'');
+        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams, $data->Year, $data->sem);
+    }
 
     function getAllCourses() {
         $db = Database::getInstance();
@@ -333,6 +339,19 @@ class CourseBank {
         return $data;
     }
 
+    public static function deleteOutcomes($CourseId) {
+        $db = Database::getInstance();
+        $outcomes = explode('*', $CLO);
+        foreach ($outcomes as $outcome) {
+            $outcome = trim($outcome);
+            if (!empty($outcome)) {
+                $q = ("Delete * form CLO WHERE CourseId = \'' . $CourseId . '\'");
+                echo $q;
+                $data = $db->singleFetch($q);
+            }
+        }
+    }
+    
     public static function addOutcomes($CLO, $CourseId) {
         $db = Database::getInstance();
         $outcomes = explode('*', $CLO);

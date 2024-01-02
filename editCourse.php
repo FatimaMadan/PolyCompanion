@@ -2,7 +2,7 @@
 ob_start();
 include 'debugging.php';
 include 'header.php';
-include 'QuestionBank.php';
+include 'DescriptorBank.php';
 include 'CourseBank.php';
 include 'Users.php';
 
@@ -13,35 +13,48 @@ if (empty($_SESSION['uid'])) {
     exit();
 }
 
-     // Check if the user is logged in and has the appropriate role
-    if ($_SESSION['roleId'] != 1) {
-       
-        // Redirect the user to a different page or display an error message
-        header('Location: index.php');
+if (isset($_GET['cid'])) {
+    $courseId = $_GET['cid'];
+    
+    $course = new CourseBank();
+     // Assuming you have a function called 'getCourseDetails' to retrieve the course details
+    $course->initForEdit($course_id);
+
+    // Check if the course exists
+    if ($course) {
+        // Course data has been retrieved successfully
+        // Populate the form fields with the course details
+        $course->getCourseCode();
+        $courseDescription = $courseDetails['description'];
+        
+        
+    } else {
+        // Course not found, handle the error
+        echo "Course not found.";
         exit;
     }
+} else {
+    // The course ID parameter is not provided, handle the error
+    echo "Invalid course ID.";
+    exit;
+}
+
 
 if (isset($_POST['save'])) {
     
 //UPLOAD FILE *****************
       if(!empty($_FILES)) {
-        $upload = new Upload();
+        $upload = new UploadDescr();
         $upload->setUploadDir('images/');
         $msg = $upload->upload('name');
         
            if(empty($msg)){
-        $file = new Files();
+        $file = new DescriptorBank();
         $file->setUser_UserId($_SESSION['uid']);
         $file->setFileName($upload->getFilepath());
         $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
         $file->setFileType($upload->getFileType());
-        $file->setAnswers_AnsId(16);
-        $qt = new QuestionBank();
-        $maxQId = $qt->getMaxQuestionId();
-        $file->setQuestions_QuestionId(25);
-        $file->setQId($maxQId + 1);
-        $file->setAId(1);
-        $file->setType("Question");
+
         $file->addFile();
         
         
@@ -57,45 +70,44 @@ if (isset($_POST['save'])) {
 
  if (isset($_POST['submitted'])) {
      
-     
-    $newqt = new QuestionBank();
-        $newqt->setQuesTitle($_POST['QuesTitle']);
-        $newqt->setQuesDescription($_POST['QuesDescription']);
-        $newqt->setTags($_POST['Tags']);
-        $newqt->setLikes(0);
+    $newcour = new CourseBank();
+
+        $newcour->setCourseCode($_POST['CourseCode']);
+        $newcour->setAssessmentMethod($_POST['AssessmentMethod']);
+        $newcour->setCourseAim($_POST['CourseAim']);
         
-        $newqt->setUser_UserId($_SESSION['uid']);
-        $newqt->setCourse_CourseId($_POST['course']);
+        $newcour->setCourseLevel($_POST['CourseLevel']);
         
-   if ($newqt->addQuestion()){
-       
-//  //UPLOAD FILE *****************
-//      if(!empty($_FILES)) {
-//        $upload = new Upload();
-//        $upload->setUploadDir('images/');
-//        $msg = $upload->upload('name');
-//        
-//           if(empty($msg)){
-//        $file = new Files();
-//        $file->setUser_UserId($_SESSION['uid']);
-//        $file->setFileName($upload->getFilepath());
-//        $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
-//        $file->setFileType($upload->getFileType());
-//        $file->setAnswers_AnsId(1);
-//        $qt = new QuestionBank();
-//        $maxQId = $qt->getMaxQuestionId();
-//        $file->setQuestions_QuestionId(1);
-//        $file->setQId($maxQId + 1);
-//        $file->addFile();
-//         }else   print_r ($msg);
-//      }else{
-// echo '<p> try again';
-//    }
-            header("Location: inquiry.php");
-exit();
-        }else{
-         echo 'Error Adding Question';
-        }
+        $newcour->setCourseTitle($_POST['CourseTitle']);
+        $newcour->setCredits($_POST['Credits']);
+        $newcour->setExams($_POST['exams']);
+        $newcour->setMajor_MajorId($_POST['Major_MajorId']);
+        
+        $newcour->setOwner('ICT');
+        $newcour->setPreRequisite($_POST['PreRequisite']);
+        $newcour->setShortTitle($_POST['ShortTitle']);
+        $newcour->setUncontrolledAssess($_POST['uncontrolledAssess']);
+        
+        $newcour->setYear($_POST['Year']);
+                
+        $newcour->setSem($_POST['sem']);
+
+    
+        
+$error_message = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Process the form submission
+    if ($newcour->updateCourse()) {
+        $id = $newcour->getCourseId();
+        CourseBank::deleteOutcomes($_POST['CLO'], $id);
+        CourseBank::addOutcomes($_POST['CLO'], $id);
+        header("Location: view_courses.php");
+        exit();
+    } else {
+        $error_message = 'An Error Occur while editing the course, make sure to fill in all the fields following the conditions';
+    }
+}
 }
 ?>
 
@@ -112,47 +124,97 @@ exit();
       <div class="form">
         <div class="login">
           <div class="login-header">
-            <h3> Edit a Course </h3>
+            <h3>Edit a Course</h3>
           </div>
         </div>
           <form action="" class="login-form" method="POST" enctype="multipart/form-data">
-<!--              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than hundred characters.</p>-->
-<!--              <input required type="text" placeholder="Course Year" name="QuesTitle" value="<?php echo isset($_POST['QuesTitle']) ? $_POST['QuesTitle'] : ''; ?>"/>
-<input required type="text" placeholder="Course Semester" name="QuesTitle" value="<?php echo isset($_POST['QuesTitle']) ? $_POST['QuesTitle'] : ''; ?>"/>
+              
+              <!-- Display the error message -->
+  <?php if (!empty($error_message)) { ?>
+    <p><?php echo $error_message; ?></p>
+<?php } elseif (!empty($errors)) { ?>
+    <ul>
+        <?php foreach ($errors as $error) { ?>
+            <li><?php echo $error; ?></li>
+        <?php } ?>
+    </ul>
+<?php } ?>
+        
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 6 characters, this must be unique.</p>
+              <input required type="text" placeholder="Course Code" name="CourseCode" value="<?php echo $course->getCourseCode(); ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 30 characters.</p>
+              <input required type="text" placeholder="Course Title" name="CourseTitle" value="<?php echo isset($_POST['CourseTitle']) ? $_POST['CourseTitle'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than six characters.</p>
+              <input required type="text" placeholder="Course Short Title" name="ShortTitle" value="<?php echo isset($_POST['ShortTitle']) ? $_POST['ShortTitle'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*A number between 0 and 10.</p>
+              <input required type="text" placeholder="Course Level" name="CourseLevel" value="<?php echo isset($_POST['CourseLevel']) ? $_POST['CourseLevel'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*A number between 5 and 65.</p>
+              <input required type="text" placeholder="Course Credits" name="Credits" value="<?php echo isset($_POST['Credits']) ? $_POST['Credits'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 100 characters.</p>
+              <textarea required placeholder="Uncontrolled Assessments" name="uncontrolledAssess"><?php echo isset($_POST['uncontrolledAssess']) ? $_POST['uncontrolledAssess'] : ''; ?></textarea>              
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 100 characters.</p>
+              <textarea required placeholder="Examinations" name="exams"><?php echo isset($_POST['exams']) ? $_POST['exams'] : ''; ?></textarea>              
+                           
+              <input required type="text" placeholder="Assessment Method" name="AssessmentMethod" value="<?php echo isset($_POST['AssessmentMethod']) ? $_POST['AssessmentMethod'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 100 characters.</p>
+              <textarea required placeholder="Course Aim" name="CourseAim"><?php echo isset($_POST['CourseAim']) ? $_POST['CourseAim'] : ''; ?></textarea>              
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*This field is optional</p>
+              <input type="text" placeholder="Pre-Requisite" name="PreRequisite" value="<?php echo isset($_POST['PreRequisite']) ? $_POST['PreRequisite'] : ''; ?>"/>
+              
+              <select required name="Major_MajorId">
+                  <option value="">Select Major</option>
+                  
+                  
+                  <?php
+                  $tempMajors = new MajorBank();
+                  $majorList = $tempMajors->createMajorList();
+                  echo $majorList;
+                  ?>
 
-              <textarea required placeholder="Question Description" name="QuesDescription"><?php echo isset($_POST['QuesDescription']) ? $_POST['QuesDescription'] : ''; ?></textarea>
-              <textarea required placeholder="Question Description" name="QuesDescription"></textarea><br />
-              <p style="color: #a52834; font-size: 9px; float: left;">(Optional) *Please separate the tags by commas. </p>
-               <input type="text" placeholder="Tags" name="Tags" value="<?php echo isset($_POST['Tags']) ? $_POST['Tags'] : ''; ?>"/>
-          <div> <form action="" method ="post" enctype="multipart/form-data">-->
-             <select required name="course">
-          <option value="">Select A year</option>
-          <option value="">Year 1</option>
-          <option value="">Year 2</option><!-- <option value="">Select A year</option> -->
-          <option value="">Year 3</option><!-- comment -->
-          <option value="">Year 4</option>
-          
-             </select><br>
+              </select><br>
+              
+              <select required name="Year">
+                  <option value="">Select Year</option>
+                  
+                  <option>1</option>
+                  <option>2</option><!-- comment -->
+                  <option>3</option><!-- comment -->
+                  <option>4</option>
 
-             <select required name="course">
-          <option value="">Select A Semester</option>         
-          <option value="">Semester A</option><!-- comment -->
-          <option value="">Semester B</option>
-             </select><br>
-             
-             
-<!--              <p style="color: #a52834; font-size: 9px; float: left;">*For security purpose, zip all your files and upload. </p>-->
-             <input type="file" name="name" multiple required/> 
+              </select><br><!-- comment -->
+              
+              <select required name="sem">
+                  <option value="">Select Semester</option>
+                                    <option>A</option>
+                  <option>B</option><!-- comment -->
+                  
+
+              </select><br>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Separate them using stars(*).</p>
+              <textarea required placeholder="Course Learning Oucomes" name="CLO"><?php echo isset($_POST['CLO']) ? $_POST['CLO'] : ''; ?></textarea>              
+              
+
+              <p style="color: #a52834; font-size: 9px; float: left;">*Upload the Course PDF descriptor here. </p>
+             <input type="file" name="name" multiple/> 
              <button name="save" value="TRUE" style="padding: 5px 10px; background-color: #181d38; width: 100px">Save File</button><br>
  <?php
-    $files = new Files();
-    $ques = new QuestionBank();
-    $maxQuesId = $ques->getMaxQuestionId();
-    $row = $files->getFileWithQuesid($maxQuesId + 1);
+    $files = new DescriptorBank();
+    $ques = new CourseBank();
+    $maxQuesId = $ques->getMaxCourseId();
+    $row = $files->getDescWithCId($maxQuesId + 1);
     
 if (!empty($row)) {
    
-     $userFile = new Files();
+     $userFile = new DescriptorBank();
      $uid = $_SESSION['uid'];
     $userFile->getFileWithQuesidAndUserId($maxQuesId + 1, $uid);
     if($uid == $userFile->getUser_UserId()){

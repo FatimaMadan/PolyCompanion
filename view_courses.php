@@ -199,9 +199,8 @@ function toggleSort() {
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
-                                alert(cid);
-                                alert(action);
                                 alert('Deleted successfully');
+                                searchCourse();
                             } else {
                                 alert('An error occurred while deleting the course.');
                             }

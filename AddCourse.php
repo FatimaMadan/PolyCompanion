@@ -219,7 +219,7 @@ if (!empty($row)) {
     echo '<p class="error">' . mysqli_error($dbc) . '</p>';
 }
 ?><br />
-           <button name="submitted" value="TRUE">Post</button>
+           <button name="submitted" value="TRUE">Submit</button>
           <!--<p class="message">Already have an account? <a href="login.php">Sign in</a></p>-->
         </form>
       </div>
