@@ -189,7 +189,7 @@ if (!empty($result)) {
                     <a href="singleCourse.php?cid=' . $result[$i]->CourseId . '"
                     class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
                     style="border-radius: 30px 0 0 30px;">Read More</a>
-                    <a href="inquiry.php?cid=' . $result[$i]->CourseId . '" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                    <a href="inquiry.php?courseId=' . $result[$i]->CourseId . '" class="flex-shrink-0 btn btn-sm btn-primary px-3"
                     style="border-radius: 0 30px 30px 0;">Ask Away</a>
                     </div>
                     </div>

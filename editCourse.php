@@ -77,9 +77,9 @@ if (isset($_POST['submitted'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Process the form submission
         if ($newcour->updateCourse($courseId)) {
-            CourseBank::deleteOutcomes($_POST['CLO'], $courseId);
+            CourseBank::deleteOutcomes($courseId);
             CourseBank::addOutcomes($_POST['CLO'], $courseId);
-            header("Location: view_courses.php");
+            header("Location: singleCourse.php?cid=$courseId");
             exit();
         } else {
             $error_message = 'An Error Occur while editing the course, make sure to fill in all the fields following the conditions';

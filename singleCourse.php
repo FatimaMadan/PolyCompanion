@@ -3,6 +3,13 @@ ob_start();
 include 'header.php';
 include 'debugging.php';
 
+if (empty($_SESSION['uid'])) {
+    // User is not logged in, redirect to login page
+    echo $_SESSION['username'];
+    header("Location: Login.php");
+    exit();
+}
+
 $id = $_GET['cid'];
 
 //get article details
@@ -96,7 +103,7 @@ $major->initWithId($major_id);
     <div class="container-fluid p-0 mb-5">
         <div class="owl-carousel header-carousel position-relative">
             <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="img/faq.jpg" alt="">
+                <img class="img-fluid" src="img/cat-1.jpg" alt="">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
@@ -220,7 +227,7 @@ $major->initWithId($major_id);
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt="" style="object-fit: cover;">
+                        <img class="img-fluid position-absolute w-100 h-100" src="img/cat-4.jpg" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">

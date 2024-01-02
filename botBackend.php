@@ -214,6 +214,19 @@ if (isset($_GET['action'])) {
             </div>';
 
             echo '<div id="response-container"></div>';
+            
+            
+            
+             echo '<div class="bot-message">
+                Or if you would like, you can access this coures realted page using the buttuon below
+            <div class="option-buttons">';
+                    echo '<a href="inquiry.php?courseId= ' . $courseId . '"> <button class="option-button" > Ask Away </button>';
+                    echo '<a href="singleCourse.php?cid= ' . $courseId . '"> <button class="option-button" >'.$name->CourseTitle.' page</button>';
+            
+            echo '</div>
+            </div>';
+
+            echo '<div id="response-container"></div>';
         } else {
             echo '<button class="option-button">OPPPs</button>';
         }

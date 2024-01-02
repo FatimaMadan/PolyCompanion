@@ -297,7 +297,7 @@ class CourseBank {
         }
     }
     
-    function updateCourse() {
+    function updateCourse($courseId) {
     $errors = $this->isValidForEdit();
 
     if (count($errors) === 0) {
@@ -319,7 +319,7 @@ class CourseBank {
                         owner = '$this->owner',
                         Year = '$this->Year',
                         Semester = '$this->sem'
-                    WHERE CourseId = $this->CourseId";
+                    WHERE CourseId = $courseId";
             
             echo 'Executing SQL: ' . $sql;
 
@@ -330,6 +330,7 @@ class CourseBank {
             $error_message = 'Exception: ' . $e->getMessage();
             // Display the error message to the user or handle it as needed
             echo $error_message;
+            echo $sql;
             return false;
         }
     } else {
@@ -458,15 +459,9 @@ public function getCourseDetails($courseId) {
 
     public static function deleteOutcomes($CourseId) {
         $db = Database::getInstance();
-        $outcomes = explode('*', $CLO);
-        foreach ($outcomes as $outcome) {
-            $outcome = trim($outcome);
-            if (!empty($outcome)) {
-                $q = ("Delete * form CLO WHERE CourseId = \'' . $CourseId . '\'");
+                $q = ('Delete from CLO WHERE CourseId = \'' . $CourseId . '\'');
                 echo $q;
                 $data = $db->singleFetch($q);
-            }
-        }
     }
     
     public static function addOutcomes($CLO, $CourseId) {

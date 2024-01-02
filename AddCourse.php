@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($newcour->addCourse()) {
         $id = $newcour->getMaxCourseId();
         CourseBank::addOutcomes($_POST['CLO'], $id);
-        header("Location: view_courses.php");
+        header("Location: singleCourse.php?cid=$id");
         exit();
     } else {
         $error_message = 'An Error Occur while adding the course, make sure to fill in all the fields following the conditions';
