@@ -389,7 +389,7 @@ if (!empty($data)) {
             <thead>
             </thead>
             <tbody>';
-for ($i = 0; $i < 8; $i++) {
+for ($i = 0; $i < 5; $i++) {
   
     if($data[$i]->Action == "Logged in"){
     echo '<tr>
@@ -425,7 +425,7 @@ if (!empty($data)) {
             <thead>
             </thead>
             <tbody>';
-for ($i = 0; $i < 8; $i++) {
+for ($i = 0; $i < 5; $i++) {
     if (strpos($data[$i]->ActivityText, 'added') === 0){
     echo '<tr>
             <td style="color: #50C878 ;">' .$data[$i]->UserName. ' ' .$data[$i]->ActivityText. ' at ' .$data[$i]->Time. ' </td>
@@ -448,6 +448,42 @@ echo '</tbody>
             echo '<p>Sorry no user activity is found in the database</p>';
         }
   ?>
+      
+      <?php
+$allComplaints = new Complains();
+$data = $allComplaints->getAllComplains();
+
+if (!empty($data)) {
+    echo '<link rel="stylesheet" href="css/style.css">';
+    echo '<br />';
+    echo '<div style="margin-left: 0px; width: 90%; margin-top: 15px; border: 2px solid black;">
+     <h4>User Complains</h4>
+        <table class="my-table">
+            <thead>
+             <thead>
+                <tr>
+                    <th style="margin-left: 4px;">User Name</th>
+                    <th style="margin-left: 4px;">Subject</th>
+                    <th style="margin-left: 4px;">Message</th>
+                </tr>
+            </thead>
+            <tbody>';
+for ($i = 0; $i < count($data); $i++) {
+    echo '<tr>
+              <td style="margin-left: 4px;">' .$data[$i]->username. '</td>
+            <td style="margin-left: 4px;">' .$data[$i]->Subject. '</td>
+            <td style="margin-left: 4px;">' .$data[$i]->Message. '</td>
+    </tr>';
+}
+echo '</tbody>
+      </table>
+    </div>'
+;}
+        else {
+             echo '<br />';
+            echo '<p>Sorry no user complaints were found in the database</p>';
+        }
+  ?>   
       
 </div>
 </div>
