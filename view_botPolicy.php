@@ -82,11 +82,11 @@ include 'header.php';
         </p>
         <br><br><h3>Updates to this Privacy Policy</h3>
         <p>
-          We reserve the right to update or modify this Privacy Policy at any time, and such changes will be effective upon posting the revised policy on this page. We encourage you to review this Privacy Policy periodicallyfor any updates or changes.
+          We reserve the right to update or modify this Privacy Policy at any time, and such changes will be effective upon posting the revised policy on this page. We encourage you to review this Privacy Policy periodically for any updates or changes.
         </p>
         <br><br><h3>Contact Us</h3>
         <p>
-          If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us at [Insert contact information].
+          If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us by clicking on the button: <button class="option-button"><a href="contact.php">Contact us</a></button>
         </p>
         <p>
           Please note that this Privacy Policy applies solely to the Chatbot and does not govern the practices of third parties that may interact with the Chatbot or websites and services linked to or from the Chatbot. We encourage you to review the privacy policies of those third parties to understand their data collection, use, and disclosure practices.

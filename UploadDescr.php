@@ -1,5 +1,5 @@
 <?php
-class Upload {
+class UploadDescr {
 
     private $upload_dir;
     private $max_file_size;

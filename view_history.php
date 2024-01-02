@@ -15,7 +15,6 @@ include 'header.php';
  $uid = $_SESSION['uid'];
 ?>
 
-
 <!-- About Start -->
 <div class="container-xxl py-5">
   <div class="container">
@@ -28,39 +27,8 @@ include 'header.php';
         </button>
       </div>
       <div class="history-div" id="history-results">
-      <?php
-//      $userHistory = BotBank::getUserHistory($uid);
-//      if (!empty($userHistory)) {
-//                            for ($i = 0; $i < count($userHistory); $i++) {
-//                                echo '<h4 class="history-date">'.$userHistory[$i]->timestamp.'</h4>
-//                                        <hr class="date-separator">
-//                                        <table class="table">
-//                                          <tbody>
-//                                            <tr>
-//                                              <td class="time-column">10:00 AM</td>
-//                                              <td class="action-column">'.$userHistory[$i]->action.'</td>
-//                                            </tr>
-//                                          </tbody>
-//                                        </table>';
-//                                        
-//                                }
-//                        } else {
-//                            echo '<h4 class="history-date">No data available</h4>
-//        <hr class="date-separator">
-//        <table class="table">
-//          <tbody>
-//            <tr>
-//              <td class="time-column">No data available</td>
-//              <td class="action-column">No data available</td>
-//            </tr>
-//            <tr>
-//              <td class="time-column">No data available</td>
-//              <td class="action-column">No data available</td>
-//            </tr>
-//          </tbody>
-//        </table>';
-//                        }
-                        ?>
+      </div>
+      <div class="pagination" id="pagination-container">
       </div>
     </div>
   </div>
@@ -68,24 +36,28 @@ include 'header.php';
 <!-- About End -->
 
 <script>
-    loadHistory();
-    
-    function loadHistory() {
-  // Create an AJAX request
-  var xhttp = new XMLHttpRequest();
+    // Initial page load
+    loadHistory(1);
 
-  // Define the callback function to handle the response
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      // Update the content of the history-results container
-      document.getElementById("history-results").innerHTML = this.responseText;
+    function loadHistory(page) {
+        // Create an AJAX request
+        var xhttp = new XMLHttpRequest();
+
+        // Define the callback function to handle the response
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Update the content of the history-results container
+                document.getElementById("history-results").innerHTML = this.responseText;
+                // Update the pagination container
+                document.getElementById("pagination-container").innerHTML = this.getResponseHeader("pagination");
+            }
+        };
+
+        // Specify the AJAX request details
+        xhttp.open("GET", "botHistory.php?uid=<?php echo $uid; ?>&page=" + page, true);
+        xhttp.send();
     }
-  };
 
-  // Specify the AJAX request details
-  xhttp.open("GET", "botHistory.php?uid=<?php echo $uid; ?>", true);
-  xhttp.send();
-}
 
 function deleteHis(uid, action) {
   // Display a confirmation message to the user

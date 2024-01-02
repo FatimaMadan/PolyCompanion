@@ -10,10 +10,45 @@ include 'header.php';
      header("Location: Login.php");
      exit();
  }
+ 
 ?>
 
+<script>
+    var uid = <?php echo json_encode($_SESSION['uid']); ?>;
+    window.addEventListener('DOMContentLoaded', function() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var userAgree = xhr.responseText;
+                if (userAgree !== '1') {
+                    var confirmation = confirm('Note that by using the Polybot page you are agreeing to the Polybot Policy! Click OK to agree or Cancel to decline.');
+                    if (confirmation) {
+                        // User clicked OK, update agreement
+                        updateAgreement('confirm', uid);
+                    } else {
+                        // User clicked Cancel, redirect to another page
+                        window.location.href = 'index.php';
+                    }
+                }
+                updateHistory(uid, "access Polybot page");
+            }
+        };
+        xhr.open('GET', 'check_user_agree.php', true);
+        xhr.send();
+    });
 
-
+    function updateAgreement(action, uid) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Handle the response if needed
+            console.log(xhr.responseText);
+        }
+    };
+    xhr.open('GET', 'check_user_agree.php?action=' + action + '&uid=' + uid, true);
+    xhr.send();
+}
+</script>
 <script>
         // Get the current page URL
         var url = window.location.href;
@@ -148,13 +183,16 @@ include 'header.php';
             <div class="col-lg-10 text-center">
                 <h1 class="display-3 text-white animated slideInDown">Polybot</h1>
                 <nav aria-label="breadcrumb">
-                    <p class="breadcrumb-item text-white">Welcome to Polybot, your Polytechnic journey companion!<br>Ask away, and Polybot will provide quick and helpful answers to your course-related queries.</p>
+                    <p class="breadcrumb-item text-white">Welcome to Polybot, your Polytechnic journey companion!
+                        <br>Ask away, and Polybot will provide quick and helpful answers to your course-related queries.</p>
                 </nav>
             </div>
         </div>
     </div>
 </div>
 <!-- Header End -->
+
+<!-- Conversation Header -->
 <div class="container-fluid bg-light py-3 conversation-header">
     <div class="container d-flex align-items-center justify-content-between">
         <div class="header-user-info">
@@ -162,89 +200,26 @@ include 'header.php';
             <h4 class="header-user-name">Polybot</h4>
         </div>
         <div class="header-menu">
-            <button class="btn btn-primary tutorial-button">Tutorial</button>
+            <a href="bot_tutorial.php"><button class="btn btn-primary tutorial-button">Tutorial</button></a>
             <div class="dropdown">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" 
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-<!--                    <div class="dropdown-submenu">
-                        <button class="dropdown-item" type="button" id="historyDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <a href="view_courses.php">History</a>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="historyDropdown">
-                            <a class="dropdown-item" href="#">Action 1</a>
-                            <a class="dropdown-item" href="#">Action 2</a>
-                             Add more history actions as needed 
-                        </div>
-                    </div>-->
                     <a class="dropdown-item" href="view_history.php">History</a>
-                    <a class="dropdown-item" href="#">Reports</a>
+                    
+                        <?php
+                        if($_SESSION['roleId'] == 1 ){
+                        echo '<a class="dropdown-item" href="bot_reports.php">Reports</a>';
+                        }
+                        ?>
                     <a class="dropdown-item" href="view_botPolicy.php">Polybot Policy</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- submenu <script>
-// JavaScript code to handle hover event
-const dropdown = document.getElementById('dropdownMenuButton');
-const historyDropdown = document.getElementById('historyDropdown');
-const historyMenu = historyDropdown.nextElementSibling;
-
-let isHistoryHovered = false;
-
-dropdown.addEventListener('mouseenter', function() {
-  if (historyDropdown.getAttribute('aria-expanded') === 'true') {
-    historyDropdown.setAttribute('aria-expanded', 'false');
-    historyMenu.classList.remove('show');
-  }
-});
-
-historyDropdown.addEventListener('mouseenter', function() {
-  isHistoryHovered = true;
-  if (historyDropdown.getAttribute('aria-expanded') === 'false') {
-    historyDropdown.setAttribute('aria-expanded', 'true');
-    historyMenu.classList.add('show');
-  }
-});
-
-historyDropdown.addEventListener('mouseleave', function() {
-  isHistoryHovered = false;
-  setTimeout(function() {
-    if (!isHistoryHovered && historyDropdown.getAttribute('aria-expanded') === 'true') {
-      historyDropdown.setAttribute('aria-expanded', 'false');
-      historyMenu.classList.remove('show');
-    }
-  }, 200);
-});
-
-dropdown.addEventListener('mouseleave', function() {
-  setTimeout(function() {
-    if (!isHistoryHovered && dropdown.getAttribute('aria-expanded') === 'true') {
-      historyDropdown.setAttribute('aria-expanded', 'false');
-      historyMenu.classList.remove('show');
-    }
-  }, 200);
-});
-</script>-->
-
-<!--<style>
-.dropdown-submenu {
-  position: relative;
-}
-
-.dropdown-submenu .dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -1px;
-}
-
-.dropdown-menu.show {
-  display: none;
-}
-</style> submenu-->
 
 
 <div class="container-xxl py-5">
@@ -258,8 +233,10 @@ dropdown.addEventListener('mouseleave', function() {
             <div class="bot-message">
                 How can I help you today?
                 <div class="option-buttons">
-                    <button class="option-button" onclick="sendMessage('faq')">I want to see the Most Frequently Asked Questions</button>
-                    <button class="option-button" onclick="sendMessage('majors')">I have a question about a specific course</button>
+                    <button class="option-button" onclick="sendMessage('faq')">
+                        I want to see the Most Frequently Asked Questions</button>
+                    <button class="option-button" onclick="sendMessage('majors')">
+                        I have a question about a specific course</button>
                 </div>
             </div>
 
@@ -296,7 +273,7 @@ function updateConversation(message) {
     updateHistory(uid, messageHistory);
 }
 
-function updateHistory(uid, messageHistory, timestamp) {
+function updateHistory(uid, messageHistory) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {

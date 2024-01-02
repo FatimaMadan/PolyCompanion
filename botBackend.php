@@ -191,30 +191,34 @@ if (isset($_GET['action'])) {
         $courseId = $_GET['Id'];
         $result = CourseBank::getCourseCol();
         $name = CourseBank::getCourseName($courseId);
+        $displayColumns = CourseBank::getAllColumns(); // Replace YourClassName with the actual class name
         
         // Echo user message
-            echo '<div class="user-message">'.  $name->CourseTitle .'</div>';
-            
-            
+        echo '<div class="user-message">'. $name->CourseTitle .'</div>';
+        
         if (!empty($result)) {
             echo '<div class="bot-message">
                 What would you like to know about this course?
                 <div class="option-buttons">';
+                
+            foreach ($result as $row) {
+                $columnName = $row->COLUMN_NAME;
 
-            for ($i = 0; $i < count($result); $i++) {
-                echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $result[$i]->COLUMN_NAME . '\', function() { sendMessage(\'help\'); })">' . $result[$i]->COLUMN_NAME . '</button>';
+                if (isset($displayColumns[$columnName])) {
+                    $displayColumnName = $displayColumns[$columnName];
+                    echo '<button class="option-button" onclick="showCourseCol(\'colAns\',' . $courseId . ',\'' . $columnName . '\', function() { sendMessage(\'help\'); })">' . $displayColumnName . '</button>';
                 }
-
-            echo '</div> 
+            }
+            
+            echo '</div>
             </div>';
 
             echo '<div id="response-container"></div>';
-
         } else {
             echo '<button class="option-button">OPPPs</button>';
         }
     }
-}elseif ($action === 'colAns') {
+} elseif ($action === 'colAns') {
     // Handle show courses action
     if (isset($_GET['Id'])) {
         $courseId = $_GET['Id'];
@@ -278,17 +282,37 @@ if (isset($_GET['action'])) {
      echo '<div class="bot-message">
                 Very glad I was able to help you today. Do not forget to rate your experience.
                 <div class="option-buttons">
-                    <button class="option-button" onclick="sendMessage(\'exit\')">Very helpful</button>
-                    <button class="option-button" onclick="sendMessage(\'exit\')">Not helpful</button>
+                    <button class="option-button" onclick="sendMessage(\'helpful\')">Very helpful</button>
+                    <button class="option-button" onclick="sendMessage(\'nothelp\')">Not helpful</button>
                 </div>
             </div>';
      echo '<div id="response-container"></div>';
-}
-
-elseif($action === 'exit') {
+} elseif($action === 'helpful') {
+    
+     // Echo user message
+            echo '<div class="user-message"> Very helpful </div>';
+            
      echo '<div class="bot-message">
-                Do not hesitate to come if you need any help!
-               
+                Very glad I was able to help you today. <br> Ready to rescue you whenever you want! 😎✨
+            </div>';
+     echo '<div id="response-container"></div>';
+} elseif($action === 'nothelp') {
+    
+     // Echo user message
+            echo '<div class="user-message"> Not helpful </div>';
+            
+     echo '<div class="bot-message">
+                I am very sorry to hear that. <br>
+                Hope I can guid you next time.
+                
+            </div><br>';
+     
+     echo '<div class="bot-message">
+                For any complains or suggestions click on the contact button below or you can access the ask away page to publish your question.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                    <button class="option-button"><a href="inquiry.php">Ask Away</a></button>
+                </div>
             </div>';
      echo '<div id="response-container"></div>';
 }

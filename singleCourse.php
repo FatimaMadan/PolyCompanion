@@ -124,16 +124,21 @@ $major->initWithId($major_id);
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-sm-10 col-lg-8">
-                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown"><?php echo $course->getCourseCode() ?> &bull; <?php echo $course->getShortTitle() ?></h5>
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown"><?php echo $course->getCourseCode() ?> &bull; 
+                                    <?php echo $course->getShortTitle() ?></h5>
                                 <h1 class="display-3 text-white animated slideInDown"><?php echo $course->getCourseTitle() ?></h1>
                                 <p class="fs-5 text-white mb-4 pb-2"><?php echo $course->getCredits() ?> Credits &bull;
                                                                      Level <?php echo $course->getCourseLevel() ?> &bull;
                                                                      <?php echo $major->getMajorName() ?> Major
                                 </p>
-                                <?php 
+<!--                                
+                               <a href="inquiry.php?cid=<?php echo $id; ?>">-->
+    <button class="btn btn-primary py-md-3 px-md-5 me-3" onclick="unSubscribeCourse(<?php echo $course->getCourseId(); ?>);">Unsubscribe</button>
+</a>
+    <?php 
                                 
                                 // Establish a database connection
-                                $conn = mysqli_connect("localhost", "u202003059", "u202003059", "db202003059");
+                                $conn = mysqli_connect("localhost", "u202001312", "u202001312", "db202001312");
                                 
                                 // Get the post ID and action from the AJAX request
                                 $courseId = $course->getCourseId();
@@ -160,6 +165,10 @@ $major->initWithId($major_id);
                                     }
                                        
                                 ?>
+                                
+                                
+
+<!--                                
                             
                               </div>
                         </div>
@@ -186,40 +195,49 @@ $major->initWithId($major_id);
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item text-center pt-3 h-100">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-check-square text-primary mb-4"></i>
-                        <h5 class="mb-3">Prerequisites</h5>
-                        <p><?php echo $course->getPreRequisite() ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item text-center pt-3 h-100">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
-                        <h5 class="mb-3">Sources</h5>
-                        <p><?php echo $course->getRecommended_book_resources() ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="service-item text-center pt-3 h-100">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-clock text-primary mb-4"></i>
-                        <h5 class="mb-3">Total Hours</h5>
-                        <p><?php echo $course->getTotal_hours() ?> hours</p>
-                    </div>
-                </div>
-            </div>
+    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+    <div class="service-item text-center pt-3 h-100">
+        <div class="p-4">
+            <i class="fas fa-3x fa-check-circle text-primary mb-4"></i>
+            <h5 class="mb-3">Prerequisites</h5>
+            <p><?php 
+            
+            if ($course->getPreRequisite() != ""){
+                echo $course->getPreRequisite();
+            } else {
+                echo 'No PreRequisite';
+            }
+                
+                 ?></p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+    <div class="service-item text-center pt-3 h-100">
+        <div class="p-4">
+            <i class="fas fa-3x fa-pencil-alt text-primary mb-4"></i>
+            <h5 class="mb-3">Examinations</h5>
+            <p><?php echo $course->getExams() ?></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+    <div class="service-item text-center pt-3 h-100">
+        <div class="p-4">
+            <i class="fas fa-3x fa-clipboard-check text-primary mb-4"></i>
+            <h5 class="mb-3">Uncontrolled Assessments</h5>
+            <p><?php echo $course->getUncontrolledAssess() ?></p>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>
 <!-- Service End -->
 
 
-<!-- About Start -->
+<!-- About Course -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5">
@@ -247,7 +265,7 @@ $major->initWithId($major_id);
                                 }
                             } else {
                                 echo '<div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Opps</p>
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Looks like there is not learning outcomes for this course yet</p>
                         </div>';
                             }
                             ?>
@@ -258,91 +276,7 @@ $major->initWithId($major_id);
         </div>
     </div>
     <!-- About End -->
-    
-    <!-- Team Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Team</h6>
-                <h1 class="mb-5">Course Staff Team</h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="img/team-1.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0"><?php echo $course->getProgramManager() ?></h5>
-                            <small>Program Manager</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="img/team-2.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0"><?php echo $course->getCurrentDeveloper() ?></h5>
-                            <small>Current Developer</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="img/team-3.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0">Instructor Name</h5>
-                            <small>Designation</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="img/team-4.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0">Instructor Name</h5>
-                            <small>Designation</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Team End -->
+
 
 </body><!-- comment -->
 
