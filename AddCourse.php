@@ -43,22 +43,43 @@ if (isset($_POST['save'])) {
 
  if (isset($_POST['submitted'])) {
      
-    $newqt = new QuestionBank();
-        $newqt->setQuesTitle($_POST['QuesTitle']);
-        $newqt->setQuesDescription($_POST['QuesDescription']);
-        $newqt->setTags($_POST['Tags']);
-        $newqt->setLikes(0);
-        
-        $newqt->setUser_UserId($_SESSION['uid']);
-        $newqt->setCourse_CourseId($_POST['course']);
-        
-   if ($newqt->addQuestion()){
-       echo 'insdie add qt';
+    $newcour = new CourseBank();
 
-exit();
-        }else{
-         echo 'Error Adding Question';
-        }
+        $newcour->setCourseCode($_POST['CourseCode']);
+        $newcour->setAssessmentMethod($_POST['AssessmentMethod']);
+        $newcour->setCourseAim($_POST['CourseAim']);
+        
+        $newcour->setCourseLevel($_POST['CourseLevel']);
+        
+        $newcour->setCourseTitle($_POST['CourseTitle']);
+        $newcour->setCredits($_POST['Credits']);
+        $newcour->setExams($_POST['exams']);
+        $newcour->setMajor_MajorId($_POST['Major_MajorId']);
+        
+        $newcour->setOwner('ICT');
+        $newcour->setPreRequisite($_POST['PreRequisite']);
+        $newcour->setShortTitle($_POST['ShortTitle']);
+        $newcour->setUncontrolledAssess($_POST['uncontrolledAssess']);
+        
+        $newcour->setYear($_POST['Year']);
+                
+        $newcour->setSem($_POST['sem']);
+
+    
+        
+$error_message = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Process the form submission
+    if ($newcour->addCourse()) {
+        $id = $newcour->getMaxCourseId();
+        CourseBank::addOutcomes($_POST['CLO'], $id);
+        header("Location: view_courses.php");
+        exit();
+    } else {
+        $error_message = 'An Error Occur while adding the course, make sure to fill in all the fields following the conditions';
+    }
+}
 }
 ?>
 
@@ -67,7 +88,7 @@ exit();
 <head>
     
 <link rel="stylesheet" href="css/AddQt.css">
-<title> Post Question </title>
+<title> Add a Course </title>
 </head>
 <body>
   <body>
@@ -75,29 +96,86 @@ exit();
       <div class="form">
         <div class="login">
           <div class="login-header">
-            <h3>Post a Question</h3>
+            <h3>Add a Course</h3>
           </div>
         </div>
           <form action="" class="login-form" method="POST" enctype="multipart/form-data">
-              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than hundred characters.</p>
-              <input required type="text" placeholder="Question Title" name="QuesTitle" value="<?php echo isset($_POST['QuesTitle']) ? $_POST['QuesTitle'] : ''; ?>"/>
-              <textarea required placeholder="Question Description" name="QuesDescription"><?php echo isset($_POST['QuesDescription']) ? $_POST['QuesDescription'] : ''; ?></textarea>
-              <!--<textarea required placeholder="Question Description" name="QuesDescription"></textarea><br />-->
-              <p style="color: #a52834; font-size: 9px; float: left;">(Optional) *Please separate the tags by commas. </p>
-               <input type="text" placeholder="Tags" name="Tags" value="<?php echo isset($_POST['Tags']) ? $_POST['Tags'] : ''; ?>"/>
-<!--          <div> <form action="" method ="post" enctype="multipart/form-data">-->
-             <select required name="course">
-          <option value="">Select Course</option>
-          
-         <?php 
-          $tempcourse = new QuestionBank();
-          $courseList = $tempcourse->createCourseList();
-         echo $courseList;
-         ?>
-          
-             </select><br>
+              
+              <!-- Display the error message -->
+  <?php if (!empty($error_message)) { ?>
+    <p><?php echo $error_message; ?></p>
+<?php } elseif (!empty($errors)) { ?>
+    <ul>
+        <?php foreach ($errors as $error) { ?>
+            <li><?php echo $error; ?></li>
+        <?php } ?>
+    </ul>
+<?php } ?>
+        
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 6 characters, this must be unique.</p>
+              <input required type="text" placeholder="Course Code" name="CourseCode" value="<?php echo isset($_POST['CourseCode']) ? $_POST['CourseCode'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 30 characters.</p>
+              <input required type="text" placeholder="Course Title" name="CourseTitle" value="<?php echo isset($_POST['CourseTitle']) ? $_POST['CourseTitle'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than six characters.</p>
+              <input required type="text" placeholder="Course Short Title" name="ShortTitle" value="<?php echo isset($_POST['ShortTitle']) ? $_POST['ShortTitle'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*A number between 0 and 10.</p>
+              <input required type="text" placeholder="Course Level" name="CourseLevel" value="<?php echo isset($_POST['CourseLevel']) ? $_POST['CourseLevel'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*A number between 5 and 65.</p>
+              <input required type="text" placeholder="Course Credits" name="Credits" value="<?php echo isset($_POST['Credits']) ? $_POST['Credits'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 100 characters.</p>
+              <textarea required placeholder="Uncontrolled Assessments" name="uncontrolledAssess"><?php echo isset($_POST['uncontrolledAssess']) ? $_POST['uncontrolledAssess'] : ''; ?></textarea>              
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 100 characters.</p>
+              <textarea required placeholder="Examinations" name="exams"><?php echo isset($_POST['exams']) ? $_POST['exams'] : ''; ?></textarea>              
+                           
+              <input required type="text" placeholder="Assessment Method" name="AssessmentMethod" value="<?php echo isset($_POST['AssessmentMethod']) ? $_POST['AssessmentMethod'] : ''; ?>"/>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 100 characters.</p>
+              <textarea required placeholder="Course Aim" name="CourseAim"><?php echo isset($_POST['CourseAim']) ? $_POST['CourseAim'] : ''; ?></textarea>              
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*This field is optional</p>
+              <input type="text" placeholder="Pre-Requisite" name="PreRequisite" value="<?php echo isset($_POST['PreRequisite']) ? $_POST['PreRequisite'] : ''; ?>"/>
+              
+              <select required name="Major_MajorId">
+                  <option value="">Select Major</option>
+                  
+                  
+                  <?php
+                  $tempMajors = new MajorBank();
+                  $majorList = $tempMajors->createMajorList();
+                  echo $majorList;
+                  ?>
 
-              <p style="color: #a52834; font-size: 9px; float: left;">*For security purpose, zip all your files and upload. </p>
+              </select><br>
+              
+              <select required name="Year">
+                  <option value="">Select Year</option>
+                  
+                  <option>1</option>
+                  <option>2</option><!-- comment -->
+                  <option>3</option><!-- comment -->
+                  <option>4</option>
+
+              </select><br><!-- comment -->
+              
+              <select required name="sem">
+                  <option value="">Select Semester</option>
+                                    <option>A</option>
+                  <option>B</option><!-- comment -->
+                  
+
+              </select><br>
+              
+              <p style="color: #a52834; font-size: 9px; float: left;">*Separate them using stars(*).</p>
+              <textarea required placeholder="Course Learning Oucomes" name="CLO"><?php echo isset($_POST['CLO']) ? $_POST['CLO'] : ''; ?></textarea>              
+              
+
+              <p style="color: #a52834; font-size: 9px; float: left;">*Upload the Course PDF descriptor here. </p>
              <input type="file" name="name" multiple/> 
              <button name="save" value="TRUE" style="padding: 5px 10px; background-color: #181d38; width: 100px">Save File</button><br>
  <?php

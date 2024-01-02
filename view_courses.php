@@ -1,7 +1,17 @@
 <?php
 ob_start();
+session_start();
 include 'debugging.php';
 include 'header.php';
+
+if (isset($_SESSION['error_message'])) {
+    echo $_SESSION['error_message'];
+    unset($_SESSION['error_message']);
+}
+
+if (isset($error_message)) {
+    echo $error_message;
+}
 
 if (empty($_SESSION['uid'])) {
 // User is not logged in, redirect to login page

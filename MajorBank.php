@@ -50,6 +50,22 @@ class MajorBank{
         $data = $db->singleFetch('SELECT * FROM Major WHERE MajorId = \'' . $major_id .  '\'');
         return $data;
     }
+    
+public function createMajorList() {
+    $list = '';
+    $db = Database::getInstance();
+    $data = $db->multiFetch('SELECT * FROM Major');
+
+    for ($i = 0; $i < count($data); $i++) {
+        $list .= '<option value="' . $data[$i]->MajorId . '"';
+
+        if ($data[$i]->MajorId == $this->MajorId)
+            $list .= ' selected ';
+
+        $list .= '>' . $data[$i]->MajorName . '</option>';
+    }
+    return $list;
+}
 }
 /* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
