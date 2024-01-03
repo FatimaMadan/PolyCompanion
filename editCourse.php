@@ -24,30 +24,6 @@ if (isset($_GET['cid'])) {
     exit;
 }
 
-if (isset($_POST['save'])) {
-
-//UPLOAD FILE *****************
-    if (!empty($_FILES)) {
-        $upload = new UploadDescr();
-        $upload->setUploadDir('images/');
-        $msg = $upload->upload('name');
-
-        if (empty($msg)) {
-            $file = new DescriptorBank();
-            $file->setUser_UserId($_SESSION['uid']);
-            $file->setFileName($upload->getFilepath());
-            $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
-            $file->setFileType($upload->getFileType());
-
-            $file->addFile();
-        } else
-            print_r($msg);
-    } else {
-        echo '<p> try again';
-    }
-}
-
-
 if (isset($_POST['submitted'])) {
 
     $newcour = new CourseBank();
@@ -64,7 +40,9 @@ if (isset($_POST['submitted'])) {
     $newcour->setMajor_MajorId($_POST['Major_MajorId']);
 
     $newcour->setOwner('ICT');
+    
     $newcour->setPreRequisite($_POST['PreRequisite']);
+        
     $newcour->setShortTitle($_POST['ShortTitle']);
     $newcour->setUncontrolledAssess($_POST['uncontrolledAssess']);
 
@@ -77,9 +55,9 @@ if (isset($_POST['submitted'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Process the form submission
         if ($newcour->updateCourse($courseId)) {
-            CourseBank::deleteOutcomes($_POST['CLO'], $courseId);
+            CourseBank::deleteOutcomes($courseId);
             CourseBank::addOutcomes($_POST['CLO'], $courseId);
-            header("Location: view_courses.php");
+            header("Location: singleCourse.php?cid=$courseId");
             exit();
         } else {
             $error_message = 'An Error Occur while editing the course, make sure to fill in all the fields following the conditions';
@@ -175,53 +153,9 @@ if (isset($_POST['submitted'])) {
         echo '*';
                          }
                         ?></textarea>              
-
-
-                    <p style="color: #a52834; font-size: 9px; float: left;">*Upload the Course PDF descriptor here. </p>
-                    <input type="file" name="name" multiple/> 
-                    <button name="save" value="TRUE" style="padding: 5px 10px; background-color: #181d38; width: 100px">Save File</button><br>
-                    <?php
-                    $files = new DescriptorBank();
-                    $ques = new CourseBank();
-                    $maxQuesId = $ques->getMaxCourseId();
-                    $row = $files->getDescWithCId($maxQuesId + 1);
-
-                    if (!empty($row)) {
-
-                        $userFile = new DescriptorBank();
-                        $uid = $_SESSION['uid'];
-                        $userFile->getFileWithQuesidAndUserId($maxQuesId + 1, $uid);
-                        if ($uid == $userFile->getUser_UserId()) {
-
-                            echo '<br />';
-
-                            echo '<table align="center" cellspacing = "2" cellpadding = "4" width="75%">';
-                            echo '<tr bgcolor="#87CEEB">
-          <td><b>Delete</b></td>
-          <td><b>File Name</b></td>
-          </tr>';
-
-                            $bg = '#eeeeee';
-
-                            for ($i = 0; $i < count($row); $i++) {
-                                $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
-
-                                echo '<tr bgcolor="' . $bg . '">
-             <td><a href="DeleteFile.php?fid=' . $row[$i]->FileId . '">Delete</a></td>
-             <td><a target="_blank" href="view_file.php?fid=' . $row[$i]->FileId . '">' . $row[$i]->FileName . '</a></td>
-             </tr>';
-                            }
-                            echo '</table>';
-                        }
-                    } else {
-                        echo '<p class="error">' . $q . '</p>';
-                        echo '<p class="error">No files are uploaded yet</p>';
-                        echo '<p class="error">' . mysqli_error($dbc) . '</p>';
-                    }
-                    ?><br />
+<br />
                     <button name="submitted" value="TRUE">Submit</button>
-                   <!--<p class="message">Already have an account? <a href="login.php">Sign in</a></p>-->
-                </form>
+                   </form>
             </div>
         </div>
     </body>

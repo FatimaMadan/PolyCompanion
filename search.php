@@ -44,16 +44,29 @@ if ($_GET['title'] != ""){
    
 if (!empty($result)) {
                                for ($i = 0; $i < count($result); $i++) {
-
+                                   
+                                  if ($result[$i]->Major_MajorId == 1) {
+                                        $img = "cyber";
+                                    } elseif ($result[$i]->Major_MajorId == 2) {
+                                        $img = "prog";
+                                    } elseif ($result[$i]->Major_MajorId == 3) {
+                                        $img = "is";
+                                    } elseif ($result[$i]->Major_MajorId == 4) {
+                                        $img = "data";
+                                    }  elseif ($result[$i]->Major_MajorId == 5) {
+                                        $img = "net";
+                                    } else {
+                                        $img = "all";
+                                    }
 
                     echo '<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item bg-light position-relative">
                             <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-1.jpg" alt="">';
+                            <img class="img-fluid" src="img/'.$img.'.jpg" alt="">';
 
                     if ($_SESSION['roleId'] == 1) {
-                        echo '<div class="w-100 d-flex justify-content-center position-absolute top-0 start-0 mt-3">
-                        <a href="editCourse.php?cid=' . $result[$i]->CourseId . '"
+                        echo '<div class="w-100 d-flex justify-content-center position-absolute top-0 start-0 mt-3">'; 
+                        echo'<a href="AddDescr.php?cid=' . $result[$i]->CourseId . '"
                         class="flex-shrink-0 btn btn-sm btn-primary px-2"
                         style="border-radius: 50%;"><i class="fas fa-edit"></i></a>
                         <a href="#" onclick="confirmDelete(\'' . $result[$i]->CourseId . '\', \'delete\')"
@@ -69,7 +82,7 @@ if (!empty($result)) {
                     <a href="singleCourse.php?cid=' . $result[$i]->CourseId . '"
                     class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
                     style="border-radius: 30px 0 0 30px;">Read More</a>
-                    <a href="inquiry.php?cid=' . $result[$i]->CourseId . '" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                    <a href="inquiry.php?courseId=' . $result[$i]->CourseId . '" class="flex-shrink-0 btn btn-sm btn-primary px-3"
                     style="border-radius: 0 30px 30px 0;">Ask Away</a>
                     </div>
                     </div>

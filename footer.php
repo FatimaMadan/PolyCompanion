@@ -49,14 +49,8 @@
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contact</h4>
                     <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>13 Building, Bahrain Polytechnic, Isa Town</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+973 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+973 3456 7890</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>polycompanion@gmail.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                    </div>
                 </div>
                <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Our Community</h4>

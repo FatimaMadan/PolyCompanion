@@ -2,7 +2,7 @@
 ob_start();
 include 'debugging.php';
 include 'header.php';
-
+include 'Users.php';
 
  if (empty($_SESSION['uid'])) {
      // User is not logged in, redirect to login page
@@ -10,9 +10,62 @@ include 'header.php';
      header("Location: Login.php");
      exit();
  }
- 
+ $state = '';
  $uid = $_SESSION['uid'];
 ?>
+
+<script>
+      var uid = <?php echo json_encode($_SESSION['uid']); ?>;
+
+    function updateAgreement(action) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            
+            if (action !== 'notConfirm') {
+                updateHistory(uid, "user agreed to Polbot policy");
+                    var confirmation = confirm('We are happy to see you join us! Click OK to go to Polybot page or Cancel to stay in the policy page.');
+                    if (confirmation) {
+                        // User clicked OK, update agreement
+                        // Handle the response if needed
+                        window.location.href = 'bot.php';
+                    } else {
+                        // User clicked Cancel, redirect to another page
+                        window.location.href = 'view_botPolicy.php';
+                    }
+                } else {
+                    updateHistory(uid, "user disagreed to Polbot policy");
+                    var confirmation = confirm('We hope you join us again one day. Click OK to go to Home page or Cancel to stay in the policy page.');
+                    if (confirmation) {
+                        // User clicked OK, update agreement
+                        // Handle the response if needed
+                        window.location.href = 'index.php';
+                    } else {
+                        // User clicked Cancel, redirect to another page
+                        window.location.href = 'view_botPolicy.php';
+                    }
+                }
+
+        }
+    };
+    xhr.open('GET', 'check_user_agree.php?action=' + action + '&uid=' + uid, true);
+    xhr.send();
+}
+
+function updateHistory(uid, messageHistory) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Handle the response from the server if needed
+            console.log(xhr.responseText);
+        }
+    };
+
+    var url = "botHistory.php?uid=" + uid + "&messageHistory=" + messageHistory;
+    xhr.open("GET", url, true);
+    xhr.send();
+}
+</script>
 
 <div class="container-xxl py-5">
   <div class="container">
@@ -20,6 +73,19 @@ include 'header.php';
       <h6 class="section-title bg-white text-start text-primary pe-3">Privacy Policy</h6>
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h1 class="mb-0">Polybot Policy</h1>
+ <?php
+$userAgree = Users::getUserAgree($_SESSION['uid']);
+
+if ($userAgree != 1) {
+    $btn = 'I Agree to the Polybot Policy';
+    $action = "confirm";
+} else {
+    $btn = 'I do not agree to the Polybot Policy';
+    $action = "notConfirm";
+}
+?>
+
+<button class="btn btn-primary py-3 px-5 mt-2" onclick="updateAgreement('<?php echo $action; ?>')"><?php echo $btn; ?></button>     
       </div>
       <div class="privacy-policy-container text-justify">
         <p>

@@ -207,10 +207,6 @@ class CourseBank {
             $errors[] = 'Course aim is required.';
         }
 
-        if (empty($this->PreRequisite)) {
-            $errors[] = 'Pre-requisite is required.';
-        }
-
         if (empty($this->Major_MajorId)) {
             $errors[] = 'Major ID is required.';
         }
@@ -254,9 +250,6 @@ class CourseBank {
             $errors[] = 'Course aim is required.';
         }
 
-        if (empty($this->PreRequisite)) {
-            $errors[] = 'Pre-requisite is required.';
-        }
 
         if (empty($this->Major_MajorId)) {
             $errors[] = 'Major ID is required.';
@@ -297,7 +290,7 @@ class CourseBank {
         }
     }
     
-    function updateCourse() {
+    function updateCourse($courseId) {
     $errors = $this->isValidForEdit();
 
     if (count($errors) === 0) {
@@ -319,7 +312,7 @@ class CourseBank {
                         owner = '$this->owner',
                         Year = '$this->Year',
                         Semester = '$this->sem'
-                    WHERE CourseId = $this->CourseId";
+                    WHERE CourseId = $courseId";
             
             echo 'Executing SQL: ' . $sql;
 
@@ -330,6 +323,7 @@ class CourseBank {
             $error_message = 'Exception: ' . $e->getMessage();
             // Display the error message to the user or handle it as needed
             echo $error_message;
+            echo $sql;
             return false;
         }
     } else {
@@ -353,7 +347,7 @@ class CourseBank {
         return $data;
     }
 
-    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel, $ValidFrom, $Credits, $AssessmentMethod, $CourseAim, $PreRequisite, $Major_MajorId, $owner, $uncontrolledAssess, $exams) {
+    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel, $ValidFrom, $Credits, $AssessmentMethod, $CourseAim, $PreRequisite, $Major_MajorId, $owner, $uncontrolledAssess, $exams, $Year, $sem) {
         $this->CourseId = $CourseId;
         $this->CourseCode = $CourseCode;
         $this->CourseTitle = $CourseTitle;
@@ -368,12 +362,14 @@ class CourseBank {
         $this->TeachingStrategies = $TeachingStrategies;
         $this->uncontrolledAssess = $uncontrolledAssess;
         $this->exams = $exams;
+        $this->Year = $Year;
+        $this->sem = $sem;
     }
 
     function initWithId($course_id) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM Course WHERE CourseId = \'' . $course_id . '\'');
-        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams);
+        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams, $data->Year, $data->Semester);
     }
     
 public function getCourseDetails($courseId) {
@@ -458,15 +454,9 @@ public function getCourseDetails($courseId) {
 
     public static function deleteOutcomes($CourseId) {
         $db = Database::getInstance();
-        $outcomes = explode('*', $CLO);
-        foreach ($outcomes as $outcome) {
-            $outcome = trim($outcome);
-            if (!empty($outcome)) {
-                $q = ("Delete * form CLO WHERE CourseId = \'' . $CourseId . '\'");
+                $q = ('Delete from CLO WHERE CourseId = \'' . $CourseId . '\'');
                 echo $q;
                 $data = $db->singleFetch($q);
-            }
-        }
     }
     
     public static function addOutcomes($CLO, $CourseId) {

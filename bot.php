@@ -2,6 +2,7 @@
 ob_start();
 include 'debugging.php';
 include 'header.php';
+include 'Users.php';
 
 
  if (empty($_SESSION['uid'])) {
@@ -11,43 +12,32 @@ include 'header.php';
      exit();
  }
  
+ $agree = Users::getUserAgree($_SESSION['uid'])
+ 
 ?>
 
 <script>
     var uid = <?php echo json_encode($_SESSION['uid']); ?>;
+    var agree = <?php echo json_encode($agree); ?>;
     window.addEventListener('DOMContentLoaded', function() {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var userAgree = xhr.responseText;
-                if (userAgree !== '1') {
-                    var confirmation = confirm('Note that by using the Polybot page you are agreeing to the Polybot Policy! Click OK to agree or Cancel to decline.');
+
+                if (agree !== '1') {
+                    
+                    var confirmation = confirm('You have to agree to the Polybot policy first! Click OK to read the policy or Cancel to decline.');
                     if (confirmation) {
                         // User clicked OK, update agreement
-                        updateAgreement('confirm', uid);
+                        //updateAgreement('confirm', uid);
+                        window.location.href = 'view_botPolicy.php';
                     } else {
                         // User clicked Cancel, redirect to another page
                         window.location.href = 'index.php';
+                        
                     }
                 }
                 updateHistory(uid, "access Polybot page");
-            }
-        };
-        xhr.open('GET', 'check_user_agree.php', true);
-        xhr.send();
     });
 
-    function updateAgreement(action, uid) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            // Handle the response if needed
-            console.log(xhr.responseText);
-        }
-    };
-    xhr.open('GET', 'check_user_agree.php?action=' + action + '&uid=' + uid, true);
-    xhr.send();
-}
+
 </script>
 <script>
         // Get the current page URL
@@ -177,7 +167,7 @@ include 'header.php';
 
 <body>
 <!-- Header Start -->
-<div class="container-fluid bg-primary py-5 mb-5 page-header">
+<div class="container-fluid bg-primary py-5 mb-5 page-header" style="background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url('img/chatbot.png') !important;">
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">

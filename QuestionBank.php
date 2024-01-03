@@ -154,7 +154,7 @@ class QuestionBank {
         try {
             $db = Database::getInstance();
             $sql = "INSERT INTO Questions(QuestionId, QuesTitle, QuesDescription, Tags, Likes, Course_CourseId, User_UserId) VALUES (NULL, '$this->QuesTitle', '$this->QuesDescription', '$this->Tags', '$this->Likes', '$this->Course_CourseId',  '$this->User_UserId')";
-          echo 'Executing SQL: ' . $sql;
+         // echo 'Executing SQL: ' . $sql;
             
             $data = $db->querySQL($sql);
           $this->addActivity();
@@ -170,7 +170,7 @@ class QuestionBank {
 function addActivity(){
               $db = Database::getInstance();
          $sql = "INSERT INTO ActivityLog (ActivityId, UserName, ActivityText) VALUES (NULL, '" . $_SESSION['username'] . "', 'added a question')";
-           echo 'Executing SQL: ' . $sql;
+         //  echo 'Executing SQL: ' . $sql;
             $data = $db->querySQL($sql);
         }
 
@@ -192,7 +192,7 @@ function addActivity(){
     function getAllQuestions() {
     $db = Database::getInstance();
     $sql = 'SELECT * FROM Questions ';
-    echo 'SQL Statement: ' . $sql . '<br>'; // Echo the SQL statement
+  //  echo 'SQL Statement: ' . $sql . '<br>'; // Echo the SQL statement
     $data = $db->multiFetch($sql);
     return $data;
 }
@@ -218,7 +218,7 @@ function addActivity(){
  public function getQuestionsByCourseAndPage($cId, $offset, $limit) {
     $db = Database::getInstance();
     $sql = "SELECT * FROM Questions where Course_CourseId = $cId LIMIT $offset, $limit";
-    echo "SQL Statement: " . $sql . "<br>"; // Echo the SQL statement
+  //  echo "SQL Statement: " . $sql . "<br>"; // Echo the SQL statement
     
     $results = $db->multiFetch($sql);
     

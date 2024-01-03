@@ -13,34 +13,6 @@ if (empty($_SESSION['uid'])) {
     exit();
 }
 
-if (isset($_POST['save'])) {
-    
-//UPLOAD FILE *****************
-      if(!empty($_FILES)) {
-        $upload = new UploadDescr();
-        $upload->setUploadDir('images/');
-        $msg = $upload->upload('name');
-        
-           if(empty($msg)){
-        $file = new DescriptorBank();
-        $file->setUser_UserId($_SESSION['uid']);
-        $file->setFileName($upload->getFilepath());
-        $file->setFileLocation($upload->getUploadDir() . $upload->getFilepath());
-        $file->setFileType($upload->getFileType());
-
-        $file->addFile();
-        
-        
-         }
-         
-         else   print_r ($msg);
-      }else{
- echo '<p> try again';
-    }
-    
-}
-
-
  if (isset($_POST['submitted'])) {
      
     $newcour = new CourseBank();
@@ -57,7 +29,10 @@ if (isset($_POST['save'])) {
         $newcour->setMajor_MajorId($_POST['Major_MajorId']);
         
         $newcour->setOwner('ICT');
-        $newcour->setPreRequisite($_POST['PreRequisite']);
+        
+        
+        
+         $newcour->setPreRequisite($_POST['PreRequisite']);
         $newcour->setShortTitle($_POST['ShortTitle']);
         $newcour->setUncontrolledAssess($_POST['uncontrolledAssess']);
         
@@ -74,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($newcour->addCourse()) {
         $id = $newcour->getMaxCourseId();
         CourseBank::addOutcomes($_POST['CLO'], $id);
-        header("Location: view_courses.php");
+        header("Location: singleCourse.php?cid=$id");
         exit();
     } else {
         $error_message = 'An Error Occur while adding the course, make sure to fill in all the fields following the conditions';
@@ -118,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 30 characters.</p>
               <input required type="text" placeholder="Course Title" name="CourseTitle" value="<?php echo isset($_POST['CourseTitle']) ? $_POST['CourseTitle'] : ''; ?>"/>
               
-              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than six characters.</p>
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 20 characters.</p>
               <input required type="text" placeholder="Course Short Title" name="ShortTitle" value="<?php echo isset($_POST['ShortTitle']) ? $_POST['ShortTitle'] : ''; ?>"/>
               
               <p style="color: #a52834; font-size: 9px; float: left;">*A number between 0 and 10.</p>
@@ -172,55 +147,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </select><br>
               
               <p style="color: #a52834; font-size: 9px; float: left;">*Separate them using stars(*).</p>
-              <textarea required placeholder="Course Learning Oucomes" name="CLO"><?php echo isset($_POST['CLO']) ? $_POST['CLO'] : ''; ?></textarea>              
-              
-
-              <p style="color: #a52834; font-size: 9px; float: left;">*Upload the Course PDF descriptor here. </p>
-             <input type="file" name="name" multiple/> 
-             <button name="save" value="TRUE" style="padding: 5px 10px; background-color: #181d38; width: 100px">Save File</button><br>
- <?php
-    $files = new DescriptorBank();
-    $ques = new CourseBank();
-    $maxQuesId = $ques->getMaxCourseId();
-    $row = $files->getDescWithCId($maxQuesId + 1);
-    
-if (!empty($row)) {
-   
-     $userFile = new DescriptorBank();
-     $uid = $_SESSION['uid'];
-    $userFile->getFileWithQuesidAndUserId($maxQuesId + 1, $uid);
-    if($uid == $userFile->getUser_UserId()){
-        
-    echo '<br />';
-    
-    echo '<table align="center" cellspacing = "2" cellpadding = "4" width="75%">';
-    echo '<tr bgcolor="#87CEEB">
-          <td><b>Delete</b></td>
-          <td><b>File Name</b></td>
-          </tr>';
-
-
-    $bg = '#eeeeee';
-
-    for ($i = 0; $i < count($row); $i++) {
-        $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
-
-        echo '<tr bgcolor="' . $bg . '">
-             <td><a href="DeleteFile.php?fid=' . $row[$i]->FileId . '">Delete</a></td>
-             <td><a target="_blank" href="view_file.php?fid=' . $row[$i]->FileId . '">' . $row[$i]->FileName . '</a></td>
-             </tr>';
-    }
-    echo '</table>';
-    }
-    
-    } else {
-    echo '<p class="error">' . $q . '</p>';
-    echo '<p class="error">No files are uploaded yet</p>';
-    echo '<p class="error">' . mysqli_error($dbc) . '</p>';
-}
-?><br />
+              <textarea required placeholder="Course Learning Oucomes" name="CLO"><?php echo isset($_POST['CLO']) ? $_POST['CLO'] : ''; ?></textarea>                            
+<br/>
            <button name="submitted" value="TRUE">Submit</button>
-          <!--<p class="message">Already have an account? <a href="login.php">Sign in</a></p>-->
         </form>
       </div>
     </div>

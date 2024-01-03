@@ -3,6 +3,13 @@ ob_start();
 include 'header.php';
 include 'debugging.php';
 
+if (empty($_SESSION['uid'])) {
+    // User is not logged in, redirect to login page
+    echo $_SESSION['username'];
+    header("Location: Login.php");
+    exit();
+}
+
 $id = $_GET['cid'];
 
 //get article details
@@ -13,6 +20,9 @@ $major_id = $course->getMajor_MajorId();
 
 $major = new MajorBank();
 $major->initWithId($major_id);
+
+$des = new DescriptorBank();
+$down = $des->getFileWithCourseid($id);
         
 ?>
 <html lang="en">
@@ -88,30 +98,7 @@ $major->initWithId($major_id);
   });
 }
  </script>
-  <meta charset="utf-8">
-    <title>eLEARNING - eLearning HTML Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
       </head>
 <body>
 
@@ -119,7 +106,7 @@ $major->initWithId($major_id);
     <div class="container-fluid p-0 mb-5">
         <div class="owl-carousel header-carousel position-relative">
             <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="img/faq.jpg" alt="">
+                <img class="img-fluid" src="img/cat-1.jpg" alt="">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
@@ -131,9 +118,13 @@ $major->initWithId($major_id);
                                                                      Level <?php echo $course->getCourseLevel() ?> &bull;
                                                                      <?php echo $major->getMajorName() ?> Major
                                 </p>
+                                <br><!-- comment -->
+                                <p class="fs-5 text-white mb-4 pb-2"> Year <?php echo $course->getYear() ?> &bull;
+                                    Semester <?php echo $course->getSem() ?>
+                                </p>
 <!--                                
-                               <a href="inquiry.php?cid=<?php echo $id; ?>">-->
-    <button class="btn btn-primary py-md-3 px-md-5 me-3" onclick="unSubscribeCourse(<?php echo $course->getCourseId(); ?>);">Unsubscribe</button>
+-->                               <a href="inquiry.php?cid=<?php echo $id; ?>">
+    <button class="btn btn-primary py-md-3 px-md-5 me-3">Ask Away</button>
 </a>
     <?php 
                                 
@@ -170,13 +161,13 @@ $major->initWithId($major_id);
 
 <!--                                
                             
-                              </div>
+-->                              </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div><!--
     <!-- Carousel End -->
  <div id="SubspopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Course subscribed successfully!</div>
     <div id="UnSubspopupMessage" class="blah" style="box-sizing: border-box; position: fixed; z-index: 100000; top: 30%; left: 50%; transform: translate(-50%, -50%); display: none; border: 2px solid #00A36C; background-color: #00A36C; color: white; border-radius: 10px;">✓ Course Unsubscribed successfully!</div>
@@ -201,13 +192,11 @@ $major->initWithId($major_id);
             <i class="fas fa-3x fa-check-circle text-primary mb-4"></i>
             <h5 class="mb-3">Prerequisites</h5>
             <p><?php 
-            
-            if ($course->getPreRequisite() != ""){
-                echo $course->getPreRequisite();
+            if ($course->getPreRequisite() == ""){
+                echo "No Pre-Requisite";
             } else {
-                echo 'No PreRequisite';
-            }
-                
+                echo $course->getPreRequisite();
+              }
                  ?></p>
         </div>
     </div>
@@ -243,7 +232,7 @@ $major->initWithId($major_id);
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt="" style="object-fit: cover;">
+                        <img class="img-fluid position-absolute w-100 h-100" src="img/cat-4.jpg" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -270,7 +259,21 @@ $major->initWithId($major_id);
                             }
                             ?>
                     </div>
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="">Download Course Descriptor</a>
+                    <?php
+                    // Donwload files Start
+    $files = new DescriptorBank();
+    $row = $files->getFileWithCourseid($id);
+  if (!empty($row)) {
+
+  echo '<a class="btn btn-primary py-3 px-5 mt-2" href="view_descr.php?fid=' . $row->FileId . '">Download Course Descriptor</a>';
+       
+  }
+  else{
+      echo '<a class="btn btn-primary py-3 px-5 mt-2">No Descriptor for this course</a>';
+  }
+// Donwload files END
+?>
+                    
                 </div>
             </div>
         </div>

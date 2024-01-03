@@ -77,7 +77,7 @@ include 'header.php';
 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
   <div class="service-item text-center pt-3 h-100">
     <div class="p-4">
-      <i class="fas fa-clock fa-3x text-primary mb-4"></i>
+      <i class="fas fa-chart-line fa-3x text-primary mb-4"></i>
       <h5 class="mb-3"><?php echo $repo->getHourAccess('Asc')->report_hour; ?></h5>
       <p>is the most active hour for Polybot usage</p>
     </div>
@@ -87,9 +87,9 @@ include 'header.php';
 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
   <div class="service-item text-center pt-3 h-100">
     <div class="p-4">
-      <i class="fas fa-chart-line fa-3x text-primary mb-4"></i>
+      <i class="fas fa-clock fa-3x text-primary mb-4"></i>
       <h5 class="mb-3"><?php echo $repo->getHourAccess('Desc')->report_hour; ?></h5>
-      <p>is the most frequently used action</p>
+      <p>is the least active hour for Polybot usage</p>
     </div>
   </div>
 </div>
