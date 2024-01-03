@@ -142,7 +142,8 @@ if (empty($_SESSION['uid'])) {
                         </div>
                         <a class="btn btn-primary py-3 px-5 mt-2" href="inquiry.php">Ask Away</a>
                         <a class="btn btn-primary py-3 px-5 mt-2" href="bot.php">Polybot</a>
-                    </div>
+<!--                        <a class="btn btn-primary py-3 px-5 mt-2" href="readDescriptor.php?fid=23">Descriptor</a>
+-->                    </div>
                 </div>
             </div>
         </div>
@@ -184,7 +185,7 @@ if (!empty($result)) {
 
         if ($_SESSION['roleId'] == 1) {
             echo '<div class="w-100 d-flex justify-content-center position-absolute top-0 start-0 mt-3">
-                        <a href="editCourse.php?cid=' . $result[$i]->CourseId . '"
+                        <a href="AddDescr.php?cid=' . $result[$i]->CourseId . '"
                         class="flex-shrink-0 btn btn-sm btn-primary px-2"
                         style="border-radius: 50%;"><i class="fas fa-edit"></i></a>
                         <a href="#" onclick="confirmDelete(\'' . $result[$i]->CourseId . '\', \'delete\')"

@@ -19,5 +19,12 @@ if ($action === 'confirm') {
     echo $action;
     Users::updateUserAgree($uid, 1);
 
+} elseif ($action === 'notConfirm') {
+    // Update the user's agreement in the database for the specified user ID ($uid)
+    // Example: You can use appropriate SQL statements or ORM methods to update the agreement status
+    echo $uid;
+    echo $action;
+    Users::updateUserAgree($uid, 0);
+
 }
 ?>

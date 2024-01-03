@@ -21,10 +21,11 @@ include 'header.php';
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var userAgree = xhr.responseText;
                 if (userAgree !== '1') {
-                    var confirmation = confirm('Note that by using the Polybot page you are agreeing to the Polybot Policy! Click OK to agree or Cancel to decline.');
+                    var confirmation = confirm('You have to agree to the Polybot policy first! Click OK to read the policy or Cancel to decline.');
                     if (confirmation) {
                         // User clicked OK, update agreement
-                        updateAgreement('confirm', uid);
+                        //updateAgreement('confirm', uid);
+                        window.location.href = 'view_botPolicy.php';
                     } else {
                         // User clicked Cancel, redirect to another page
                         window.location.href = 'index.php';
@@ -37,17 +38,7 @@ include 'header.php';
         xhr.send();
     });
 
-    function updateAgreement(action, uid) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            // Handle the response if needed
-            console.log(xhr.responseText);
-        }
-    };
-    xhr.open('GET', 'check_user_agree.php?action=' + action + '&uid=' + uid, true);
-    xhr.send();
-}
+
 </script>
 <script>
         // Get the current page URL
