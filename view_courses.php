@@ -174,7 +174,7 @@ function toggleSort() {
                         <?php
                         if ($_SESSION['roleId'] == 1) {
                             echo' <div class="input-group-btn" style="margin-left: 10px;">
-                                <a href="AddCourse.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                                <a href="AddDescr.php" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                                   </div>';
                         }
                         ?>

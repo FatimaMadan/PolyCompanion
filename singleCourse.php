@@ -20,6 +20,9 @@ $major_id = $course->getMajor_MajorId();
 
 $major = new MajorBank();
 $major->initWithId($major_id);
+
+$des = new DescriptorBank();
+$down = $des->getFileWithCourseid($id);
         
 ?>
 <html lang="en">
@@ -114,6 +117,10 @@ $major->initWithId($major_id);
                                 <p class="fs-5 text-white mb-4 pb-2"><?php echo $course->getCredits() ?> Credits &bull;
                                                                      Level <?php echo $course->getCourseLevel() ?> &bull;
                                                                      <?php echo $major->getMajorName() ?> Major
+                                </p>
+                                <br><!-- comment -->
+                                <p class="fs-5 text-white mb-4 pb-2"> Year <?php echo $course->getYear() ?> &bull;
+                                    Semester <?php echo $course->getSem() ?>
                                 </p>
 <!--                                
 -->                               <a href="inquiry.php?cid=<?php echo $id; ?>">
@@ -254,7 +261,21 @@ $major->initWithId($major_id);
                             }
                             ?>
                     </div>
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="">Download Course Descriptor</a>
+                    <?php
+                    // Donwload files Start
+    $files = new DescriptorBank();
+    $row = $files->getFileWithCourseid($id);
+  if (!empty($row)) {
+
+  echo '<a class="btn btn-primary py-3 px-5 mt-2" href="view_descr.php?fid=' . $row->FileId . '">Download Course Descriptor ' . $row->FileId .'</a>';
+       
+  }
+  else{
+      echo '<a class="btn btn-primary py-3 px-5 mt-2">No Descriptor for this course</a>';
+  }
+// Donwload files END
+?>
+                    
                 </div>
             </div>
         </div>

@@ -8,7 +8,9 @@ class DescriptorBank{
     private $FileType;
     private $FileLocation;
     private $User_UserId;
-    
+    private $CourseId;
+
+
     public function getFileId() {
         return $this->FileId;
     }
@@ -49,7 +51,16 @@ class DescriptorBank{
     public function setUser_UserId($User_UserId): void {
         $this->User_UserId = $User_UserId;
     }
+    
+    public function getCourseId() {
+        return $this->CourseId;
+    }
 
+    public function setCourseId($CourseId): void {
+        $this->CourseId = $CourseId;
+    }
+
+    
 
         
     function __construct() {
@@ -58,6 +69,7 @@ class DescriptorBank{
         $this->FileType = null;
         $this->FileLocation = null;
         $this->User_UserId = null;
+        $this->CourseId = null;
     }
 
 
@@ -65,33 +77,37 @@ class DescriptorBank{
 
         $db = Database::getInstance();
         $data = $db->singleFetch('Select * from Descriptor where FileId = ' . $fid);
-        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->User_UserId);
+        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->User_UserId, $data->CourseId);
        
     }
 
-    function addFile($User_UserId, $FileName, $FileLocation, $FileType) {
-echo "inside add file";
-        try {
-        
-            $db = Database::getInstance();
-$sql = 'INSERT INTO Descriptor (FileId, User_UserId, FileName, FileLocation, FileType) VALUES '
-    . '(NULL, ' . $User_UserId . ', \'' . $FileName . '\', \'' . $FileLocation . '\', \'' . $FileType . '\')';
-$data = $db->querySql($sql);
+function addFile() {
+    try {
+        $db = Database::getInstance();
 
-//echo $sql;
-            return true;
-        } catch (Exception $e) {
-            echo 'Exception: ' . $e;
-            return false;
+        if ($this->getDescWithCId($this->CourseId) == "") {
+            $sql = 'INSERT INTO Descriptor (FileId, User_UserId, FileName, FileLocation, FileType, CourseId) VALUES '
+                . '(NULL, ' . $this->User_UserId . ', \'' . $this->FileName . '\', \'' . $this->FileLocation . '\', \'' . $this->FileType . '\', \'' . $this->CourseId . '\')';
+            $data = $db->querySql($sql);
+        } else {
+            $sql = 'UPDATE Descriptor SET User_UserId = ' . $this->User_UserId . ', FileName = \'' . $this->FileName . '\', FileLocation = \'' . $this->FileLocation . '\', FileType = \'' . $this->FileType . '\' WHERE CourseId = ' . $this->CourseId;
+            $data = $db->querySql($sql);
         }
-    }
 
-    function initWith($FileId, $FileLocation, $FileType, $FileName, $User_UserId) {
+        return true;
+    } catch (Exception $e) {
+        echo 'Exception: ' . $e;
+        return false;
+    }
+}
+
+    function initWith($FileId, $FileLocation, $FileType, $FileName, $User_UserId, $CourseId) {
         $this->FileId = $FileId;
         $this->FileLocation = $FileLocation;
         $this->FileType = $FileType;
         $this->FileName = $FileName;
         $this->User_UserId = $User_UserId;
+        $this->CourseId = $CourseId;
     }
 
       function updateDB(){
@@ -102,6 +118,7 @@ $data = $db->querySql($sql);
                  FileType = \'' . $this->FileType . '\' ,
                  FileName = \'' . $this->FileName . '\' ,
                  User_UserId = \'' . $this->User_UserId  . '\' ,
+                     CourseId = \'' . $this->CourseId  . '\' ,
                      where FileId = ' .$this->FileId;
         $db->querySql($data);
     }
@@ -114,12 +131,20 @@ $data = $db->querySql($sql);
       
   }
   
-     function getFileWithQuesidAndUserId($qid, $uid){
+     function getFileWithCourseid($cid){
+      $db = Database::getInstance();
+      $data = $db->singleFetch('Select * from Descriptor where CourseId =' . $cid);
+      return $data;
+      
+  }
+  
+  function getFileWithcourseIdAndUserId($cid, $uid){
     
         $db = Database::getInstance();
-        $data = $db->singleFetch("Select * from Descriptor CourseId QId = $qid and User_UserId= $uid");
-        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->Answers_AnsId, $data->User_UserId, $data->Questions_QuestionId, $data->QId, $data->AId, $data->Type);
+        $data = $db->singleFetch("Select * from Descriptor where CourseId = $cid and User_UserId= $uid");
+        $this->initWith($data->FileId, $data->FileLocation, $data->FileType, $data->FileName, $data->User_UserId, $data->CourseId);
         return $this;
+        
   }
   
 }

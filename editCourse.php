@@ -65,6 +65,11 @@ if (isset($_POST['submitted'])) {
 
     $newcour->setOwner('ICT');
     $newcour->setPreRequisite($_POST['PreRequisite']);
+    
+     if ($_POST['Pre-requisite'] == ""){
+            $newcour->setPreRequisite("No PreRequisite");
+        }
+        
     $newcour->setShortTitle($_POST['ShortTitle']);
     $newcour->setUncontrolledAssess($_POST['uncontrolledAssess']);
 

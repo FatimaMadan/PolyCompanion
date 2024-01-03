@@ -26,9 +26,14 @@ if (isset($_GET['action'])) {
 
             echo '</div> 
             </div>';
-        } else {
-            echo '<button class="option-button">Oppps</button>';
-        }
+        } echo '<div class="bot-message">
+            Oppp, No question are available.<br>
+            For any complains or suggestions click on the contact button below.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                </div>
+            
+            </div>';
     } elseif ($action === 'showAnswer') {
           
         // Handle show courses action
@@ -56,7 +61,14 @@ if (isset($_GET['action'])) {
             echo '<script>sendMessage(\'help\');</script>';
             
             } else {
-                echo '<button class="option-button">OPPPs</button>';
+                echo '<div class="bot-message">
+            Oppp, I do not know the answer to that.<br>
+            For any complains or suggestions click on the contact button below.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                </div>
+            
+            </div>';
             }
         }
             
@@ -83,7 +95,14 @@ if (isset($_GET['action'])) {
         echo '<div id="response-container"></div>';
 
     } else {
-        echo '<button class="option-button">OPPPs</button>';
+        echo '<div class="bot-message">
+            Oppp, There are not any majors yet.<br>
+            For any complains or suggestions click on the contact button below.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                </div>
+            
+            </div>';
     }
     }  elseif ($action === 'showYear') {
         
@@ -181,11 +200,16 @@ if (isset($_GET['action'])) {
 
                 echo '<div id="response-container"></div>';
 
-            } else {
-                echo '<button class="option-button">OPPPs</button>';
-            }
+            } else { echo '<div class="bot-message">
+            Oppp, there are not any courses here.<br>
+            For any complains or suggestions click on the contact button below.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                </div>
+            
+            </div>';
         }
-    } elseif ($action === 'showeCol') {
+    } }elseif ($action === 'showeCol') {
     // Handle show courses action
     if (isset($_GET['Id'])) {
         $courseId = $_GET['Id'];
@@ -228,7 +252,14 @@ if (isset($_GET['action'])) {
 
             echo '<div id="response-container"></div>';
         } else {
-            echo '<button class="option-button">OPPPs</button>';
+            echo '<div class="bot-message">
+            Oppp, I do not have any information about this course.<br>
+            For any complains or suggestions click on the contact button below.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                </div>
+            
+            </div>';
         }
     }
 } elseif ($action === 'colAns') {
@@ -254,7 +285,14 @@ if (isset($_GET['action'])) {
             echo '<div id="response-container"></div>';
 
         } else {
-            echo '<button class="option-button">OPPPs, no answer</button>';
+           echo '<div class="bot-message">
+            Oppp, I do not know the answer to that.<br>
+            For any complains or suggestions click on the contact button below.<br>
+                <div class="option-buttons">
+                    <button class="option-button"><a href="contact.php">Contact us</a></button>
+                </div>
+            
+            </div>';
         }
     }
 } elseif ($action === 'help') {

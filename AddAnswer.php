@@ -31,12 +31,14 @@ else {
 }
 
 if (isset($_POST['save'])) {
+    
+    echo '1';
 //UPLOAD FILE *****************
       if(!empty($_FILES)) {
         $upload = new Upload();
         $upload->setUploadDir('images/');
         $msg = $upload->upload('name');
-        
+        echo '2';
            if(empty($msg)){
         $file = new Files();
         $file->setUser_UserId($_SESSION['uid']);
@@ -51,7 +53,7 @@ if (isset($_POST['save'])) {
         $file->setQId($QuesId);
         $file->setType("Answer");
         $file->addFile();
-        
+        echo '3';
          }
          
          else  { print_r ($msg);}
