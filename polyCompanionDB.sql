@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 02, 2024 at 07:12 PM
+-- Generation Time: Jan 03, 2024 at 10:22 PM
 -- Server version: 10.3.27-MariaDB
 -- PHP Version: 7.2.24
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `db202001312`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ActivityLog`
+--
+
+CREATE TABLE `ActivityLog` (
+  `ActivityId` int(11) NOT NULL,
+  `UserName` int(11) DEFAULT NULL,
+  `ActivityText` varchar(500) DEFAULT NULL,
+  `Time` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ActivityLog`
+--
+
+INSERT INTO `ActivityLog` (`ActivityId`, `UserName`, `ActivityText`, `Time`) VALUES
+(2, 202001312, 'added a question', '2023-12-04 17:06:50'),
+(3, 202001312, 'added a FAQ', '2023-12-05 14:28:54'),
+(22, 202001312, 'added a FAQ', '2023-12-27 00:45:06'),
+(23, 202001312, 'added a FAQ', '2023-12-27 00:45:43'),
+(24, 202001312, 'edited a FAQ', '2023-12-27 00:56:58'),
+(25, 202001312, 'deleted a question', '2023-12-27 01:03:35');
 
 -- --------------------------------------------------------
 
@@ -41,23 +66,11 @@ CREATE TABLE `Answers` (
 --
 
 INSERT INTO `Answers` (`AnsId`, `AnsText`, `Likes`, `Time`, `Questions_QuestionId`, `User_UserId`) VALUES
-(4, 'Hey, yess go with web-fundamentals. if you need dufrfhja sfjsa kdsjg lkdsj gjkds giweupqr uqeiru lkasdjg mzsbgmzmv xzvsjdhfjk sagywuryewt znv xz lasdhkjdsf uweytiqtqpeiwuiy fsjdvbxznmv kajhdkda It\'s super easy. I took it last semester along with my in-house project and it went really well. There\'s just one mid-term exam and a project. You can easily get like an A in it.', 2, '2023-11-13 07:01:45', 41, 1),
-(5, 'hjkhd', 3, '2023-11-13 07:01:45', 41, 1),
-(6, 'hoooo', 2, '2023-11-13 07:01:45', 41, 1),
-(7, 'he he ha ha is an answer ', 2, '2023-11-13 07:01:45', 41, 1),
-(8, 'hhoooooooooo', 6, '2023-11-13 07:01:45', 41, 1),
-(9, 'final answer file test ', 1, '2023-11-13 07:01:45', 41, 1),
-(10, 'time test', 2, '2023-11-13 07:02:13', 41, 1),
-(11, 'user test answer', 0, '2023-11-13 07:03:07', 41, 4),
-(12, 'Hey, yess go with web-fundamentals. if you need dufrfhja sfjsa kdsjg lkdsj gjkds giweupqr uqeiru lkasdjg mzsbgmzmv xzvsjdhfjk sagywuryewt znv xz lasdhkjdsf uweytiqtqpeiwuiy fsjdvbxznmv kajhdkda It\'s super easy. I took it last semester along with my in-house project and it went really well. There\'s just one mid-term exam and a project. You can easily get like an A in it.', 1, '2023-11-13 07:03:33', 41, 4),
-(14, 'hds', 2, '2024-01-02 18:31:24', 46, 8),
-(15, 'hfhjsk', 11, '2024-01-02 18:31:36', 27, 8),
-(16, 'fhjsdyfiuew', 9, '2024-01-02 18:31:51', 40, 7),
-(17, 'fwgeu', 80, '2024-01-02 18:32:01', 39, 5),
-(18, 'fuyeuir', 80, '2024-01-02 18:32:20', 40, 5),
-(19, 'r8hfuhif', 3, '2024-01-02 18:32:20', 46, 3),
-(20, 'hdjhfjd', 33, '2024-01-02 18:32:29', 19, 7),
-(21, 'hii', 0, '2024-01-02 18:47:52', 54, 10);
+(23, 'Cybersecurity refers to the practice of protecting computer systems, networks, and data from unauthorized access, use, disclosure, disruption, modification, or destruction. It involves implementing measures to prevent, detect, and respond to threats and attacks that can compromise the security of digital assets. Have a look at it', 1, '2024-01-02 18:56:41', 55, 1),
+(25, 'Virtualization is the process of creating a virtual representation or simulation of computer hardware, operating systems, storage devices, or networks. It enables multiple virtual instances to run independently on a single physical machine, maximizing resource utilization and improving efficiency. Have a look at my files.', 0, '2024-01-02 19:15:03', 55, 1),
+(26, 'The RSA algorithm, where the recipient publishes their public key for anyone to use for encryption, and they keep their private key secret for decryption.', 0, '2024-01-02 19:23:03', 55, 1),
+(27, 'Symmetric encryption and asymmetric encryption are two fundamental encryption techniques used to secure data. The main difference lies in the way encryption and decryption keys are used.', 1, '2024-01-02 19:23:49', 55, 1),
+(28, 'In summary, symmetric encryption uses a single shared key for both encryption and decryption, while asymmetric encryption uses a pair of keys a public key for encryption and a private key for decryption. Symmetric encryption is faster, but asymmetric encryption provides enhanced security and enables secure communication between parties.', 0, '2024-01-02 19:25:41', 59, 1);
 
 -- --------------------------------------------------------
 
@@ -77,305 +90,59 @@ CREATE TABLE `bot_history` (
 --
 
 INSERT INTO `bot_history` (`convo_id`, `user_id`, `timestamp`, `action`) VALUES
-(207, 8, '2023-12-13 17:57:38', 'How many credits can a students take per semester?'),
-(208, 8, '2023-12-13 17:57:46', ' Yes'),
-(209, 8, '2023-12-13 18:04:15', 'How many credits can a students take per semester?'),
-(210, 8, '2023-12-13 18:04:30', ' No'),
-(211, 8, '2023-12-13 18:04:35', ' Very helpful'),
-(212, 8, '2023-12-13 18:07:39', 'I want to see the Most Frequently Asked Questions'),
-(213, 8, '2023-12-13 18:07:41', 'How many credits can a students take per semester?'),
-(214, 8, '2023-12-13 18:07:42', ' Yes'),
-(215, 8, '2023-12-13 18:07:44', 'I want to see the Most Frequently Asked Questions'),
-(216, 8, '2023-12-13 18:07:45', 'How many credits can a students take per semester?'),
-(217, 8, '2023-12-13 18:07:47', 'When will the semester fees pay period end?'),
-(218, 8, '2023-12-13 18:07:48', ' No'),
-(219, 8, '2023-12-13 18:09:36', ' Yes'),
-(220, 8, '2023-12-13 18:09:38', 'I want to see the Most Frequently Asked Questions'),
-(221, 8, '2023-12-13 18:09:40', 'How many credits can a students take per semester?'),
-(222, 8, '2023-12-13 18:09:41', ' Yes'),
-(223, 8, '2023-12-13 18:09:42', 'I want to see the Most Frequently Asked Questions'),
-(224, 8, '2023-12-13 18:09:44', 'How many credits can a students take per semester?'),
-(225, 8, '2023-12-13 18:09:45', 'When will the semester fees pay period end?'),
-(226, 8, '2023-12-13 18:09:46', ' No'),
-(227, 8, '2023-12-13 18:09:48', ' Very helpful'),
-(228, 8, '2023-12-13 18:11:46', ' Yes'),
-(229, 8, '2023-12-13 18:11:48', 'I want to see the Most Frequently Asked Questions'),
-(230, 8, '2023-12-13 18:11:49', 'I have a question about a specific course'),
-(231, 8, '2023-12-13 18:11:50', 'How many credits can a students take per semester?'),
-(232, 8, '2023-12-13 18:11:51', ' Yes'),
-(233, 8, '2023-12-13 18:11:52', 'I want to see the Most Frequently Asked Questions'),
-(234, 8, '2023-12-13 18:11:53', 'How many credits can a students take per semester?'),
-(235, 8, '2023-12-13 18:11:55', ' Yes'),
-(236, 8, '2023-12-13 18:11:55', 'I want to see the Most Frequently Asked Questions'),
-(237, 8, '2023-12-13 18:11:57', 'When will the semester fees pay period end?'),
-(238, 8, '2023-12-13 18:11:58', ' No'),
-(239, 8, '2023-12-13 18:12:00', ' Very helpful'),
-(240, 8, '2023-12-13 18:13:42', 'I want to see the Most Frequently Asked Questions'),
-(241, 8, '2023-12-13 18:13:43', 'How many credits can a students take per semester?'),
-(242, 8, '2023-12-13 18:13:45', ' No'),
-(243, 8, '2023-12-13 18:13:46', ' Very helpful'),
-(244, 8, '2023-12-13 18:13:47', ' Yes'),
-(245, 8, '2023-12-13 18:13:49', 'I have a question about a specific course'),
-(246, 8, '2023-12-13 18:13:50', 'Programming'),
-(247, 8, '2023-12-13 18:13:51', ' Year 1'),
-(248, 8, '2023-12-13 18:13:52', ' Semester A'),
-(249, 8, '2023-12-13 18:13:54', 'I want to see the Most Frequently Asked Questions'),
-(250, 8, '2023-12-13 18:13:56', 'How many credits can a students take per semester?'),
-(251, 8, '2023-12-13 18:13:57', ' Yes'),
-(252, 8, '2023-12-13 18:13:58', 'I want to see the Most Frequently Asked Questions'),
-(253, 8, '2023-12-13 18:13:59', 'I have a question about a specific course'),
-(254, 8, '2023-12-13 18:16:07', 'How many credits can a students take per semester?'),
-(255, 8, '2023-12-13 18:16:09', 'How many credits can a students take per semester?'),
-(256, 8, '2023-12-13 18:16:11', 'Programming'),
-(257, 8, '2023-12-13 18:16:12', ' Yes'),
-(258, 8, '2023-12-13 18:16:13', 'I want to see the Most Frequently Asked Questions'),
-(259, 8, '2023-12-13 18:16:14', 'How many credits can a students take per semester?'),
-(260, 8, '2023-12-13 18:16:15', 'I want to see the Most Frequently Asked Questions'),
-(261, 8, '2023-12-13 18:16:17', 'How many credits can a students take per semester?'),
-(262, 8, '2023-12-13 18:16:18', ' Yes'),
-(263, 8, '2023-12-13 18:16:19', 'I want to see the Most Frequently Asked Questions'),
-(264, 8, '2023-12-13 18:16:20', 'How many credits can a students take per semester?'),
-(265, 8, '2023-12-13 18:16:22', ' No'),
-(266, 8, '2023-12-13 18:16:23', ' Very helpful'),
-(267, 8, '2023-12-13 18:18:10', ' Yes'),
-(268, 8, '2023-12-13 18:18:11', 'I want to see the Most Frequently Asked Questions'),
-(269, 8, '2023-12-13 18:18:12', 'How many credits can a students take per semester?'),
-(270, 8, '2023-12-13 18:18:14', ' Yes'),
-(271, 8, '2023-12-13 18:18:15', 'I want to see the Most Frequently Asked Questions'),
-(272, 8, '2023-12-13 18:18:16', 'How many credits can a students take per semester?'),
-(273, 8, '2023-12-13 18:18:18', ' Yes'),
-(274, 8, '2023-12-13 18:22:22', 'I want to see the Most Frequently Asked Questions'),
-(275, 8, '2023-12-13 18:22:23', 'How many credits can a students take per semester?'),
-(276, 8, '2023-12-13 18:22:24', ' Yes'),
-(277, 8, '2023-12-13 18:22:25', 'I want to see the Most Frequently Asked Questions'),
-(278, 8, '2023-12-13 18:22:26', 'How many credits can a students take per semester?'),
-(279, 8, '2023-12-13 18:22:28', ' No'),
-(280, 8, '2023-12-13 18:22:29', ' Very helpful'),
-(281, 8, '2023-12-13 18:23:01', ' Very helpful'),
-(282, 8, '2023-12-13 18:23:03', ' Yes'),
-(283, 8, '2023-12-13 18:23:04', 'I want to see the Most Frequently Asked Questions'),
-(284, 8, '2023-12-13 18:23:05', 'How many credits can a students take per semester?'),
-(285, 8, '2023-12-13 18:23:06', ' Yes'),
-(286, 8, '2023-12-13 18:23:07', 'I want to see the Most Frequently Asked Questions'),
-(287, 8, '2023-12-13 18:26:00', 'How many credits can a students take per semester?'),
-(288, 8, '2023-12-13 18:26:01', ' Yes'),
-(289, 8, '2023-12-13 18:26:02', 'I want to see the Most Frequently Asked Questions'),
-(290, 8, '2023-12-13 18:26:03', 'How many credits can a students take per semester?'),
-(291, 8, '2023-12-13 18:26:04', ' Yes'),
-(292, 8, '2023-12-13 18:26:05', 'I want to see the Most Frequently Asked Questions'),
-(293, 8, '2023-12-13 18:26:06', 'How many credits can a students take per semester?'),
-(294, 8, '2023-12-13 18:26:07', ' Yes'),
-(295, 8, '2023-12-28 22:43:14', 'I want to see the Most Frequently Asked Questions'),
-(296, 8, '2023-12-28 22:43:15', 'How many credits can a students take per semester?'),
-(297, 8, '2023-12-28 22:43:18', ' No'),
-(298, 8, '2023-12-28 22:44:31', ' Very helpful'),
-(299, 8, '2023-12-29 22:46:11', 'I have a question about a specific course'),
-(348, 1, '2024-01-01 02:56:11', 'access Polybot page'),
-(349, 10, '2024-01-01 02:57:27', 'access Polybot page'),
-(350, 10, '2024-01-01 02:57:32', 'access Polybot page'),
-(351, 10, '2024-01-01 03:02:30', 'access Polybot page'),
-(352, 10, '2024-01-01 03:05:16', 'access Polybot page'),
-(353, 10, '2024-01-01 03:29:12', 'access Polybot page'),
-(354, 10, '2024-01-01 03:30:59', 'access Polybot page'),
-(355, 10, '2024-01-01 03:31:04', 'access Polybot page'),
-(356, 10, '2024-01-01 03:33:12', 'access Polybot page'),
-(357, 10, '2024-01-01 03:34:28', 'access Polybot page'),
-(358, 10, '2024-01-01 03:35:03', 'access Polybot page'),
-(359, 10, '2024-01-01 03:36:22', 'access Polybot page'),
-(360, 10, '2024-01-01 03:37:28', 'access Polybot page'),
-(361, 10, '2024-01-01 03:38:23', 'access Polybot page'),
-(362, 10, '2024-01-01 11:28:36', 'access Polybot page'),
-(363, 10, '2024-01-01 11:29:37', 'access Polybot page'),
-(364, 10, '2024-01-01 11:30:15', 'access Polybot page'),
-(365, 10, '2024-01-01 11:30:17', 'I have a question about a specific course'),
-(366, 10, '2024-01-01 11:30:19', 'I want to see the Most Frequently Asked Questions'),
-(367, 10, '2024-01-01 11:30:20', 'How many credits can a students take per semester?'),
-(368, 10, '2024-01-01 11:30:22', ' Yes'),
-(369, 10, '2024-01-01 11:30:24', ' No'),
-(370, 10, '2024-01-01 11:30:25', ' Very helpful'),
-(371, 10, '2024-01-01 11:33:50', 'access Polybot page'),
-(372, 10, '2024-01-01 11:33:59', ' Very helpful'),
-(373, 10, '2024-01-01 11:45:57', 'access Polybot page'),
-(374, 10, '2024-01-01 11:47:50', 'access Polybot page'),
-(375, 10, '2024-01-01 11:49:56', 'access Polybot page'),
-(376, 10, '2024-01-01 12:00:48', 'access Polybot page'),
-(377, 10, '2024-01-01 12:02:20', 'access Polybot page'),
-(378, 10, '2024-01-01 12:05:36', 'access Polybot page'),
-(379, 10, '2024-01-01 12:11:48', 'access Polybot page'),
-(380, 10, '2024-01-01 12:13:48', 'access Polybot page'),
-(381, 10, '2024-01-01 12:15:02', 'access Polybot page'),
-(382, 10, '2024-01-01 12:22:03', 'access Polybot page'),
-(383, 10, '2024-01-01 12:25:57', 'access Polybot page'),
-(400, 10, '2024-01-01 14:37:33', 'access Polybot page'),
-(401, 10, '2024-01-01 14:43:18', 'access Polybot page'),
-(402, 10, '2024-01-01 14:45:36', 'access Polybot page'),
-(403, 10, '2024-01-01 14:45:56', 'access Polybot page'),
-(404, 10, '2024-01-01 14:45:58', 'I have a question about a specific course'),
-(405, 10, '2024-01-01 14:45:59', 'Programming'),
-(406, 10, '2024-01-01 14:46:00', ' Year 1'),
-(407, 10, '2024-01-01 14:46:02', ' Semester A'),
-(408, 10, '2024-01-01 14:46:03', ' Year 2'),
-(409, 10, '2024-01-01 14:46:04', ' Semester B'),
-(410, 10, '2024-01-01 14:46:07', 'Database Systems'),
-(411, 10, '2024-01-01 14:46:09', ' Year 1'),
-(412, 10, '2024-01-01 14:46:09', ' Semester A'),
-(413, 10, '2024-01-01 14:46:10', ' Semester B'),
-(414, 10, '2024-01-01 14:46:22', 'access Polybot page'),
-(415, 10, '2024-01-01 15:40:11', 'access Polybot page'),
-(416, 10, '2024-01-01 15:42:43', 'access Polybot page'),
-(417, 10, '2024-01-01 15:43:16', 'access Polybot page'),
-(418, 10, '2024-01-01 15:45:02', 'access Polybot page'),
-(419, 10, '2024-01-01 15:45:38', 'access Polybot page'),
-(420, 10, '2024-01-01 15:45:41', 'access Polybot page'),
-(421, 10, '2024-01-01 15:45:44', 'access Polybot page'),
-(422, 10, '2024-01-01 15:45:52', 'access Polybot page'),
-(423, 10, '2024-01-01 15:46:39', 'access Polybot page'),
-(424, 10, '2024-01-01 15:49:04', 'access Polybot page'),
-(425, 10, '2024-01-01 15:51:29', 'access Polybot page'),
-(426, 10, '2024-01-01 15:59:50', 'access Polybot page'),
-(427, 10, '2024-01-01 16:00:02', 'access Polybot page'),
-(428, 10, '2024-01-01 16:00:04', 'access Polybot page'),
-(429, 10, '2024-01-01 16:00:05', 'access Polybot page'),
-(430, 10, '2024-01-01 16:00:15', 'access Polybot page'),
-(431, 10, '2024-01-01 16:00:27', 'access Polybot page'),
-(432, 10, '2024-01-01 16:07:05', 'access Polybot page'),
-(433, 10, '2024-01-01 16:07:08', 'access Polybot page'),
-(434, 10, '2024-01-01 16:07:21', 'access Polybot page'),
-(435, 10, '2024-01-01 16:08:14', 'access Polybot page'),
-(436, 10, '2024-01-01 16:08:16', 'access Polybot page'),
-(437, 10, '2024-01-01 16:08:25', 'access Polybot page'),
-(438, 10, '2024-01-01 16:10:14', 'access Polybot page'),
-(439, 10, '2024-01-01 16:10:18', 'access Polybot page'),
-(440, 10, '2024-01-01 16:10:27', 'access Polybot page'),
-(441, 10, '2024-01-01 16:12:33', 'access Polybot page'),
-(442, 10, '2024-01-01 16:12:45', 'access Polybot page'),
-(443, 10, '2024-01-01 16:15:00', 'access Polybot page'),
-(444, 10, '2024-01-01 16:15:04', 'access Polybot page'),
-(445, 10, '2024-01-01 16:15:17', 'access Polybot page'),
-(446, 10, '2024-01-01 16:18:05', 'access Polybot page'),
-(447, 10, '2024-01-01 16:18:08', 'access Polybot page'),
-(448, 10, '2024-01-01 16:18:17', 'access Polybot page'),
-(449, 10, '2024-01-01 16:18:40', 'access Polybot page'),
-(450, 10, '2024-01-01 16:26:16', 'I have a question about a specific course'),
-(451, 10, '2024-01-01 16:26:16', 'access Polybot page'),
-(452, 10, '2024-01-01 16:26:16', 'I have a question about a specific course'),
-(453, 10, '2024-01-01 16:26:17', 'I want to see the Most Frequently Asked Questions'),
-(454, 10, '2024-01-01 16:26:17', 'I have a question about a specific course'),
-(455, 10, '2024-01-01 16:26:17', 'I want to see the Most Frequently Asked Questions'),
-(456, 10, '2024-01-01 16:26:18', 'I have a question about a specific course'),
-(457, 10, '2024-01-01 16:26:19', 'I have a question about a specific course'),
-(458, 10, '2024-01-01 16:26:21', 'access Polybot page'),
-(459, 10, '2024-01-01 16:26:32', 'Programming'),
-(460, 10, '2024-01-01 16:26:32', 'I have a question about a specific course'),
-(461, 10, '2024-01-01 16:26:34', ' Year 1'),
-(462, 10, '2024-01-01 16:26:35', ' Semester A'),
-(463, 10, '2024-01-01 16:26:37', 'System Administration'),
-(464, 10, '2024-01-01 16:30:03', 'Major_MajorId'),
-(465, 10, '2024-01-01 16:38:10', 'access Polybot page'),
-(466, 10, '2024-01-01 16:38:12', 'I have a question about a specific course'),
-(467, 10, '2024-01-01 16:38:15', 'Programming'),
-(468, 10, '2024-01-01 16:38:15', ' Year 1'),
-(469, 10, '2024-01-01 16:38:17', ' Semester A'),
-(470, 10, '2024-01-01 16:38:19', 'System Administration'),
-(471, 10, '2024-01-01 16:41:22', 'access Polybot page'),
-(472, 10, '2024-01-01 16:41:24', 'I have a question about a specific course'),
-(473, 10, '2024-01-01 16:41:25', 'Information Systems'),
-(474, 10, '2024-01-01 16:41:27', ' Year 1'),
-(475, 10, '2024-01-01 16:41:28', ' Semester A'),
-(476, 10, '2024-01-01 16:41:30', 'Programming'),
-(477, 10, '2024-01-01 16:41:31', ' Year 1'),
-(478, 10, '2024-01-01 16:41:32', ' Semester A'),
-(479, 10, '2024-01-01 16:41:33', 'System Administration'),
-(480, 10, '2024-01-01 16:43:54', 'access Polybot page'),
-(481, 10, '2024-01-01 16:43:55', 'I have a question about a specific course'),
-(482, 10, '2024-01-01 16:43:59', 'Programming'),
-(483, 10, '2024-01-01 16:44:00', ' Year 1'),
-(484, 10, '2024-01-01 16:44:01', ' Semester A'),
-(485, 10, '2024-01-01 16:45:34', 'access Polybot page'),
-(486, 10, '2024-01-01 16:45:34', 'I have a question about a specific course'),
-(487, 10, '2024-01-01 16:45:38', 'Programming'),
-(488, 10, '2024-01-01 16:45:42', ' Year 1'),
-(489, 10, '2024-01-01 16:45:46', ' Semester A'),
-(490, 10, '2024-01-01 16:45:49', 'System Administration'),
-(491, 10, '2024-01-01 16:45:53', 'CourseCode'),
-(492, 10, '2024-01-01 16:45:55', 'ShortTitle'),
-(493, 10, '2024-01-01 16:45:59', 'CourseTitle'),
-(494, 10, '2024-01-01 16:46:02', 'Credits'),
-(495, 10, '2024-01-01 16:51:11', 'access Polybot page'),
-(496, 10, '2024-01-01 16:54:01', 'access Polybot page'),
-(497, 10, '2024-01-01 16:54:09', 'access Polybot page'),
-(498, 10, '2024-01-01 16:55:03', 'access Polybot page'),
-(499, 10, '2024-01-01 16:56:52', 'access Polybot page'),
-(506, 10, '2024-01-01 17:04:10', 'access Polybot page'),
-(507, 10, '2024-01-01 17:05:33', 'access Polybot page'),
-(508, 10, '2024-01-01 17:07:03', 'access Polybot page'),
-(509, 10, '2024-01-01 17:08:28', 'access Polybot page'),
-(510, 10, '2024-01-01 17:11:24', 'access Polybot page'),
-(511, 10, '2024-01-01 17:15:17', 'access Polybot page'),
-(512, 10, '2024-01-01 17:18:45', 'access Polybot page'),
-(513, 10, '2024-01-01 17:20:55', 'access Polybot page'),
-(514, 10, '2024-01-01 17:22:08', 'access Polybot page'),
-(528, 11, '2024-01-01 19:54:03', 'access Polybot page'),
-(529, 11, '2024-01-01 19:54:06', 'I have a question about a specific course'),
-(530, 11, '2024-01-01 19:54:07', 'Programming'),
-(531, 11, '2024-01-01 19:54:08', ' Year 1'),
-(532, 11, '2024-01-01 19:54:09', ' Semester A'),
-(533, 11, '2024-01-01 19:54:10', 'System Administration'),
-(534, 11, '2024-01-01 19:54:11', 'CourseCode'),
-(535, 11, '2024-01-01 19:54:15', ' No'),
-(536, 11, '2024-01-01 19:54:16', ' Very helpful'),
-(537, 11, '2024-01-01 19:54:17', ' Yes'),
-(538, 11, '2024-01-01 19:54:19', ' Not helpful'),
-(539, 11, '2024-01-01 19:54:23', 'access Polybot page'),
-(540, 11, '2024-01-01 19:54:25', 'I want to see the Most Frequently Asked Questions'),
-(541, 11, '2024-01-01 19:54:26', 'How many credits can a students take per semester?'),
-(542, 11, '2024-01-01 19:54:28', ' No'),
-(543, 11, '2024-01-01 19:54:29', ' Not helpful'),
-(544, 11, '2024-01-01 19:55:06', 'access Polybot page'),
-(545, 10, '2024-01-01 22:44:40', 'access Polybot page'),
-(546, 10, '2024-01-02 10:31:36', 'access Polybot page'),
-(547, 10, '2024-01-02 15:10:01', 'access Polybot page'),
-(548, 10, '2024-01-02 17:28:37', 'access Polybot page'),
-(549, 11, '2024-01-02 18:01:54', 'access Polybot page'),
-(550, 10, '2024-01-02 18:10:05', 'access Polybot page'),
-(551, 10, '2024-01-02 18:10:13', 'I want to see the Most Frequently Asked Questions'),
-(552, 10, '2024-01-02 18:10:14', 'How many credits can a students take per semester?'),
-(553, 10, '2024-01-02 18:10:20', ' Yes'),
-(554, 10, '2024-01-02 18:10:21', 'I have a question about a specific course'),
-(555, 10, '2024-01-02 18:10:23', 'Programming'),
-(556, 10, '2024-01-02 18:10:24', ' Year 1'),
-(557, 10, '2024-01-02 18:10:25', ' Semester A'),
-(558, 10, '2024-01-02 18:10:27', 'System Administration'),
-(559, 10, '2024-01-02 18:10:31', 'ShortTitle'),
-(560, 10, '2024-01-02 18:10:33', ' No'),
-(561, 10, '2024-01-02 18:10:35', ' Not helpful'),
-(562, 10, '2024-01-02 18:11:31', 'access Polybot page'),
-(563, 10, '2024-01-02 18:11:38', 'access Polybot page'),
-(564, 10, '2024-01-02 18:11:53', 'access Polybot page'),
-(565, 10, '2024-01-02 18:54:16', 'access Polybot page'),
-(566, 10, '2024-01-02 18:54:26', 'access Polybot page'),
-(567, 10, '2024-01-02 18:54:34', 'access Polybot page'),
-(568, 10, '2024-01-02 18:54:38', 'I want to see the Most Frequently Asked Questions'),
-(569, 10, '2024-01-02 18:54:39', 'How many credits can a students take per semester?'),
-(570, 10, '2024-01-02 18:54:42', ' Yes'),
-(571, 10, '2024-01-02 18:54:44', 'I have a question about a specific course'),
-(572, 10, '2024-01-02 18:54:45', 'Cyber Security'),
-(573, 10, '2024-01-02 18:54:46', ' Year 2'),
-(574, 10, '2024-01-02 18:54:47', ' Semester A'),
-(575, 10, '2024-01-02 18:54:49', ' Semester B'),
-(576, 10, '2024-01-02 18:54:51', ' Year 1'),
-(577, 10, '2024-01-02 18:54:52', ' Semester A'),
-(578, 10, '2024-01-02 18:54:53', ' Semester B'),
-(579, 10, '2024-01-02 18:55:00', 'Programming'),
-(580, 10, '2024-01-02 18:55:01', ' Year 1'),
-(581, 10, '2024-01-02 18:55:03', ' Semester A'),
-(582, 10, '2024-01-02 18:55:04', 'System Administration'),
-(583, 10, '2024-01-02 18:55:05', 'PreRequisite'),
-(584, 10, '2024-01-02 18:55:07', ' No'),
-(585, 10, '2024-01-02 18:55:08', ' Very helpful'),
-(586, 10, '2024-01-02 18:55:09', ' Not helpful'),
-(587, 10, '2024-01-02 18:55:14', 'access Polybot page'),
-(588, 10, '2024-01-02 18:55:20', 'access Polybot page');
+(789, 1, '2024-01-03 20:02:07', 'access Polybot page'),
+(790, 1, '2024-01-03 21:07:51', 'access Polybot page'),
+(791, 1, '2024-01-03 21:07:54', 'user agreed to Polbot policy'),
+(792, 1, '2024-01-03 21:07:55', 'access Polybot page'),
+(793, 1, '2024-01-03 21:07:57', 'I have a question about a specific course'),
+(794, 1, '2024-01-03 21:08:00', 'Cyber Security'),
+(795, 1, '2024-01-03 21:08:02', ' Year 1'),
+(796, 1, '2024-01-03 21:08:03', ' Semester A'),
+(797, 1, '2024-01-03 21:08:09', 'Core ICT'),
+(798, 1, '2024-01-03 21:08:10', ' Year 1'),
+(799, 1, '2024-01-03 21:08:11', ' Semester A'),
+(800, 1, '2024-01-03 21:08:13', ' Year 3'),
+(801, 1, '2024-01-03 21:08:14', ' Semester A'),
+(802, 1, '2024-01-03 22:17:10', 'access Polybot page'),
+(803, 1, '2024-01-03 22:17:14', 'I have a question about a specific course'),
+(804, 1, '2024-01-03 22:17:15', 'I have a question about a specific course'),
+(805, 1, '2024-01-03 22:17:18', 'Programming'),
+(806, 1, '2024-01-03 22:17:30', 'Core ICT'),
+(807, 1, '2024-01-03 22:18:15', 'Information Systems'),
+(808, 1, '2024-01-03 22:18:16', 'Database Systems'),
+(809, 1, '2024-01-03 22:18:18', 'Networking'),
+(810, 1, '2024-01-03 22:18:19', 'Programming'),
+(811, 1, '2024-01-03 22:18:21', 'Core ICT'),
+(812, 1, '2024-01-03 22:19:02', 'access Polybot page'),
+(813, 1, '2024-01-03 22:19:05', 'I have a question about a specific course'),
+(814, 1, '2024-01-03 22:19:05', 'Programming'),
+(815, 1, '2024-01-03 22:19:07', 'Core ICT'),
+(816, 1, '2024-01-03 22:19:51', 'access Polybot page'),
+(817, 1, '2024-01-03 22:19:57', 'I have a question about a specific course'),
+(818, 1, '2024-01-03 22:19:58', 'Programming'),
+(819, 1, '2024-01-03 22:19:59', ' Year 2'),
+(820, 1, '2024-01-03 22:20:00', ' Semester A'),
+(821, 1, '2024-01-03 22:20:03', ' Semester B'),
+(822, 1, '2024-01-03 22:20:05', 'Database 2'),
+(823, 1, '2024-01-03 22:20:10', 'owner'),
+(824, 1, '2024-01-03 22:20:13', 'Year'),
+(825, 1, '2024-01-03 22:20:15', 'CourseAim'),
+(826, 1, '2024-01-03 22:20:22', ' Yes'),
+(827, 1, '2024-01-03 22:20:23', 'I want to see the Most Frequently Asked Questions'),
+(828, 1, '2024-01-03 22:21:00', 'access Polybot page'),
+(829, 1, '2024-01-03 22:21:02', 'I want to see the Most Frequently Asked Questions'),
+(830, 1, '2024-01-03 22:21:31', 'access Polybot page'),
+(831, 1, '2024-01-03 22:21:32', 'I want to see the Most Frequently Asked Questions'),
+(832, 1, '2024-01-03 22:21:49', 'access Polybot page'),
+(833, 1, '2024-01-03 22:21:50', 'I want to see the Most Frequently Asked Questions'),
+(834, 1, '2024-01-03 22:21:53', 'Is there a library on campus?'),
+(835, 1, '2024-01-03 22:21:57', ' Yes'),
+(836, 1, '2024-01-03 22:21:58', 'I have a question about a specific course'),
+(837, 1, '2024-01-03 22:21:59', 'Information Systems'),
+(838, 1, '2024-01-03 22:22:02', ' Year 3'),
+(839, 1, '2024-01-03 22:22:03', ' Semester A'),
+(840, 1, '2024-01-03 22:22:04', 'Systems Administration'),
+(841, 1, '2024-01-03 22:22:05', 'ShortTitle');
 
 --
 -- Triggers `bot_history`
@@ -433,31 +200,6 @@ CREATE TABLE `bot_reports` (
 --
 
 INSERT INTO `bot_reports` (`report_id`, `action`, `clicks`, `report_date`, `report_hour`) VALUES
-(489, 'How many credits can a students take per semester?', 3, '2023-12-13', 18),
-(490, ' Yes', 3, '2023-12-13', 18),
-(491, 'I want to see the Most Frequently Asked Questions', 2, '2023-12-13', 18),
-(492, 'I want to see the Most Frequently Asked Questions', 1, '2023-12-28', 22),
-(493, 'How many credits can a students take per semester?', 1, '2023-12-28', 22),
-(494, ' No', 1, '2023-12-28', 22),
-(495, ' Very helpful', 54, '2023-12-28', 22),
-(496, 'I have a question about a specific course', 1, '2023-12-29', 22),
-(497, 'I have a question about a specific course', 1, '2023-12-30', 23),
-(498, 'Programming', 1, '2023-12-30', 23),
-(499, ' Year 1', 1, '2023-12-30', 23),
-(500, ' Semester A', 1, '2023-12-30', 23),
-(501, 'System Administration', 1, '2023-12-30', 23),
-(502, 'CurrentDeveloper', 1, '2023-12-30', 23),
-(503, ' Yes', 1, '2023-12-30', 23),
-(504, 'I want to see the Most Frequently Asked Questions', 1, '2023-12-30', 23),
-(505, 'When will the semester fees pay period end?', 1, '2023-12-30', 23),
-(506, ' No', 1, '2023-12-30', 23),
-(507, ' Very helpful', 1, '2023-12-30', 23),
-(508, ' Not helpful', 1, '2023-12-30', 23),
-(509, 'I have a question about a specific course', 1, '2023-12-31', 0),
-(510, 'Programming', 1, '2023-12-31', 0),
-(511, 'Cyber Security', 1, '2023-12-31', 0),
-(512, ' Year 1', 2, '2023-12-31', 0),
-(513, ' Semester B', 1, '2023-12-31', 0),
 (514, ' Semester A', 1, '2023-12-31', 0),
 (515, 'I want to see the Most Frequently Asked Questions', 1, '2023-12-31', 8),
 (516, 'How many credits can a students take per semester?', 1, '2023-12-31', 8),
@@ -549,7 +291,102 @@ INSERT INTO `bot_reports` (`report_id`, `action`, `clicks`, `report_date`, `repo
 (602, ' Year 2', 1, '2024-01-02', 18),
 (603, ' Semester B', 2, '2024-01-02', 18),
 (604, 'PreRequisite', 1, '2024-01-02', 18),
-(605, ' Very helpful', 1, '2024-01-02', 18);
+(605, ' Very helpful', 1, '2024-01-02', 18),
+(606, 'access Polybot page', 3, '2024-01-02', 20),
+(607, 'I want to see the Most Frequently Asked Questions', 1, '2024-01-02', 20),
+(608, 'How many credits can a students take per semester?', 1, '2024-01-02', 20),
+(609, ' Yes', 2, '2024-01-02', 20),
+(610, 'I have a question about a specific course', 4, '2024-01-02', 20),
+(611, 'Programming', 4, '2024-01-02', 20),
+(612, ' Year 1', 3, '2024-01-02', 20),
+(613, ' Semester A', 4, '2024-01-02', 20),
+(614, 'System Administration', 3, '2024-01-02', 20),
+(615, 'owner', 1, '2024-01-02', 20),
+(616, ' Year 2', 1, '2024-01-02', 20),
+(617, 'test', 1, '2024-01-02', 20),
+(618, 'CourseCode', 1, '2024-01-02', 20),
+(619, 'uncontrolledAssess', 1, '2024-01-02', 20),
+(620, ' No', 1, '2024-01-02', 20),
+(621, ' Very helpful', 1, '2024-01-02', 20),
+(622, 'access Polybot page', 12, '2024-01-02', 21),
+(623, 'access Polybot page', 6, '2024-01-02', 22),
+(624, 'I want to see the Most Frequently Asked Questions', 2, '2024-01-02', 22),
+(625, 'How many credits can a students take per semester?', 2, '2024-01-02', 22),
+(626, ' Yes', 2, '2024-01-02', 22),
+(627, 'I have a question about a specific course', 2, '2024-01-02', 22),
+(628, 'Programming', 1, '2024-01-02', 22),
+(629, ' Year 1', 1, '2024-01-02', 22),
+(630, ' Semester A', 1, '2024-01-02', 22),
+(631, 'System Administration', 1, '2024-01-02', 22),
+(632, 'CourseCode', 1, '2024-01-02', 22),
+(633, ' No', 2, '2024-01-02', 22),
+(634, ' Very helpful', 4, '2024-01-02', 22),
+(635, ' Not helpful', 1, '2024-01-02', 22),
+(636, 'access Polybot page', 4, '2024-01-02', 23),
+(637, 'I have a question about a specific course', 3, '2024-01-02', 23),
+(638, 'Cyber Security', 1, '2024-01-02', 23),
+(639, ' Year 1', 3, '2024-01-02', 23),
+(640, ' Semester A', 5, '2024-01-02', 23),
+(641, 'Information Systems', 3, '2024-01-02', 23),
+(642, ' Semester B', 6, '2024-01-02', 23),
+(643, ' Year 2', 2, '2024-01-02', 23),
+(644, 'Database Systems 2', 1, '2024-01-02', 23),
+(645, 'uncontrolledAssess', 1, '2024-01-02', 23),
+(646, 'PreRequisite', 2, '2024-01-02', 23),
+(647, 'Programming', 1, '2024-01-02', 23),
+(648, 'access Polybot page', 1, '2024-01-03', 0),
+(649, 'access Polybot page', 1, '2024-01-03', 3),
+(650, 'access Polybot page', 7, '2024-01-03', 5),
+(651, 'access Polybot page', 3, '2024-01-03', 6),
+(652, 'access Polybot page', 9, '2024-01-03', 17),
+(653, 'user disagreed to Polbot policy', 4, '2024-01-03', 17),
+(654, 'user agreed to Polbot policy', 4, '2024-01-03', 17),
+(655, 'access Polybot page', 43, '2024-01-03', 18),
+(656, 'I have a question about a specific course', 1, '2024-01-03', 18),
+(657, 'user agreed to Polbot policy', 3, '2024-01-03', 18),
+(658, 'user disagreed to Polbot policy', 1, '2024-01-03', 18),
+(659, 'I want to see the Most Frequently Asked Questions', 1, '2024-01-03', 18),
+(660, 'access Polybot page', 9, '2024-01-03', 19),
+(661, 'I want to see the Most Frequently Asked Questions', 1, '2024-01-03', 19),
+(662, 'How many credits can a students take per semester?', 1, '2024-01-03', 19),
+(663, ' Yes', 1, '2024-01-03', 19),
+(664, 'I have a question about a specific course', 1, '2024-01-03', 19),
+(665, 'Programming', 1, '2024-01-03', 19),
+(666, ' Year 1', 1, '2024-01-03', 19),
+(667, ' Semester A', 1, '2024-01-03', 19),
+(668, 'System Administration', 1, '2024-01-03', 19),
+(669, 'Credits', 1, '2024-01-03', 19),
+(670, ' No', 1, '2024-01-03', 19),
+(671, ' Not helpful', 1, '2024-01-03', 19),
+(672, 'access Polybot page', 1, '2024-01-03', 20),
+(673, 'access Polybot page', 2, '2024-01-03', 21),
+(674, 'user agreed to Polbot policy', 1, '2024-01-03', 21),
+(675, 'I have a question about a specific course', 1, '2024-01-03', 21),
+(676, 'Cyber Security', 1, '2024-01-03', 21),
+(677, ' Year 1', 2, '2024-01-03', 21),
+(678, ' Semester A', 3, '2024-01-03', 21),
+(679, 'Core ICT', 1, '2024-01-03', 21),
+(680, ' Year 3', 1, '2024-01-03', 21),
+(681, 'access Polybot page', 6, '2024-01-03', 22),
+(682, 'I have a question about a specific course', 5, '2024-01-03', 22),
+(683, 'Programming', 4, '2024-01-03', 22),
+(684, 'Core ICT', 3, '2024-01-03', 22),
+(685, 'Information Systems', 2, '2024-01-03', 22),
+(686, 'Database Systems', 1, '2024-01-03', 22),
+(687, 'Networking', 1, '2024-01-03', 22),
+(688, ' Year 2', 1, '2024-01-03', 22),
+(689, ' Semester A', 2, '2024-01-03', 22),
+(690, ' Semester B', 1, '2024-01-03', 22),
+(691, 'Database 2', 1, '2024-01-03', 22),
+(692, 'owner', 1, '2024-01-03', 22),
+(693, 'Year', 1, '2024-01-03', 22),
+(694, 'CourseAim', 1, '2024-01-03', 22),
+(695, ' Yes', 2, '2024-01-03', 22),
+(696, 'I want to see the Most Frequently Asked Questions', 4, '2024-01-03', 22),
+(697, 'Is there a library on campus?', 1, '2024-01-03', 22),
+(698, ' Year 3', 1, '2024-01-03', 22),
+(699, 'Systems Administration', 1, '2024-01-03', 22),
+(700, 'ShortTitle', 1, '2024-01-03', 22);
 
 -- --------------------------------------------------------
 
@@ -568,35 +405,92 @@ CREATE TABLE `CLO` (
 --
 
 INSERT INTO `CLO` (`OutcomeID`, `CourseID`, `OutcomeDescription`) VALUES
-(4, 2, 'Analyze and interpret financial statements'),
-(5, 2, 'Apply financial models for forecasting'),
-(6, 2, 'Evaluate investment opportunities'),
-(7, 3, 'Apply statistical methods to analyze data'),
-(8, 3, 'Interpret and present statistical findings'),
-(9, 3, 'Design and conduct surveys'),
-(13, 5, 'Demonstrate knowledge of historical events'),
-(14, 5, 'Analyze historical documents and sources'),
-(15, 5, 'Evaluate historical perspectives and interpretations'),
-(41, 39, 'aDVfB'),
-(42, 39, 'FBS'),
-(43, 39, 'BSF'),
-(44, 39, 'SBF'),
-(45, 39, 'bsz'),
-(46, 39, 'bdzsSB'),
-(47, 39, 'agDA'),
-(48, 39, 'ZSB'),
-(49, 39, 'sht'),
-(50, 47, 'fbfbx'),
-(51, 2, 'Analyze and interpret financial statements'),
-(52, 2, 'Apply financial models for forecasting'),
-(53, 2, 'Evaluate investment opportunities'),
-(54, 2, 'Analyze and interpret financial statements'),
-(55, 2, 'Apply financial models for forecasting'),
-(56, 2, 'Evaluate investment opportunities'),
-(57, 2, 'Analyze and interpret financial statements'),
-(58, 2, 'Apply financial models for forecasting'),
-(59, 2, 'Evaluate investment opportunities'),
-(60, 48, 'avd');
+(223, 59, 'Critically evaluate and implement appropriate solutions to interior and exterior routing protocol problems.'),
+(224, 59, 'Use specialist skills when designing and configuring a complex LAN infrastructure.'),
+(225, 59, 'Critically evaluate and implement Layer 2/Layer 3 Virtual Private Networks (VPNs).'),
+(226, 59, 'Design, implement and troubleshoot enterprise level networks.'),
+(227, 61, 'Identify and apply a range of statistical measures to defined and undefined ICT scenarios.'),
+(228, 61, 'Determine and utilize algebraic number theory principles to solve ICT problems.'),
+(229, 61, 'Use some advanced geometrical methods in simulation applications.'),
+(230, 61, 'Solve advanced cryptography related problems which are linked to information security.'),
+(231, 62, 'Describe the main differences between a Windows-based OS and Unix-based OS'),
+(232, 62, 'Use the command-line on a UNIX system'),
+(233, 62, 'Manage a Linux server system (including files, processes, users)'),
+(234, 62, 'Write scripts to automate repetitive tasks'),
+(235, 63, 'Demonstrate detailed knowledge of core database and database design concepts.'),
+(236, 63, 'Perform data modelling to produce logical data models using ERD techniques and normalization'),
+(237, 63, 'Design and implement a database suitable for an information system'),
+(238, 63, 'Use Structured Query Language to perform database operations'),
+(239, 63, 'Discuss the principles, regulations and laws related to privacy both in the GCC and Internationally'),
+(240, 64, 'Demonstrate detail knowledge of the fundamentals, concepts and technologies of the TCP/IP and OSI networking models.'),
+(241, 64, 'Design and implement an IP addressing scheme using VLSM.'),
+(242, 64, 'Configure, test and verify network devices.'),
+(243, 64, 'Demonstrate detail knowledge of different routing protocols that operate in the network.'),
+(244, 65, 'Demonstrate detailed knowledge of primitive data types and basic data structures'),
+(245, 65, 'Describe the sequence of steps that a computer takes to translate source code into executable code'),
+(246, 65, 'Use diagrams to design solutions for programming problems from a problem description'),
+(247, 65, 'Create and test programming solutions to problems using the Java programming language in accordance with best practice, industry standards and professional ethics and following programming and documentation conventions'),
+(248, 65, 'Analyse and debug existing programs by following a test plan'),
+(249, 66, 'Demonstrate detailed knowledge of the principles of information security and state measures to secure information.'),
+(250, 66, 'Develop an information security policy to demonstrate security awareness.'),
+(251, 66, 'Perform and report upon an ethical penetration test.'),
+(252, 66, 'Demonstrate detailed knowledge of cryptographic methods.'),
+(253, 67, 'Design and structure a multi-page website'),
+(254, 67, 'Implement consistent and maintainable styling and page structure for a website'),
+(255, 67, 'Provide user interactivity in a website'),
+(256, 67, 'Demonstrate knowledge of the fundamentals of website implementation'),
+(257, 68, 'Demonstrate advanced knowledge of the concepts and basic principles of system development to meet client / community requirements.'),
+(258, 68, 'Produce a set of documents and models for a new system by applying fact finding, problem solving and object-oriented analysis modelling techniques and by using appropriate software tools.'),
+(259, 69, 'Demonstrate detailed knowledge of core database and database design concepts.'),
+(260, 69, 'Perform data modelling to produce logical data models using ERD techniques and normalization'),
+(261, 69, 'Design and implement a database suitable for an information system'),
+(262, 70, 'Undertake database administration tasks to deal with defined and undefined database operations and to solve encountered issues.'),
+(263, 70, 'Demonstrate knowledge of advanced SQL and its usage to solve problems and achieve some specialist level skills.'),
+(264, 71, 'Analyze, design and plan an ICT product'),
+(265, 71, 'Create a variety of technical documents conforming to industry standards.'),
+(266, 71, 'Independently develop an ICT solution according to a design'),
+(267, 71, 'Apply specialized skills and detailed knowledge gained in the Bachelor of ICT programme to an approved industry project.'),
+(268, 71, 'Critically analyze and evaluate the employability skills required of a work-ready graduate.'),
+(269, 72, 'Install and configure an enterprise database to provide a solution for a given customer requirement following industry best practices.'),
+(270, 72, 'Plan and implement security policies and procedures to ensure data integrity.'),
+(271, 73, 'Utilise data mining software to solve defined and undefined problems'),
+(272, 73, 'Interpret and evaluate obtained numerical and graphical data to recommend the best model to be used for prediction purposes.'),
+(273, 74, 'Design a user-centric user interface that follows UI and UX best practice.'),
+(274, 74, 'Implement complex programs (or Apps) for a mobile platform to a given business requirement'),
+(275, 75, 'Demonstrate critical knowledge in Computer Graphics principles and game development concepts, and apply them in a specialised game environment'),
+(276, 75, 'Work in teams to create games to a given brief following SCRUM methodology'),
+(277, 76, 'Demonstrate critical knowledge of systems administration concepts and principles'),
+(278, 76, 'Critically evaluate the requirements of an organisation to design an appropriate server infrastructure'),
+(279, 77, 'Demonstrate critical knowledge of the planning, design, deployment, and administration of server systems to support advanced business functions.'),
+(280, 77, 'Undertake deployment of server solutions for complex business enterprise requirements.'),
+(281, 77, 'Analyse how internet commerce concepts, strategies and infrastructure are brought together to produce an eCommerce solution'),
+(282, 77, 'Critically evaluate security practices required for an internet commerce solution according to industry standards'),
+(283, 77, 'Demonstrate advanced knowledge of the required protocols for VLAN implementation'),
+(284, 77, 'Implement and troubleshoot the VLAN Trunking Protocol (VTP), Inter-VLAN Routing and Spanning Tree Protocol (STP)'),
+(285, 78, 'Demonstrate critical knowledge of the security threats facing modern network infrastructures.'),
+(286, 78, 'Secure network device access and implement AAA on network devices.'),
+(287, 79, 'Demonstrate critical knowledge and understanding of the communications theory fundamentals that allow mobile/wireless networks to function.'),
+(288, 79, 'Plan, design and implement wireless communication technologies for given scenarios.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Complain`
+--
+
+CREATE TABLE `Complain` (
+  `ComplainId` int(11) NOT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `Subject` varchar(200) DEFAULT NULL,
+  `Message` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Complain`
+--
+
+INSERT INTO `Complain` (`ComplainId`, `username`, `Subject`, `Message`) VALUES
+(1, 'Sana Hassan', 'Can not open inquiry page.', 'Hi i\'m trying to view the inquiry page but for some reason it keeps giving me error.');
 
 -- --------------------------------------------------------
 
@@ -628,22 +522,26 @@ CREATE TABLE `Course` (
 --
 
 INSERT INTO `Course` (`CourseId`, `CourseCode`, `CourseTitle`, `ShortTitle`, `CourseLevel`, `ValidFrom`, `Credits`, `AssessmentMethod`, `CourseAim`, `PreRequisite`, `Major_MajorId`, `owner`, `Year`, `Semester`, `uncontrolledAssess`, `exams`) VALUES
-(2, 'IT6010', 'Maths For Computing', 'Maths Comp', '6', '2022-01-01', 45, 'Exams, Assignments', 'To develop mathematical skills for computing', 'Completion of Intro to Mathematics course', 4, 'OpenAI', 4, 'A', 'test', 'test2'),
-(3, 'IT7005', 'Database Systems 2', 'Database Systems 2', '6', '2022-01-01', 60, 'Exams, Assignments', 'To explore advanced mathematical concepts and applications', 'Completion of Intro to Mathematics course', 3, 'OpenAI', 2, 'B', NULL, NULL),
-(5, 'IT7003', 'Networking and Data Communication', 'Networking and Data Comm. 2', '6', '2022-01-01', 60, 'Exams, Assignments', 'To study networking and data communication concepts', 'Completion of Intro to Networking course', 4, 'OpenAI', 4, 'A', NULL, NULL),
-(6, 'IT7006', 'Object Oriented Design', 'Object Oriented Design', '6', '2022-01-01', 60, 'Exams, Assignments', 'To learn object-oriented design principles and techniques', 'Completion of Object-Oriented Programming course', 3, 'OpenAI', 4, 'B', NULL, NULL),
-(7, 'IT8203', 'System Administration', 'System Administration', '7', '2022-01-01', 65, 'Exams, Assignments', 'To develop skills in system administration and management', 'Completion of System Management course', 2, 'OpenAI', 1, 'A', NULL, NULL),
-(8, 'IT6004', 'Unix Systems', 'Unix Systems', '6', '2022-01-01', 60, 'Exams, Assignments', 'To learn about Unix systems and command-line interface', 'Completion of Intro to Unix course', 2, 'OpenAI', 2, 'A', NULL, NULL),
-(10, 'EL6002', 'English EDICT4', 'English EDICT4', '6', '2022-01-01', 60, 'Exams, Assignments', 'To further enhance English language skills', 'Completion of English EDICT3 course', 4, 'OpenAI', 2, 'B', NULL, NULL),
-(17, 'ITTest', 'test', 'test', '5', NULL, 65, 'fs', 'sz', 'zbfx', 1, 'ICT', NULL, NULL, 'zfs', 'dba'),
-(23, 'ITTesr', 'test', 'test', '5', NULL, 65, 'zf', 'ndcg', NULL, 1, 'ICT', NULL, NULL, 'sfxbs', 'cngd'),
-(24, 'ITTeff', 'test', 'test', '5', NULL, 65, 'zf', 'xg', 'xv g', 1, 'ICT', NULL, NULL, 'nxs', 'ncdnd'),
-(25, 'ITTyyy', 'test', 'test', '5', NULL, 65, 'zf', 'bzsf', 'xv g', 1, 'ICT', NULL, NULL, 'bzf', 'xfbf'),
-(26, 'ITTyuu', 'test', 'test', '5', NULL, 65, 'zf', 'az', 'xv g', 1, 'ICT', NULL, NULL, 'nxc', 'gn'),
-(27, 'ITTyrr', 'test', 'test', '5', NULL, 65, 'zf', 'sgnzd', 'xv g', 1, 'ICT', NULL, NULL, 'zv', 'fbx'),
-(39, 'testeg', 'ngdx', 'ndd', '5', NULL, 45, 'ngdz', 'sBz', 'ngzd', 5, 'ICT', 2, 'B', 'aDV', 'bzvf'),
-(47, 'tester', 'test', 'testfsvzs', '5', NULL, 45, 'vdz', 'zbf', 'bd', 2, 'ICT', 3, 'B', 'fb', 'zbf'),
-(48, 'hello3', 'test', 'test', '5', NULL, 45, 'vdz', 'vSS', 'bd', 2, 'ICT', 2, 'A', 'avbSz', 'sbFzsvz');
+(59, 'IT8323', 'Advanced Networking', 'Networking 4', '8', NULL, 15, 'Achievement', 'To provide students with an advanced skills in current network technologies. The course will have a heavy emphasis on troubleshooting problems that occur in networks. Students will have to show problem solving and initiative to solve complex scenarios.   ', 'IT7003', 5, 'ICT', 3, 'B', 'Project (Group)', 'Examination (Practical)'),
+(61, 'IT6010', 'Maths for Computing', 'Maths for Computing', '6', NULL, 15, 'Achievement', 'To develop the ability to apply standard mathematical and statistical techniques which can be used in the ICT sector.', '', 6, 'ICT', 1, 'A', 'Practical Project', 'Examination (Practical)'),
+(62, 'IT6004', 'Unix Systems', 'UXS', '6', NULL, 15, 'Achievement', 'This course introduces the UNIX operating system from the point of view of an administrator. It has been designed to help students gain the knowledge and skills needed to install, maintain and configure UNIX systems. It defines the essential duties of a UNIX system administrator. This unit also provides students with skills to scripting to automate repetitive tasks.', '', 6, 'ICT', 1, 'A', 'No Uncontrolled Assessments', 'Examination (Theory)'),
+(63, 'IT6005', 'Database Systems 1', 'DB1', '6', NULL, 15, 'Achievement', 'To provide students with a detailed knowledge of Database Management Systems used in modern IT organisations. The course will focus on one widely used commercial database, Oracle, and provide students with market relevant skills.', '', 6, 'ICT', 1, 'B', 'Project (Group)', 'Online Quiz'),
+(64, 'IT6003', 'Networks and Data Communications', 'Networking 1', '6', NULL, 15, 'Achievement', 'To provide students with an understanding of Computer Networking and the practical skills to implement and troubleshoot small to medium computer networks. Students will configure networks and manage the routers. Students will be introduced to the fundamental building blocks of a communication system and to a variety of networking technologies.', '', 6, 'ICT', 1, 'B', 'Practical Project', 'Examination (Practical)'),
+(65, 'IT6008', 'Computer Programming 1', 'CP1', '6', NULL, 15, 'Achievement', 'To provide students with an overview of programming, problem-solving, testing and debugging. It explores many fundamental programming concepts with emphasis on applying theoretical knowledge to a practical situation. It will introduce students to problem-solving with a view to meeting user requirements and designing solutions to programming problems.', '', 6, 'ICT', 1, 'B', 'Online Quiz', 'Examination (Practical)'),
+(66, 'IT6011', 'Introduction to Information Security', 'Intro to Info Sec', '6', NULL, 15, 'Achievement', 'To provide students with an understanding of what information security is and its value in modern technology. Students will gain a detailed knowledge of information security through practical skills and analysis of the security requirements of organisations.', 'IT6004 ', 6, 'ICT', 2, 'A', 'Project (Group)', 'Examination (Practical)'),
+(67, 'IT6012', 'Web Fundamentals', 'Web Fund', '6', NULL, 15, 'Achievement', 'To introduce students to the fundamental of Web Design and Implementation', 'IT6004 ', 6, 'ICT', 2, 'A', 'Practical Project', 'Examination (Practical)'),
+(68, 'IT7001', 'Systems Analysis and Design', 'SAD', '7', NULL, 15, 'Achievement', 'To develop studentsâ€™ abilities to analyse simple and complex information systems, model business and systems requirements, and document logical and physical design solutions by using appropriate methods, techniques, tools and industry standards.', 'IT6005', 6, 'ICT', 2, 'A', 'Project (Group/Individual)', 'Examination (Practical)'),
+(69, 'IT6007', 'Database 2', 'DB2', '6', NULL, 15, 'Online Quiz', 'To provide students with a detailed knowledge of Database Management Systems used in modern IT organisations. The course will focus on one widely used commercial database, Oracle, and provide students with market relevant skills.', '', 2, 'ICT', 2, 'B', 'Project (Group)', 'None'),
+(70, 'IT7005', 'Database Systems 2', 'DB2', '7', NULL, 15, 'Achievement', 'This course aims to further demonstrate advanced knowledge of database systems, core theories, principles and concepts where such systems fall within an Information Technology infrastructure in an organisation. The course will also expand on database concepts learnt in Database Systems 1 and introduce new database constructs relevant to the workplace.', 'IT6005', 4, 'ICT', 2, 'B', 'Project (Group)', 'Online Quiz'),
+(71, 'IT7099', 'IT Project', 'ITP', '7', NULL, 60, 'Achievement', 'To provide students with the skills and attitudes necessary to effectively take the managerial and technical leads on a small project from start to finish.', 'IT7001', 6, 'ICT', 4, 'A', 'Essay', 'No Examinations'),
+(72, 'IT8406', 'Database Administration', 'DBA', '8', NULL, 15, 'Achievement', 'To develop expertise in the creation and maintenance of an enterprise class database ensuring its availability and security, improving performance and implementing suitable backup and recovery strategies.', 'IT7005', 4, 'ICT', 3, 'A', 'Project (Group)', 'Examination (Practical)'),
+(73, 'IT8416', 'Data Mining', 'DM', '8', NULL, 15, 'Achievement', '	\r\nTo introduce students to the fundamental concepts, algorithms and techniques of Data Mining. To develop studentsâ€™ abilities to apply techniques and software tools to discover hidden  patterns and regularities in databases. Students will then perform analysis to predict future trends.', 'IT6010 ', 4, 'ICT', 3, 'B', 'Project (Group)', 'Examination (quiz)'),
+(74, 'IT8108', 'Mobile Programming', 'MP1', '8', NULL, 15, 'Achievement', 'The course introduces fundamental specialized programming concepts for a mobile platform. It provides students with an opportunity to apply the software development life cycle to build an app that meets business requirements with a user-centered focus.', 'IT7008', 2, 'ICT', 3, 'A', 'Project Demonstration', 'No Examinations'),
+(75, 'IT8101', 'Games Development', 'Game Dev', '8', NULL, 15, 'Viva voce examination', 'The course introduces advanced game development concepts using a commercial game engine to allow students to develop practical skills in constructing game components and integrating them to a playable game demo (developed using rapid prototyping)   ', 'IT7008', 2, 'ICT', 3, 'B', 'Project (Group)', '\r\nNo Examinations'),
+(76, 'IT8203', 'Systems Administration', 'SysAdmin', '8', NULL, 15, 'Achievement', 'The aim of this course is to enable students to operate with current technologies, tools and techniques in Systems Administration. Students will be able to design server infrastructure to meet the demands of a modern IT Organisation, while demonstrating a critical awareness of industry best practice and norms.', 'IT6004 & IT7004 ', 3, 'ICT', 3, 'A', 'Practical Project', 'Examination (Unseen)'),
+(77, 'IT7004', 'Operating Systems and Platforms', 'OSP', '7', NULL, 15, 'Achievement', 'During this course students will build their technical skills in IT planning, design, installation, configuration and administration of server infrastructure for an enterprise environment.', 'IT6003 & IT6001 ', 3, 'ICT', 2, 'B', 'Practical Project', 'Online Quiz'),
+(78, 'IT8303', 'Computer Networking 3', 'Networking 3', '8', NULL, 15, 'Achievement', 'To introduce the core security concepts and skills needed for the installation, troubleshooting, and monitoring of network devices to maintain the integrity, confidentiality, and availability of data, infrastructure and services.', 'IT7003	', 5, 'ICT', 3, 'A', 'Project (Group)', 'Examination (Practical)'),
+(79, 'IT8313', 'Wireless Communications', 'WirelessComm', '8', NULL, 15, 'Achievement', 'To provide students with an advanced understanding of mobile and wireless communication concepts. To allow students to design and implement a modern mobile/wireless infrastructure in a specialist level, similar to the ones implemented by the mobile carriers in Bahrain.', 'IT7003', 5, 'ICT', 3, 'B', 'Project (Group)', 'Oral questioning after observation');
 
 -- --------------------------------------------------------
 
@@ -655,10 +553,37 @@ CREATE TABLE `Descriptor` (
   `FileId` int(11) NOT NULL,
   `FileLocation` varchar(255) DEFAULT NULL,
   `FileType` varchar(50) DEFAULT NULL,
-  `FileName` varchar(255) DEFAULT NULL,
+  `FileName` varchar(100) DEFAULT NULL,
   `User_UserId` int(11) DEFAULT NULL,
   `CourseId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Descriptor`
+--
+
+INSERT INTO `Descriptor` (`FileId`, `FileLocation`, `FileType`, `FileName`, `User_UserId`, `CourseId`) VALUES
+(28, 'images/9119546_Course Advanced Networking    Advanced Networking   .pdf', '', '9119546_Course Advanced Networking    Advanced Networking   .pdf', 1, 1),
+(29, 'images/8368851_Course Advanced Networking    Advanced Networking   .pdf', '', '8368851_Course Advanced Networking    Advanced Networking   .pdf', 1, 59),
+(30, 'images/5263608_Course Maths for Computing Maths for Computing.pdf', '', '5263608_Course Maths for Computing Maths for Computing.pdf', 1, 61),
+(31, 'images/2501876_Course Unix Systems Unix Systems.pdf', '', '2501876_Course Unix Systems Unix Systems.pdf', 1, 62),
+(32, 'images/9569697_Course Database Systems 1 Database Systems 1.pdf', '', '9569697_Course Database Systems 1 Database Systems 1.pdf', 1, 63),
+(33, 'images/3477472_Course Networks and Data Communications Networks and Data Communications.pdf', '', '3477472_Course Networks and Data Communications Networks and Data Communications.pdf', 1, 64),
+(34, 'images/6890652_Course Computer Programming 1 Computer Programming 1.pdf', '', '6890652_Course Computer Programming 1 Computer Programming 1.pdf', 1, 65),
+(35, 'images/8955057_Course Introduction to Information Security Introduction to Information Security.pdf', '', '8955057_Course Introduction to Information Security Introduction to Information Security.pdf', 1, 66),
+(36, 'images/4975699_Course Web Fundamentals Web Fundamentals (1).pdf', '', '4975699_Course Web Fundamentals Web Fundamentals (1).pdf', 1, 67),
+(37, 'images/9696571_Course Systems Analysis and Design  Systems Analysis and Design .pdf', '', '9696571_Course Systems Analysis and Design  Systems Analysis and Design .pdf', 1, 68),
+(38, 'images/3295963_Course Database Systems 1 Database Systems 1 (1).pdf', '', '3295963_Course Database Systems 1 Database Systems 1 (1).pdf', 1, 69),
+(39, 'images/1411514_Course Database Systems 2 Database Systems 2.pdf', '', '1411514_Course Database Systems 2 Database Systems 2.pdf', 1, 70),
+(40, 'images/6327628_Course IT Project  IT Project .pdf', '', '6327628_Course IT Project  IT Project .pdf', 1, 71),
+(41, 'images/8013937_Course Database Administration  Database Administration .pdf', '', '8013937_Course Database Administration  Database Administration .pdf', 1, 72),
+(42, 'images/8381741_Course Data Mining    Data Mining   .pdf', '', '8381741_Course Data Mining    Data Mining   .pdf', 1, 73),
+(43, 'images/7361896_Course Mobile Programming  Mobile Programming .pdf', '', '7361896_Course Mobile Programming  Mobile Programming .pdf', 1, 74),
+(44, 'images/171117_Course Games Development  Games Development .pdf', '', '171117_Course Games Development  Games Development .pdf', 1, 75),
+(45, 'images/3700122_Course Systems Administration  Systems Administration .pdf', '', '3700122_Course Systems Administration  Systems Administration .pdf', 1, 76),
+(46, 'images/1022543_Course Operating Systems and Platforms Operating Systems and Platforms.pdf', '', '1022543_Course Operating Systems and Platforms Operating Systems and Platforms.pdf', 1, 77),
+(47, 'images/6692057_Course Computer Networking 3  Computer Networking 3 .pdf', '', '6692057_Course Computer Networking 3  Computer Networking 3 .pdf', 1, 78),
+(48, 'images/1930127_Course Wireless Communications    Wireless Communications   .pdf', '', '1930127_Course Wireless Communications    Wireless Communications   .pdf', 1, 79);
 
 -- --------------------------------------------------------
 
@@ -678,8 +603,14 @@ CREATE TABLE `FAQ` (
 --
 
 INSERT INTO `FAQ` (`FaqId`, `FQuestion`, `FAnswer`, `User_UserId`) VALUES
-(8, 'How many credits can a students take per semester?', '60 credits', 1),
-(10, 'When will the semester fees pay period end?', '4 September 2023', 1);
+(12, 'How many credits can a student take per semester?', '75 credits', 1),
+(15, 'When will the registration for new semester open?', 'Jan 2024', 1),
+(16, 'Where can i find the course guides?', 'Moodle -> Support -> Information Hub -> Courses', 1),
+(17, 'What are the NRQ courses available this semester (2023-2024)?', 'Introductory Arabic, Bahrain History, Arabic, Human Rights.', 1),
+(19, 'What resources are available for career counseling and job placement?', 'Our Career Services department offers counseling, workshops, and connects students with employers.', 1),
+(20, 'Is there a library on campus?', 'Yes, we have a well-equipped library with a wide range of resources and study facilities.', 1),
+(21, 'How can I get involved in extracurricular activities and clubs?', 'Visit our Student Affairs office or check our website for a list of clubs and organizations to join.', 1),
+(22, 'What academic support services are available for students?', 'We offer tutoring, study skills workshops, and a writing center for academic support.', 1);
 
 -- --------------------------------------------------------
 
@@ -700,14 +631,24 @@ CREATE TABLE `Files` (
   `Type` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `Files`
+-- Table structure for table `Flag`
 --
 
-INSERT INTO `Files` (`FileId`, `FileLocation`, `FileType`, `FileName`, `Answers_AnsId`, `User_UserId`, `Questions_QuestionId`, `QId`, `AId`, `Type`) VALUES
-(266, 'images/1329529_Screenshot (1).png', 'image/png', '1329529_Screenshot (1).png', 19, 10, 46, 47, 1, 'Question'),
-(267, 'images/4834803_Screenshot (1).png', 'image/png', '4834803_Screenshot (1).png', 19, 10, 46, 54, 1, 'Question'),
-(268, 'images/1535630_Screenshot (1).png', 'image/png', '1535630_Screenshot (1).png', 19, 10, 54, 54, 21, 'Answer');
+CREATE TABLE `Flag` (
+  `FlagId` int(11) NOT NULL,
+  `UserId` int(11) DEFAULT NULL,
+  `QuestionId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Flag`
+--
+
+INSERT INTO `Flag` (`FlagId`, `UserId`, `QuestionId`) VALUES
+(25, 10, 54);
 
 -- --------------------------------------------------------
 
@@ -723,13 +664,6 @@ CREATE TABLE `Likes` (
   `Answers_User_UserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `Likes`
---
-
-INSERT INTO `Likes` (`LikesId`, `action`, `Answers_AnsId`, `Answers_Questions_QuestionId`, `Answers_User_UserId`) VALUES
-(1, 'like', 4, 41, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -738,8 +672,23 @@ INSERT INTO `Likes` (`LikesId`, `action`, `Answers_AnsId`, `Answers_Questions_Qu
 
 CREATE TABLE `Logs` (
   `LogId` int(11) NOT NULL,
-  `LogText` varchar(200) NOT NULL
+  `UserName` varchar(200) DEFAULT NULL,
+  `Action` varchar(50) DEFAULT NULL,
+  `Time` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Logs`
+--
+
+INSERT INTO `Logs` (`LogId`, `UserName`, `Action`, `Time`) VALUES
+(4, '202003059', 'Logged in', '2023-11-19 14:01:51'),
+(5, '202003059', 'Logged out', '2023-11-19 14:06:19'),
+(6, '202003059', 'Logged in', '2023-11-19 14:12:32'),
+(7, '202003059', 'Logged in', '2023-11-20 10:15:11'),
+(8, '202003059', 'Logged in', '2023-11-20 10:21:47'),
+(9, '202003059', 'Logged in', '2023-11-20 12:05:18'),
+(29, '202003059', 'Logged in', '2023-12-04 13:39:13');
 
 -- --------------------------------------------------------
 
@@ -757,11 +706,11 @@ CREATE TABLE `Major` (
 --
 
 INSERT INTO `Major` (`MajorId`, `MajorName`) VALUES
-(1, 'Cyber Security'),
 (2, 'Programming'),
 (3, 'Information Systems'),
 (4, 'Database Systems'),
-(5, 'Networking');
+(5, 'Networking'),
+(6, 'Core ICT');
 
 -- --------------------------------------------------------
 
@@ -802,39 +751,11 @@ CREATE TABLE `Questions` (
 --
 
 INSERT INTO `Questions` (`QuestionId`, `QuesTitle`, `QuesDescription`, `Tags`, `Likes`, `Time`, `Course_CourseId`, `User_UserId`) VALUES
-(4, 'blah', 'blah hahaha', NULL, 2, '2023-10-31 07:10:58', 5, 5),
-(7, 'What is your favorite book or movie, and why does it resonate with you?', 'I need some help with the whole projects, does anyone know where to go and look for resources that could help me in succeeding in IT6001 course?', NULL, 8, '2023-10-31 07:10:58', 8, 4),
-(8, 'What is your favorite hobby or activity that helps you relax and unwind?', 'I need some help with the whole projects, does anyone know where to go and look for resources that could help me in succeeding in IT6001 course?', NULL, 4, '2023-10-31 07:10:58', 3, 4),
-(9, 'What is your favorite book or movie, and why does it resonate with you?', 'I need some help with the whole projects, does anyone know where to go and look for resources that could help me in succeeding in IT6001 course?', NULL, 9, '2023-10-31 07:10:58', 3, 4),
-(10, 'test 3 ', 'hghfhagfa d ajshdkjsa', NULL, NULL, '2023-10-31 07:10:58', 3, 5),
-(12, 'JHJDS', 'JJ ', 'UWEOW', 3, '2023-10-31 07:10:58', 7, 1),
-(13, ' oye hoeye', 'jhsdjds', 'jds', 0, '2023-10-31 07:10:58', 3, 1),
-(14, 'iiii', 'iiiioiuo', 'uioio', 0, '2023-10-31 07:10:58', 3, 1),
-(16, 'ja ja ja', 'jaj dksajdk sadsajflksa f', 'kjhkds falk', 0, '2023-10-31 07:10:58', 5, 1),
-(19, 'iop', 'iop', 'iopiwoeiqpo', 0, '2023-10-31 07:10:58', 2, 1),
-(20, 'yui', 'yui', 'yui', 0, '2023-10-31 07:10:58', 2, 1),
-(22, 'JHJDShkj', 'hkjh', 'jhjh', 0, '2023-10-31 07:10:58', 3, 1),
-(27, 'iop', 'iop', 'ipp', 0, '2023-10-31 07:10:58', 2, 1),
-(28, 'uuuu', 'uuu', 'u', 0, '2023-10-31 07:10:58', 2, 1),
-(30, 'pppppppppppP', 'pp', 'pp', 0, '2023-10-31 07:10:58', 3, 1),
-(33, 'uioiweoqw riuqreiq', 'uwqoi urqeiour', 'uiouio', 0, '2023-10-31 07:10:58', 6, 1),
-(35, 'Okay one more serious qt for you all', 'yuio', 'ui', 0, '2023-10-31 07:10:58', 10, 5),
-(37, 'Hello g kya haal hai test 2?', 'hellojkdjashkjd akdjald ajkdjaslk', '', 0, '2023-11-09 09:16:19', 5, 1),
-(39, 'Hello g kya haal hai', 'yrr pata nahi kya', '', 0, '2023-11-10 11:41:26', 7, 4),
-(40, 'iop', 'hiiiloo jakjdsk ', 'jdksajdal ', 0, '2023-11-12 17:07:43', 6, 1),
-(41, 'Hello g kya haal hai', 'dksmdls', '', 0, '2023-11-12 17:13:28', 8, 1),
-(43, 'lgaf', 'fkv,', 'gj', 0, '2024-01-01 02:13:23', 2, 10),
-(44, 'dvb', 'd', '', 0, '2024-01-01 21:22:19', 2, 10),
-(45, 'fhdshfhjds', 'jhskjdhfskj', 'jhfkjshfs', 67, '2024-01-02 18:27:46', 7, 9),
-(46, 'hsdfjsshfdsjf', 'fhdshfds', 'hgfjs', 0, '2024-01-01 21:46:56', 6, 5),
-(47, 'fkdj', 'dfgd', 'gj', 0, '2024-01-02 18:33:21', 24, 10),
-(48, 'tytp[', 'ipoytip', 'ioyp', 0, '2024-01-02 18:36:39', 6, 10),
-(49, 'tytp[', 'ipoytip', 'ioyp', 0, '2024-01-02 18:36:57', 6, 10),
-(50, 'tytp[', 'ipoytip', 'ioyp', 0, '2024-01-02 18:36:57', 6, 10),
-(51, 'dsjd', 'sdgds', 'dsgdsjh', 0, '2024-01-02 18:37:47', 23, 10),
-(52, 'pppp', 'dshfsjkhkfs', '', 0, '2024-01-02 18:38:17', 17, 10),
-(53, 'po6po', 'ot6po', 'op', 0, '2024-01-02 18:44:20', 5, 10),
-(54, 'heeloo', 'ehkeke', 'SVz', 0, '2024-01-02 18:47:26', 6, 10);
+(47, 'What is the most easiest elective to take from the major subjects?', 'Hi have to choose an elective along with my in-house, I have two options to choose from IT7405 and IT8042, Can you guys advise as to which one would be easier?', '', 0, '2023-12-07 11:29:49', 59, 1),
+(50, 'Is AWS CIC programme a good opportunity in final semester?', 'Hi, I have to take CLP course next semester, and for that I need to choose a company, I have applied to the AWS CIC Program, but I am just a little worried if it would be too hard as I will also have an elective next semester. Any suggestion guys?\r\n', 'CLP, Final Year', 0, '2023-12-27 01:42:39', 61, 1),
+(54, 'Explain the concept of cloud computing.', 'Cloud services can easily scale up or down to meet changing demands, allowing businesses to quickly adjust their resource allocation without the need for significant hardware investments. Can you help with this submission ', 'CLP, Final Year', 0, '2024-01-02 18:40:02', 63, 1),
+(55, 'Can someone please xplain the concept of cybersecurity', 'Hi i\'m having ahard time understanding the concept of cybersecurity. Could you please help?', 'CLP, Final Year', 0, '2024-01-02 18:56:36', 65, 1),
+(59, 'What is symmetric encryption and asymmetric encryption? Provide an example of each.', 'Hi, could you please help me with this question?', '', 0, '2024-01-02 19:24:47', 66, 1);
 
 -- --------------------------------------------------------
 
@@ -881,6 +802,16 @@ CREATE TABLE `Subscriptions` (
   `Course_CourseId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `Subscriptions`
+--
+
+INSERT INTO `Subscriptions` (`SubsId`, `User_UserId`, `Course_CourseId`) VALUES
+(5, 1, 59),
+(6, 1, 62),
+(9, 2, 64),
+(10, 1, 67);
+
 -- --------------------------------------------------------
 
 --
@@ -905,16 +836,10 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`UserId`, `UserName`, `Email`, `FirstName`, `LastName`, `Password`, `Roles_RoleId`, `UserDp`, `Saved_posts`, `agree_to_policy`) VALUES
-(1, '202003059', 'ayeshaamjad469@gmail.com', 'Max', 'David', 'mœ°¦Ð»”>z×>~­', 3, 'img//team-3.jpg', NULL, 0),
-(2, '202003058', 'kainatcheema469@gmail.com', 'Kainat', 'Amjad', 'mœ°¦Ð»”>z×>~­', 2, 'img/dp.jpg', NULL, 0),
-(3, '202003060', 'sanaali469@gmail.com', 'Sana', 'Ali', 'mœ°¦Ð»”>z×>~­', 4, 'img/testimonial-3.jpg', NULL, 0),
-(4, '202003061', 'mashaalsaad469@gmail.com', 'Mashaal', 'Saad', 'mœ°¦Ð»”>z×>~­', 1, 'img//team-4.jpg', NULL, 0),
-(5, '202003062', 'najmaahmed469@gmail.com', 'Najma', 'Ahmed', 'mœ°¦Ð»”>z×>~­', 4, 'img/testimonial-1.jpg', NULL, 0),
-(7, 'fatima', 'fatimamadan02@gmail.com', 'fatima', 'fatima', 'fatima', 1, '', NULL, 0),
-(8, 'fatimamadan', 'fatimamadan02@gmail.com', 'fatima', 'fatima', '›¿Å &õÉ&ÝiÐàG ¦', 1, 'tt', NULL, 0),
-(9, 'Noor', 'fatimamadan02@gmail.com', 'Noor', 'Noor', '›¿Å &õÉ&ÝiÐàG ¦', 1, 'dnxdfdb', NULL, 0),
-(10, '202001312', '202001312@student.polytechnic.bh', 'Fatima', 'Madan', '½Ÿr8â_¡ÄlûÓY¯b', 1, 'img//WhatsApp Image 2023-12-08 at 10.13.03 PM (1).jpeg', NULL, 1),
-(11, '202001313', '202001313@student.polytechnic.bh', 'Fatima', 'Madan', '½Ÿr8â_¡ÄlûÓY¯b', 4, 'img/dp.jpg', NULL, 1);
+(1, '202001312', '202001312@student.polytechnic.bh', 'Fatima', 'Madan', '½Ÿr8â_¡ÄlûÓY¯b', 1, 'img//WhatsApp Image 2023-12-08 at 10.13.03 PM (1).jpeg', NULL, 1),
+(2, '202001313', '202001313@student.polytechnic.bh', 'Aysha', 'Amjad', '½Ÿr8â_¡ÄlûÓY¯b', 4, 'img/dp.jpg', NULL, 0),
+(3, '202001314', '202001314@student.polytechnic.bh', 'Zahraa', 'Alasbool', '½Ÿr8â_¡ÄlûÓY¯b', 2, 'img//team-3.jpg', NULL, 0),
+(4, '202001315', '202001315@student.polytechnic.bh', 'Malak', 'Almajed', '½Ÿr8â_¡ÄlûÓY¯b', 3, 'img/dp.jpg', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -963,7 +888,6 @@ ALTER TABLE `Course` ADD FULLTEXT KEY `CourseCode_2` (`CourseCode`,`CourseTitle`
 --
 ALTER TABLE `Descriptor`
   ADD PRIMARY KEY (`FileId`),
-  ADD KEY `CourseId` (`CourseId`),
   ADD KEY `User_UserId` (`User_UserId`);
 
 --
@@ -988,12 +912,6 @@ ALTER TABLE `Files`
 ALTER TABLE `Likes`
   ADD PRIMARY KEY (`LikesId`,`Answers_AnsId`,`Answers_Questions_QuestionId`,`Answers_User_UserId`),
   ADD KEY `fk_Likes_Answers1` (`Answers_AnsId`,`Answers_Questions_QuestionId`,`Answers_User_UserId`);
-
---
--- Indexes for table `Logs`
---
-ALTER TABLE `Logs`
-  ADD PRIMARY KEY (`LogId`);
 
 --
 -- Indexes for table `Major`
@@ -1057,49 +975,49 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `AnsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `AnsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `bot_history`
 --
 ALTER TABLE `bot_history`
-  MODIFY `convo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=589;
+  MODIFY `convo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=842;
 
 --
 -- AUTO_INCREMENT for table `bot_reports`
 --
 ALTER TABLE `bot_reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=606;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=701;
 
 --
 -- AUTO_INCREMENT for table `CLO`
 --
 ALTER TABLE `CLO`
-  MODIFY `OutcomeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `OutcomeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 
 --
 -- AUTO_INCREMENT for table `Course`
 --
 ALTER TABLE `Course`
-  MODIFY `CourseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `CourseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `Descriptor`
 --
 ALTER TABLE `Descriptor`
-  MODIFY `FileId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `FileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `FAQ`
 --
 ALTER TABLE `FAQ`
-  MODIFY `FaqId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `FaqId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `Files`
 --
 ALTER TABLE `Files`
-  MODIFY `FileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=269;
+  MODIFY `FileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
 
 --
 -- AUTO_INCREMENT for table `Likes`
@@ -1108,16 +1026,10 @@ ALTER TABLE `Likes`
   MODIFY `LikesId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `Logs`
---
-ALTER TABLE `Logs`
-  MODIFY `LogId` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `Major`
 --
 ALTER TABLE `Major`
-  MODIFY `MajorId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `MajorId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
@@ -1129,7 +1041,7 @@ ALTER TABLE `Notifications`
 -- AUTO_INCREMENT for table `Questions`
 --
 ALTER TABLE `Questions`
-  MODIFY `QuestionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `QuestionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `Role`
@@ -1147,7 +1059,7 @@ ALTER TABLE `SavedPosts`
 -- AUTO_INCREMENT for table `Subscriptions`
 --
 ALTER TABLE `Subscriptions`
-  MODIFY `SubsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `SubsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `User`
@@ -1188,8 +1100,7 @@ ALTER TABLE `Course`
 -- Constraints for table `Descriptor`
 --
 ALTER TABLE `Descriptor`
-  ADD CONSTRAINT `Descriptor_ibfk_1` FOREIGN KEY (`CourseId`) REFERENCES `Course` (`CourseId`),
-  ADD CONSTRAINT `Descriptor_ibfk_2` FOREIGN KEY (`User_UserId`) REFERENCES `User` (`UserId`);
+  ADD CONSTRAINT `Descriptor_ibfk_1` FOREIGN KEY (`User_UserId`) REFERENCES `User` (`UserId`);
 
 --
 -- Constraints for table `FAQ`

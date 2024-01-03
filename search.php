@@ -53,8 +53,10 @@ if (!empty($result)) {
                                         $img = "is";
                                     } elseif ($result[$i]->Major_MajorId == 4) {
                                         $img = "data";
-                                    } else {
+                                    }  elseif ($result[$i]->Major_MajorId == 5) {
                                         $img = "net";
+                                    } else {
+                                        $img = "all";
                                     }
 
                     echo '<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">

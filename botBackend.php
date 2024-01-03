@@ -117,8 +117,7 @@ if (isset($_GET['action'])) {
             // Echo user message
             echo '<div class="user-message">'.  $result->MajorName .'</div>';
             
-            
-//            if (!empty($result)) {
+
                 echo '<div class="bot-message">
                     In which year?
                     <div class="option-buttons">';
@@ -132,9 +131,6 @@ if (isset($_GET['action'])) {
 
                 echo '<div id="response-container"></div>';
 
-//            } else {
-//                echo '<button class="option-button">OPPPs</button>';
-//            }
         }
     } elseif ($action === 'showSem') {
         // Handle show courses action
@@ -145,8 +141,6 @@ if (isset($_GET['action'])) {
 
             // Echo user message
             echo '<div class="user-message"> Year '.  $year .'</div>';
-            
-//            if (!empty($result)) {
                 echo '<div class="bot-message">
                     In which semester?
                     <div class="option-buttons">';
@@ -158,10 +152,6 @@ if (isset($_GET['action'])) {
                 </div>';
 
                 echo '<div id="response-container"></div>';
-
-//            } else {
-//                echo '<button class="option-button">OPPPs</button>';
-//            }
         }
     } elseif ($action === 'showCourses') {
         // Handle show courses action
