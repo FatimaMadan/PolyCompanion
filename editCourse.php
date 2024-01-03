@@ -40,11 +40,8 @@ if (isset($_POST['submitted'])) {
     $newcour->setMajor_MajorId($_POST['Major_MajorId']);
 
     $newcour->setOwner('ICT');
-    $newcour->setPreRequisite($_POST['PreRequisite']);
     
-     if ($_POST['Pre-requisite'] == ""){
-            $newcour->setPreRequisite("No PreRequisite");
-        }
+    $newcour->setPreRequisite($_POST['PreRequisite']);
         
     $newcour->setShortTitle($_POST['ShortTitle']);
     $newcour->setUncontrolledAssess($_POST['uncontrolledAssess']);

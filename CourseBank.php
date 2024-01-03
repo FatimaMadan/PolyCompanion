@@ -207,10 +207,6 @@ class CourseBank {
             $errors[] = 'Course aim is required.';
         }
 
-        if (empty($this->PreRequisite)) {
-            $errors[] = 'Pre-requisite is required.';
-        }
-
         if (empty($this->Major_MajorId)) {
             $errors[] = 'Major ID is required.';
         }
@@ -254,9 +250,6 @@ class CourseBank {
             $errors[] = 'Course aim is required.';
         }
 
-        if (empty($this->PreRequisite)) {
-            $errors[] = 'Pre-requisite is required.';
-        }
 
         if (empty($this->Major_MajorId)) {
             $errors[] = 'Major ID is required.';

@@ -30,11 +30,9 @@ if (empty($_SESSION['uid'])) {
         
         $newcour->setOwner('ICT');
         
-        $newcour->setPreRequisite($_POST['PreRequisite']);
         
-        if ($_POST['Pre-requisite'] == ""){
-            $newcour->setPreRequisite("No PreRequisite");
-        }
+        
+         $newcour->setPreRequisite($_POST['PreRequisite']);
         $newcour->setShortTitle($_POST['ShortTitle']);
         $newcour->setUncontrolledAssess($_POST['uncontrolledAssess']);
         
@@ -95,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 30 characters.</p>
               <input required type="text" placeholder="Course Title" name="CourseTitle" value="<?php echo isset($_POST['CourseTitle']) ? $_POST['CourseTitle'] : ''; ?>"/>
               
-              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than six characters.</p>
+              <p style="color: #a52834; font-size: 9px; float: left;">*Not more than 20 characters.</p>
               <input required type="text" placeholder="Course Short Title" name="ShortTitle" value="<?php echo isset($_POST['ShortTitle']) ? $_POST['ShortTitle'] : ''; ?>"/>
               
               <p style="color: #a52834; font-size: 9px; float: left;">*A number between 0 and 10.</p>

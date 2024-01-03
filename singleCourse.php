@@ -192,13 +192,11 @@ $down = $des->getFileWithCourseid($id);
             <i class="fas fa-3x fa-check-circle text-primary mb-4"></i>
             <h5 class="mb-3">Prerequisites</h5>
             <p><?php 
-            
-            if ($course->getPreRequisite() != ""){
-                echo $course->getPreRequisite();
+            if ($course->getPreRequisite() == ""){
+                echo "No Pre-Requisite";
             } else {
-                echo 'No PreRequisite';
-            }
-                
+                echo $course->getPreRequisite();
+              }
                  ?></p>
         </div>
     </div>
