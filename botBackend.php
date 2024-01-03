@@ -26,14 +26,15 @@ if (isset($_GET['action'])) {
 
             echo '</div> 
             </div>';
-        } echo '<div class="bot-message">
+        }  else {
+            echo '<div class="bot-message">
             Oppp, No question are available.<br>
             For any complains or suggestions click on the contact button below.<br>
                 <div class="option-buttons">
                     <button class="option-button"><a href="contact.php">Contact us</a></button>
                 </div>
             
-            </div>';
+        </div>';}
     } elseif ($action === 'showAnswer') {
           
         // Handle show courses action

@@ -346,7 +346,7 @@ public function getAUserName($userid) {
         }
     }
     
-           public static function getUserAgree($userid) {
+    public static function getUserAgree($userid) {
     $db = Database::getInstance();
     $q = 'SELECT agree_to_policy FROM User WHERE UserId = ' .$userid;
     $data = $db->singleFetch($q);
@@ -360,6 +360,7 @@ public static function updateUserAgree($userId, $agreeStatus) {
     $db = Database::getInstance();
     $q = "UPDATE User SET agree_to_policy = " . $agreeStatus . " WHERE UserId = " . $userId;
     $db->singleFetch($q);
+    
 }
     }
     
