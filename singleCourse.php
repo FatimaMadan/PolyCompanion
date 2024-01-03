@@ -267,7 +267,7 @@ $down = $des->getFileWithCourseid($id);
     $row = $files->getFileWithCourseid($id);
   if (!empty($row)) {
 
-  echo '<a class="btn btn-primary py-3 px-5 mt-2" href="view_descr.php?fid=' . $row->FileId . '">Download Course Descriptor ' . $row->FileId .'</a>';
+  echo '<a class="btn btn-primary py-3 px-5 mt-2" href="view_descr.php?fid=' . $row->FileId . '">Download Course Descriptor</a>';
        
   }
   else{

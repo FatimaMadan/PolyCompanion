@@ -63,8 +63,8 @@ if (!empty($result)) {
                             <img class="img-fluid" src="img/'.$img.'.jpg" alt="">';
 
                     if ($_SESSION['roleId'] == 1) {
-                        echo '<div class="w-100 d-flex justify-content-center position-absolute top-0 start-0 mt-3">
-                        <a href="editCourse.php?cid=' . $result[$i]->CourseId . '"
+                        echo '<div class="w-100 d-flex justify-content-center position-absolute top-0 start-0 mt-3">'; 
+                        echo'<a href="AddDescr.php?cid=' . $result[$i]->CourseId . '"
                         class="flex-shrink-0 btn btn-sm btn-primary px-2"
                         style="border-radius: 50%;"><i class="fas fa-edit"></i></a>
                         <a href="#" onclick="confirmDelete(\'' . $result[$i]->CourseId . '\', \'delete\')"

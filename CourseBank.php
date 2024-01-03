@@ -354,7 +354,7 @@ class CourseBank {
         return $data;
     }
 
-    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel, $ValidFrom, $Credits, $AssessmentMethod, $CourseAim, $PreRequisite, $Major_MajorId, $owner, $uncontrolledAssess, $exams) {
+    function initWith($CourseId, $CourseCode, $CourseTitle, $ShortTitle, $CourseLevel, $ValidFrom, $Credits, $AssessmentMethod, $CourseAim, $PreRequisite, $Major_MajorId, $owner, $uncontrolledAssess, $exams, $Year, $sem) {
         $this->CourseId = $CourseId;
         $this->CourseCode = $CourseCode;
         $this->CourseTitle = $CourseTitle;
@@ -369,12 +369,14 @@ class CourseBank {
         $this->TeachingStrategies = $TeachingStrategies;
         $this->uncontrolledAssess = $uncontrolledAssess;
         $this->exams = $exams;
+        $this->Year = $Year;
+        $this->sem = $sem;
     }
 
     function initWithId($course_id) {
         $db = Database::getInstance();
         $data = $db->singleFetch('SELECT * FROM Course WHERE CourseId = \'' . $course_id . '\'');
-        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams);
+        $this->initWith($data->CourseId, $data->CourseCode, $data->CourseTitle, $data->ShortTitle, $data->CourseLevel, $data->ValidFrom, $data->Credits, $data->AssessmentMethod, $data->CourseAim, $data->PreRequisite, $data->Major_MajorId, $data->owner, $data->uncontrolledAssess, $data->exams, $data->Year, $data->Semester);
     }
     
 public function getCourseDetails($courseId) {

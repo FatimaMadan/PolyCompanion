@@ -13,6 +13,8 @@ if (empty($_SESSION['uid'])) {
     exit();
 }
 
+
+
 if (isset($_POST['save'])) {
 //UPLOAD FILE *****************
       if(!empty($_FILES)) {
@@ -28,10 +30,21 @@ if (isset($_POST['save'])) {
         $max = new CourseBank();
         $num = $max->getMaxCourseId();
         $file->setCourseId($num + 1);
+        
+        if (isset($_GET['cid'])){
+        $file->setCourseId($_GET['cid']);
+        }
 
            if ($file->addFile()){
+               
+               if (isset($_GET['cid'])){
+        header("Location: editCourse.php?cid=" . $_GET['cid']);
+        exit();
+        } else {
             header("Location: AddCourse.php");
 exit();
+        }
+            
         }else{
          echo 'Error Uploading Descriptor';
         }
