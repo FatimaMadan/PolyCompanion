@@ -11,7 +11,7 @@ class UploadDescr {
     function __construct() {
         $this->upload_dir = '';
         $this->max_file_size = 1048576; //Max File Size in Bytes, 1MB
-        $this->allowed_mime_types = array('application/pdf', 'image/png');
+        $this->allowed_mime_types = array('application/pdf');
         $this->denied_mime_types = array('application/x-php', 'application/x-javascript', 'application/zip');
         $this->filepath = '';
         $this->fileType = '';

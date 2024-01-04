@@ -274,7 +274,6 @@ class CourseBank {
                 echo 'Executing SQL: ' . $sql;
 
                 $data = $db->querySQL($sql);
-
                 return true;
             } catch (Exception $e) {
                 $error_message = 'Exception: ' . $e->getMessage();
